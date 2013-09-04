@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <WsConfigXml>
+        <loadConfig>
+            <msg id='FILE_NOT_EXISTS'>O arquivo XML de configuração {FILE} não foi localizado.</msg>
+            <msg id='ERR_XML_TYPE'>O tipo de configuração solicitada não existe. Os valores possíveis são 'client' e 'server'.</msg>
+            <msg id='ERR_LOAD_OBJ_XML'>Não foi possível carregar um objeto Xml para {FILE}.</msg>
+            <msg id='ERR_OBJ_ROOT'>Um objeto XML foi carregado corretamente a partir do arquivo {FILE}, porém o nó esperado '{TYPE}' não foi localizado.</msg>            
+        </loadConfig>
+        <__get>
+            <msg id='ERR_NODE_CONFIG'>Um objeto referente ao nó de configuração não existe. Impossível carregar a variável [{VAR}] solicitada.</msg>
+        </__get>
+    </WsConfigXml>
+</root>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <component>yuiCompressor</component>
+    <descricao>
+        Componente em java utilizado para fazer a compressão de conteúdo javascript e css.
+    </descricao>
+    <params>
+        <param id='extension' type='string' list='js,css' required='1'>Extensão do arquivo gerado para guardar o conteúdo compactado.</param>
+        <param id='string' type='string' required='1'>String a ser compactada.</param>
+        <param id='fileNameMin' type='string' required='1'>
+            Nome do arquivo a ser gerado com o conteúdo compactado. Não deve conter path ou extensão.
+            Exemplos: index, home, produtos
+        </param>
+    </params>
+</root>

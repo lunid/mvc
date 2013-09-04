@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <include id='css'></include>
+    <include id='cssInc'></include>
+    <include id='js'>util.form,util.dictionary</include>
+    <include id='jsInc'>common.google_analytics</include>
+    <include id='plugins'>jquery</include>
+<root>

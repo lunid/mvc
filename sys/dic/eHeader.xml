@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <Header>
+        <checkUrlFile>
+            <msg id='FILE_NOT_EXISTS'>O arquivo {FILE} não foi localizado.</msg>               
+        </checkUrlFile>
+        <incCssJsFileName>
+            <msg id='EXTENSION_OR_FILENAME_NOT_EXISTS'>A extensão de inclusão informada ({EXT}) não existe ou então o nome da view não foi informado.</msg>
+        </incCssJsFileName>
+        <setInc>
+            <msg id='ERR_INCLUDE'>Impossível armazenar o(s) arquivo(s) de inclusão solicitado(s). A extensão {EXT} não existe e/ou a lista informada ({LIST}) não é uma string válida.</msg>
+        </setInc>
+        <checkExt>
+            <msg id='EXTENSION_NOT_EXISTS'>A extensão informada não é válida.</msg>
+        </checkExt>
+        <memoSetFile>
+            <msg id='FILE_NOT_EXISTS'>Arquivo de inclusão {FILE} não localizado.  String da URI: {STR_FILE}.</msg>
+        </memoSetFile>
+        <getOneTagMin>
+            <msg id='ERR_OUT_NAME'>O nome necessário para compor o arquivo de saída (arquivo compactado) não foi informado.</msg>
+        </getOneTagMin>
+    </Header>
+</root>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <init>
+        <msg id='ERR_IS_NOT_A_OBJECT'>Impossível utilizar os recursos do componente Mail. Um objeto PHPMailer obrigatório não foi inicializado corretamente.</msg>
+    </init>
+    <setFolderTpl>
+        <msg id='ERR_IS_DIR'>Não foi possível definir a pasta padrão para templates de e-mail. O valor informado ({PATH}) é inválido.</msg>
+    </setFolderTpl>
+    <getFrom>
+        <msg id='ERR_FROM'>É necessário definir um remetente para o envio da mensagem de e-mail. Utilize o método setFrom() ou configure um valor padrão em config.xml.</msg>
+    </getFrom> 
+    <setTemplate>
+        <msg id='ERR_FILE_NOT_FOUND'>O arquivo {PATH_TEMPLATE} definido como template para envio de e-mail não foi localizado.</msg>
+    </setTemplate>
+    <addAnexo>
+        <msg id='ERR_PATH_IS_EMPTY'>Um parâmetro obrigatório não foi informado ao chamar addAnexo(). Se deseja incluir um anexo à mensagem atual informe um caminho de arquivo válido.</msg>
+        <msg id='ERR_FILE_NOT_FOUND'>O arquivo {FILE}, informado como anexo da mensagem, não foi localizado.</msg>
+    </addAnexo>    
+    <vldEmail>
+        <msg id='ERR_EMAIL_IS_EMPTY'>Parâmetro obrigatório não informado. É necessário informar um e-mail ao chamar o método {METHOD}().</msg>
+        <msg id='ERR_VLD_EMAIL'>O e-mail informado {EMAIL} no método {METHOD}() parece ser inválido.</msg>
+    </vldEmail>
+    <setHtmlFile>
+        <msg id='ERR_PATH_IS_EMPTY'>Um parâmetro obrigatório não foi informado ao chamar setFileHtml(). Se deseja enviar um e-mail com o contéudo existente em um arquivo informe um caminho de arquivo válido.</msg>
+        <msg id='ERR_FILE_NOT_FOUND'>O arquivo {FILE}, informado como conteúdo da mensagem, não foi localizado.</msg>
+    </setHtmlFile>
+    <send>
+        <msg id='ERR_SEND'>Erro ao fazer o envio da mensagem por e-mail: {ERR_MSG}</msg>
+    </send>    
+</root>

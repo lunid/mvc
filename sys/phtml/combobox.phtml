@@ -1,0 +1,13 @@
+<?php
+    //Trata a lista de itens selecionados (se for listbox pode existir mais de um item selecionado):
+    $arrSelect = array();
+    if (strlen($select) > 0) $arrSelect = explode(',',$select);
+?>
+<select name="<?=$name?>" id="<?=$id?>" <?=$onchange?> <?=$cls?> <?=$field_name?> <?=$css?> <?=$disabled?> <?=$multiple?>>     
+    <?php 
+        foreach($options as $option){ 
+            $option = array_values($option);
+    ?>
+        <option value="<?=$option[0]?>" <?php if(array_search($option[0],$arrSelect) !== FALSE) { ?> selected="selected" <? } ?>><?=$option[1]?></option>
+    <?php } ?>
+</select>

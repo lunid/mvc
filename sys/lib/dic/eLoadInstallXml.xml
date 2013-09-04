@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <loadConfig>
+        <msg id='ATTRIB_ID_NOT_EXISTS'>            
+            Um ou mais parâmetros estão incorretos no arquivo install.xml do componente {COMP}.
+           A tag PARAM de cada parâmetro deve conter os atributos id, type e required.
+        </msg>
+    </loadConfig>    
+</root>

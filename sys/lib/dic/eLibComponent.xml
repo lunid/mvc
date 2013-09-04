@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <saveParams>
+        <msg id='PARAM_NOT_EXISTS'>            
+            O parâmetro informado [{PARAM}] não existe no componente atual. Consulte o arquivo install.xml para conhecer os parâmetros esperados.
+        </msg>
+    </saveParams>    
+</root>

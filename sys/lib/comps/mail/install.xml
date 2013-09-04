@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <component>mail</component>
+    <descricao>
+        Componente para envio de mensagens eletrônicas (email e SMS).
+    </descricao>
+</root>

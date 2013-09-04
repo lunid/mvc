@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <component>soap</component>
+    <descricao>
+        Compomente SOAP para abstração de ações do SoapServer e Geração de .wsdl.
+    </descricao>
+    <params>
+        <param id='class' type='string' required='1'>Nome da classe API que utilizará o SoapServer.</param>
+        <param id='ignoredMetodos' type='array' required='0'>Métodos a serem ignorados na documentação WSDL.</param>
+    </params>
+</root>

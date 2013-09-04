@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <params>
+        <!-- URLs -->
+        <param id='baseUrl'>dev</param>        
+        <param id='baseUrlHttp'>localhost</param>
+        <param id='baseUrlHttps'></param>
+        
+        <!-- Módulos -->
+        <param id='modules'>site,app,beemos</param>
+        <param id='defaultModule'>site</param> 
+        <param id='magicModules'>app_:aluno,professor,escola;dev_:ambiente1,ambiente2</param>
+        
+        <param id='defaultTemplate'>padrao.html</param>
+        
+        <!-- Idiomas do sistema -->
+        <param id='languages'>br,en,es</param>
+        <param id='defaultLang'>br</param>        
+    </params>        
+</root>

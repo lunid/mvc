@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <params>
+        <param id='emailContato'>Contato beeMoS (contato@beemos.com)</param>
+        <config id='emailAdmin'>Administrador (admin@supervip.com.br)</config>
+        <config id='emailClaudio'>Claudio Rubens (claudio@supervip.com.br)</config>        
+    </params>        
+</root>

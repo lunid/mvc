@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <init>
+        <msg id='FILE_NOT_FOUND'>Arquivo ou diretório {FILE} não localizado. Verifique se o parâmetro 'rootFolder' em seu arquivo config.xml está correto.</msg>
+        <msg id='ERR_FILE_INC'>O arquivo de inclusão {FILE} não pôde ser gerado.</msg>
+        <msg id='ERR_FILE_SIZE_ZERO'>O arquivo {FILE} foi gerado porém está vazio. String de inclusão: {STR_MIN}</msg>
+        <msg id='ERR_JS_COMPRESS'>A tentativa de compactar a string no arquivo {FILE} falhou. O processamento de compactação retornou uma string vazia.</msg>
+        <msg id='ERR_EXT'>A extensão do arquivo a ser compactado não foi informada corretamente. Valor informado: {EXT}.</msg>
+    </init>    
+</root>

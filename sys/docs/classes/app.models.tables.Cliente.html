@@ -1,0 +1,1627 @@
+<!DOCTYPE html><html xmlns:date="http://exslt.org/dates-and-times" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+<meta charset="utf-8">
+<title>phpDocumentor » \app\models\tables\Cliente</title>
+<meta name="author" content="Mike van Riel">
+<meta name="description" content="">
+<link href="../css/template.css" rel="stylesheet" media="all">
+<script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script><script src="../js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script><script src="../js/jquery.mousewheel.min.js" type="text/javascript"></script><script src="../js/bootstrap.js" type="text/javascript"></script><script src="../js/template.js" type="text/javascript"></script><script src="../js/prettify/prettify.min.js" type="text/javascript"></script><link rel="shortcut icon" href="../img/favicon.ico">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="72x72" href="../img/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="114x114" href="../img/apple-touch-icon-114x114.png">
+</head>
+<body>
+<div class="navbar navbar-fixed-top">
+<div class="navbar-inner"><div class="container">
+<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a><a class="brand" href="../index.html">phpDocumentor</a><div class="nav-collapse"><ul class="nav">
+<li class="dropdown">
+<a href="#api" class="dropdown-toggle" data-toggle="dropdown">
+                                    API Documentation <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a>Namespaces</a></li>
+<li><a href="../namespaces/app.html"><i class="icon-th"></i> app</a></li>
+<li><a href="../namespaces/global.html"><i class="icon-th"></i> global</a></li>
+<li><a>Packages</a></li>
+<li><a href="../packages/Default.html"><i class="icon-folder-open"></i> Default</a></li>
+<li><a href="../packages/api.html"><i class="icon-folder-open"></i> api</a></li>
+</ul>
+</li>
+<li class="dropdown" id="charts-menu">
+<a href="#charts" class="dropdown-toggle" data-toggle="dropdown">
+                                    Charts <b class="caret"></b></a><ul class="dropdown-menu"><li><a href="../graph_class.html"><i class="icon-list-alt"></i> Class hierarchy diagram</a></li></ul>
+</li>
+<li class="dropdown" id="reports-menu">
+<a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
+                                    Reports <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
+                <span class="label label-info">239</span></a></li>
+<li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
+                <ul></ul></a></li>
+<li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
+                <span class="label label-info">0</span></a></li>
+</ul>
+</li>
+</ul></div>
+</div></div>
+<div class="go_to_top"><a href="#___" style="color: inherit">Back to top  <i class="icon-upload icon-white"></i></a></div>
+</div>
+<div id="___" class="container">
+<noscript><div class="alert alert-warning">
+                            Javascript is disabled; several features are only available
+                            if Javascript is enabled.
+                        </div></noscript>
+<div class="row">
+<div class="span4">
+<span class="btn-group visibility" data-toggle="buttons-checkbox"><button class="btn public active" title="Show public elements">Public</button><button class="btn protected" title="Show protected elements">Protected</button><button class="btn private" title="Show private elements">Private</button><button class="btn inherited active" title="Show inherited elements">Inherited</button></span><div class="btn-group view pull-right" data-toggle="buttons-radio">
+<button class="btn details" title="Show descriptions and method names"><i class="icon-list"></i></button><button class="btn simple" title="Show only method names"><i class="icon-align-justify"></i></button>
+</div>
+<ul class="side-nav nav nav-list">
+<li class="nav-header">
+<i class="icon-custom icon-method"></i> Methods</li>
+<li class="method public inherited"><a href="#__construct" title="__construct :: Construtor da classe."><span class="description">Construtor da classe.</span><pre>__construct()</pre></a></li>
+<li class="method public inherited"><a href="#count" title="count :: Conta o total de registros encontrados após uma operação de SELECT."><span class="description">Conta o total de registros encontrados após uma operação de SELECT.</span><pre>count()</pre></a></li>
+<li class="method public inherited"><a href="#delete" title="delete :: Faz a exclusão do registro atual."><span class="description">Faz a exclusão do registro atual.</span><pre>delete()</pre></a></li>
+<li class="method public inherited"><a href="#filterByAnd" title="filterByAnd :: Monta uma string WHERE com o operador AND."><span class="description">Monta uma string WHERE com o operador AND.</span><pre>filterByAnd()</pre></a></li>
+<li class="method public inherited"><a href="#filterByOr" title="filterByOr :: Monta uma string WHERE com o operador OR."><span class="description">Monta uma string WHERE com o operador OR.</span><pre>filterByOr()</pre></a></li>
+<li class="method public inherited"><a href="#findAll" title="findAll :: Faz o SELECT na tabela atual e retorna um array de objetos."><span class="description">Faz o SELECT na tabela atual e retorna um array de objetos.</span><pre>findAll()</pre></a></li>
+<li class="method public inherited"><a href="#findAutoNum" title="findAutoNum :: Localiza um registro a partir de seu campo AUTO_NUMBER."><span class="description">Localiza um registro a partir de seu campo AUTO_NUMBER.</span><pre>findAutoNum()</pre></a></li>
+<li class="method public inherited"><a href="#getTable" title="getTable :: A partir do nome da classe atual monta o nome da tabela (entidade do DB) a que faz referência."><span class="description">A partir do nome da classe atual monta o nome da tabela (entidade do DB) a que faz referência.</span><pre>getTable()</pre></a></li>
+<li class="method public "><a href="#joinUf" title="joinUf :: "><span class="description">joinUf()
+        </span><pre>joinUf()</pre></a></li>
+<li class="method public inherited"><a href="#query" title="query :: Executa uma string sql e retorna um array contendo os registros encontrados."><span class="description">Executa uma string sql e retorna um array contendo os registros encontrados.</span><pre>query()</pre></a></li>
+<li class="method public inherited"><a href="#save" title="save :: Faz o INSERT (novo registro) ou UPDATE (caso encontre conflito com campo único) do registro atual."><span class="description">Faz o INSERT (novo registro) ou UPDATE (caso encontre conflito com campo único) do registro atual.</span><pre>save()</pre></a></li>
+<li class="method public inherited"><a href="#setLimit" title="setLimit :: Define o limite de registros de uma consulta."><span class="description">Define o limite de registros de uma consulta.</span><pre>setLimit()</pre></a></li>
+<li class="method public "><a href="#setNomePrincipal" title="setNomePrincipal :: "><span class="description">setNomePrincipal()
+        </span><pre>setNomePrincipal()</pre></a></li>
+<li class="method public inherited"><a href="#setOrderBy" title="setOrderBy :: Define uma cláusula ORDER BY na consulta."><span class="description">Define uma cláusula ORDER BY na consulta.</span><pre>setOrderBy()</pre></a></li>
+<li class="method public inherited"><a href="#toArray" title="toArray :: Retorna os dados do objeto atual no formato ARRAY"><span class="description">Retorna os dados do objeto atual no formato ARRAY</span><pre>toArray()</pre></a></li>
+<li class="method public inherited"><a href="#toJson" title="toJson :: Retorna os dados do objeto atual no formato JSON."><span class="description">Retorna os dados do objeto atual no formato JSON.</span><pre>toJson()</pre></a></li>
+<li class="method public inherited"><a href="#toString" title="toString :: Retorna os dados do objeto atual no formato STRING."><span class="description">Retorna os dados do objeto atual no formato STRING.</span><pre>toString()</pre></a></li>
+<li class="method public inherited"><a href="#update" title="update :: Faz o UPDATE de um registro ou de um grupo de registros."><span class="description">Faz o UPDATE de um registro ou de um grupo de registros.</span><pre>update()</pre></a></li>
+<li class="method public inherited"><a href="#updateForId" title="updateForId :: Faz o UPDATE do registro atual a partir do ID (autoNumber) informado na chamada do método."><span class="description">Faz o UPDATE do registro atual a partir do ID (autoNumber) informado na chamada do método.</span><pre>updateForId()</pre></a></li>
+<li class="nav-header protected">» Protected</li>
+<li class="method protected inherited"><a href="#debugOff" title="debugOff :: Desativa a opção de debug."><span class="description">Desativa a opção de debug.</span><pre>debugOff()</pre></a></li>
+<li class="method protected inherited"><a href="#debugOn" title="debugOn :: Ativa a opção de debug (IMPORTANTE: não execute essa opção em ambiente de produção)."><span class="description">Ativa a opção de debug (IMPORTANTE: não execute essa opção em ambiente de produção).</span><pre>debugOn()</pre></a></li>
+<li class="method protected inherited"><a href="#innerJoinFrom" title="innerJoinFrom :: Alternativa para chamar o método joinFrom() para criar 'INNER JOIN'."><span class="description">Alternativa para chamar o método joinFrom() para criar 'INNER JOIN'.</span><pre>innerJoinFrom()</pre></a></li>
+<li class="method protected inherited"><a href="#joinFrom" title="joinFrom :: Faz um JOIN padrão entre duas tabelas."><span class="description">Faz um JOIN padrão entre duas tabelas.</span><pre>joinFrom()</pre></a></li>
+<li class="method protected inherited"><a href="#joinFromAdd" title="joinFromAdd :: "><span class="description">joinFromAdd()
+        </span><pre>joinFromAdd()</pre></a></li>
+<li class="method protected inherited"><a href="#outerJoinFrom" title="outerJoinFrom :: Alternativa para chamar o método joinFrom() para criar 'OUTER JOIN'."><span class="description">Alternativa para chamar o método joinFrom() para criar 'OUTER JOIN'.</span><pre>outerJoinFrom()</pre></a></li>
+<li class="method protected inherited"><a href="#setJoin" title="setJoin :: "><span class="description">setJoin()
+        </span><pre>setJoin()</pre></a></li>
+<li class="nav-header private">» Private</li>
+<li class="method private inherited"><a href="#concatOrderByLimit" title="concatOrderByLimit :: Concatena as propriedades $orderBy e $limit à string $sql informada."><span class="description">Concatena as propriedades $orderBy e $limit à string $sql informada.</span><pre>concatOrderByLimit()</pre></a></li>
+<li class="method private inherited"><a href="#exec" title="exec :: Método responsável por centralizar e executar todas as ações SQL"><span class="description">Método responsável por centralizar e executar todas as ações SQL</span><pre>exec()</pre></a></li>
+<li class="method private inherited"><a href="#filterBy" title="filterBy :: Recebe um array associativo no formato $arr['COL_NAME']=VALUE e retorna
+uma string para ser usada na cláusula WHERE de acordo com o operador AND/OR
+informado (parâmetro $andOr)."><span class="description">Recebe um array associativo no formato $arr['COL_NAME']=VALUE e retorna
+uma string para ser usada na cláusula WHERE de acordo com o operador AND/OR
+informado (parâmetro $andOr).</span><pre>filterBy()</pre></a></li>
+<li class="method private inherited"><a href="#getAlias" title="getAlias :: Retorna o alias da tabela."><span class="description">Retorna o alias da tabela.</span><pre>getAlias()</pre></a></li>
+<li class="method private inherited"><a href="#getClassItem" title="getClassItem :: Retorna o nome da classe atual sem seu namespace."><span class="description">Retorna o nome da classe atual sem seu namespace.</span><pre>getClassItem()</pre></a></li>
+<li class="method private inherited"><a href="#getObj" title="getObj :: Recebe os dados de um registro ($row) e
+converte em um objeto da classe atual (entidade de uma tabela)."><span class="description">Recebe os dados de um registro ($row) e
+converte em um objeto da classe atual (entidade de uma tabela).</span><pre>getObj()</pre></a></li>
+<li class="method private inherited"><a href="#init" title="init :: Inicializa os dados da tabela atual (nome da tabela, nome e atributos
+de cada coluna, campo(s) de chave primária)."><span class="description">Inicializa os dados da tabela atual (nome da tabela, nome e atributos
+de cada coluna, campo(s) de chave primária).</span><pre>init()</pre></a></li>
+<li class="method private inherited"><a href="#insert" title="insert :: Método auxliar de save()."><span class="description">Método auxliar de save().</span><pre>insert()</pre></a></li>
+<li class="method private inherited"><a href="#insertUpdate" title="insertUpdate :: Método auxliar de save()."><span class="description">Método auxliar de save().</span><pre>insertUpdate()</pre></a></li>
+<li class="method private inherited"><a href="#loadColumns" title="loadColumns :: Faz a leitura das colunas da tabela atual."><span class="description">Faz a leitura das colunas da tabela atual.</span><pre>loadColumns()</pre></a></li>
+<li class="method private inherited"><a href="#loadTables" title="loadTables :: Gera uma lista das tabelas do DB atual."><span class="description">Gera uma lista das tabelas do DB atual.</span><pre>loadTables()</pre></a></li>
+<li class="method private inherited"><a href="#setFormatRow" title="setFormatRow :: Método auxiliar de toJson(), toArray() e toString."><span class="description">Método auxiliar de toJson(), toArray() e toString.</span><pre>setFormatRow()</pre></a></li>
+<li class="method private inherited"><a href="#setWhere" title="setWhere :: Recebe o nome de uma coluna da tabela e gera uma string no formato COL_NAME=%type,
+onde type pode ser %i,%s,%d, %ls, %li, %ld, necessária para fazer consultas no mySql."><span class="description">Recebe o nome de uma coluna da tabela e gera uma string no formato COL_NAME=%type,
+onde type pode ser %i,%s,%d, %ls, %li, %ld, necessária para fazer consultas no mySql.</span><pre>setWhere()</pre></a></li>
+<li class="nav-header">
+<i class="icon-custom icon-property"></i> Properties</li>
+<li class="property public "><a href="#" title=" :: ID_CLIENTE"><span class="description">ID_CLIENTE</span><pre></pre></a></li>
+<li class="property public "><a href="#" title=" :: HASH"><span class="description">HASH</span><pre></pre></a></li>
+<li class="property public "><a href="#" title=" :: NOME_PRINCIPAL"><span class="description">NOME_PRINCIPAL</span><pre></pre></a></li>
+<li class="property public "><a href="#" title=" :: EMAIL"><span class="description">EMAIL</span><pre></pre></a></li>
+<li class="property public "><a href="#" title=" :: LOGIN"><span class="description">LOGIN</span><pre></pre></a></li>
+<li class="property public "><a href="#" title=" :: SENHA"><span class="description">SENHA</span><pre></pre></a></li>
+<li class="property public "><a href="#" title=" :: PF_PJ"><span class="description">PF_PJ</span><pre></pre></a></li>
+<li class="property public "><a href="#" title=" :: DATA_REGISTRO"><span class="description">DATA_REGISTRO</span><pre></pre></a></li>
+<li class="nav-header protected">» Protected</li>
+<li class="property protected inherited"><a href="#%24alias" title="$alias :: "><span class="description">$alias</span><pre>$alias</pre></a></li>
+<li class="property protected inherited"><a href="#%24fieldsJoin" title="$fieldsJoin :: "><span class="description">$fieldsJoin</span><pre>$fieldsJoin</pre></a></li>
+<li class="property protected inherited"><a href="#%24joinWhere" title="$joinWhere :: "><span class="description">$joinWhere</span><pre>$joinWhere</pre></a></li>
+<li class="property protected inherited"><a href="#%24orderBy" title="$orderBy :: "><span class="description">$orderBy</span><pre>$orderBy</pre></a></li>
+<li class="property protected inherited"><a href="#%24results" title="$results :: "><span class="description">$results</span><pre>$results</pre></a></li>
+<li class="nav-header private">» Private</li>
+<li class="property private inherited"><a href="#%24arrCols" title="$arrCols :: "><span class="description">$arrCols</span><pre>$arrCols</pre></a></li>
+<li class="property private inherited"><a href="#%24arrColumns" title="$arrColumns :: Método que retorna o nome da tabela do DB composto de prefixo e em caixa alta."><span class="description">Método que retorna o nome da tabela do DB composto de prefixo e em caixa alta.</span><pre>$arrColumns</pre></a></li>
+<li class="property private inherited"><a href="#%24arrKey" title="$arrKey :: "><span class="description">$arrKey</span><pre>$arrKey</pre></a></li>
+<li class="property private inherited"><a href="#%24arrObjJoin" title="$arrObjJoin :: "><span class="description">$arrObjJoin</span><pre>$arrObjJoin</pre></a></li>
+<li class="property private inherited"><a href="#%24arrParams" title="$arrParams :: "><span class="description">$arrParams</span><pre>$arrParams</pre></a></li>
+<li class="property private inherited"><a href="#%24arrUnique" title="$arrUnique :: "><span class="description">$arrUnique</span><pre>$arrUnique</pre></a></li>
+<li class="property private inherited"><a href="#%24colAutoNum" title="$colAutoNum :: "><span class="description">$colAutoNum</span><pre>$colAutoNum</pre></a></li>
+<li class="property private inherited"><a href="#%24debug" title="$debug :: "><span class="description">$debug</span><pre>$debug</pre></a></li>
+<li class="property private inherited"><a href="#%24id" title="$id :: "><span class="description">$id</span><pre>$id</pre></a></li>
+<li class="property private inherited"><a href="#%24limit" title="$limit :: "><span class="description">$limit</span><pre>$limit</pre></a></li>
+<li class="property private inherited"><a href="#%24prefixoTable" title="$prefixoTable :: "><span class="description">$prefixoTable</span><pre>$prefixoTable</pre></a></li>
+<li class="property private inherited"><a href="#%24row" title="$row :: "><span class="description">$row</span><pre>$row</pre></a></li>
+<li class="property private inherited"><a href="#%24tableName" title="$tableName :: "><span class="description">$tableName</span><pre>$tableName</pre></a></li>
+<li class="property private inherited"><a href="#%24where" title="$where :: "><span class="description">$where</span><pre>$where</pre></a></li>
+</ul>
+</div>
+<div class="span8">
+<a name="%5Capp%5Cmodels%5Ctables%5CCliente" id="\app\models\tables\Cliente"></a><ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/app.html">app</a></li>
+<span class="divider">\</span><li><a href="../namespaces/app.models.html">models</a></li>
+<span class="divider">\</span><li><a href="../namespaces/app.models.tables.html">tables</a></li>
+<li class="active">
+<span class="divider">\</span><a href="../classes/app.models.tables.Cliente.html">Cliente</a>
+</li>
+</ul>
+<div href="../classes/app.models.tables.Cliente.html" class="element class">
+<p class="short_description">Representa uma entidade da tabela SPRO_CLIENTE</p>
+<div class="details">
+<p class="long_description"><p>A biblioteca utilizada para dar suporte à montagem e execução do SQL é a
+meekrodb (<a href="http://www.meekrodb.com">http://www.meekrodb.com</a>).
+Cada tabela deve ter uma classe filha de ORM.php. Exemplo:
+class Cliente extends ORM {
+     ...
+}</p>
+
+<p>Por padrão, todas as tabelas possuem seu nome em caixa alta e contém um prefixo.
+Por exemplo: SPRO_CLIENTE, SPRO_CREDITO_CONSOLIDADO etc.
+O nome da classe que repsenta a tabela deve ser formado por inicial maiúscula
+e as demais letras minúsuculas, porém sem prefixo (veja a propriedade $prefixoTable).</p>
+
+<p>Nomes compostos devem ser intercalados com inicial maiúscula em cada palavra.
+Exemplo: <b>SPRO_CLIENTE</b> será <b>Cliente.php</b>, <b>SPRO_CREDITO_CONSOLIDADO</b> será <b>CreditoConsolidado.php</b>.</p></p>
+<table class="table table-bordered">
+<tr>
+<th>author</th>
+<td><a href="mailto:claudio@supervip.com.br">Claudio Rubens Silva Filho</a></td>
+</tr>
+<tr>
+<th>package</th>
+<td><a href="../packages/Default.html">api\db</a></td>
+</tr>
+</table>
+<h3>
+<i class="icon-custom icon-method"></i> Methods</h3>
+<a name="__construct" id="__construct"></a><div class="element clickable method public __construct" data-toggle="collapse" data-target=".__construct .collapse">
+<h2>Construtor da classe.</h2>
+<pre>__construct(integer $id) </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"><p>Para iniciar um objeto localizando o registro pelo seu ID:</p>
+
+<pre><code> $objCliente = new Cliente(10);//Carrega os dados do registro cujo ID = 10
+ echo $objCliente->NOME;//Imprime o campo NOME do registro atual.
+</code></pre></p>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\app\sys\db\ORM::__construct()</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$id</h4>
+<code>integer</code><p>Opcional.</p></div>
+</div></div>
+</div>
+<a name="count" id="count"></a><div class="element clickable method public count" data-toggle="collapse" data-target=".count .collapse">
+<h2>Conta o total de registros encontrados após uma operação de SELECT.</h2>
+<pre>count() : integer</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"><p>Exemplo:</p>
+
+<pre><code> $objCliente = new Cliente();
+
+ //Retorna todos os registros PF da tabela cliente:
+ $results    = $objCliente->findAll("PF_PJ = 'PF'");
+
+ //Imprime o total de registros encontrados:
+ echo $objCliente->count();
+</code></pre>
+
+<p>Por exemplo, após chamar o método $obj->findAll() é possível saber quantos
+registros foram retornados executando o método $obj->count().</p></p>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\app\sys\db\ORM::count()</td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response"><code>integer</code></div>
+</div></div>
+</div>
+<a name="delete" id="delete"></a><div class="element clickable method public delete" data-toggle="collapse" data-target=".delete .collapse">
+<h2>Faz a exclusão do registro atual.</h2>
+<pre>delete(string[] $arrWhere) : boolean</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"><p>Caso o objeto contenha uma coleção de registros, é possível filtrar
+a coleção para excluí-los de uma só vez (exclusão em lote).</p>
+
+<p>Exemplo 1 - Localizar/excluir um registro pelo seu ID:</p>
+
+<pre><code> $objCliente = new Cliente();
+ $objCliente->findAutoNum(10);
+ if ($objCliente->delete() !== FALSE){
+      echo 'Registro excluído com sucesso.';
+ } else {
+     echo 'Impossível excluir. Registro não encontrado.';
+ }
+</code></pre>
+
+<p>Exemplo 2 - Localizar/excluir um grupo de registros:</p>
+
+<pre><code>$objCliente  = new Cliente();
+$arrWhere    = array("PF_PJ=%s AND NEWSLETTER=%i",'PF',1);
+$numDel      = $objCliente->delete($arrWhere);
+if ($numDel !== FALSE) {
+     echo $numDel. ' registro(s) excluído(s) com sucesso.';
+} else {
+     echo 'Nenhum registro foi excluído.';
+}
+</code></pre></p>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\app\sys\db\ORM::delete()</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$arrWhere</h4>
+<code>string[]</code><p>Opcional.</p>
+
+<p>Exemplo: $arrWhere = array('PF_PJ=%s AND NEWSLETTER=%i','PF',1). Observe que o primeiro índice (índice zero) do array contém a string da cláusula WHERE com variáveis que indicam o tipo de registro (%i = integer, %s = string, %d = decimal/double, %ss = usar com LIKE etc) e os demais índices contém as respectivas variáveis na ordem em que foram citadas no índice zero. </p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>boolean</code>| integer <p>Retorna FALSE caso o objeto seja nulo ou vazio. Pode ocorrer após usar o método findAutoNum() e não localizar nenhum registro. Ou então, retorna o total de registros excluídos.</p></div>
+</div></div>
+</div>
+<a name="filterByAnd" id="filterByAnd"></a><div class="element clickable method public filterByAnd" data-toggle="collapse" data-target=".filterByAnd .collapse">
+<h2>Monta uma string WHERE com o operador AND.</h2>
+<pre>filterByAnd(string[] $arrFilterBy) : string</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"><p>Recebe um array associativo no formato $arr['NOME_DO_CAMPO'] = VALOR e
+retorna uma string WHERE com o operador AND.</p>
+
+<p>Exemplo:</p>
+
+<pre><code> $arrFilterBy['NOME']    = 'João';
+ $arrFilterBy['EMAIL']   = 'joao@server.com';
+ $arrFilterBy['ID_UF']   = '1';
+
+$obj                     = new Cliente();
+$where                   = $obj->filterByAnd($arrFilterBy);
+
+echo $where;
+//Saída: NOME='João' AND EMAIL='joao@server.com AND ID_UF=1
+
+</code></pre></p>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\app\sys\db\ORM::filterByAnd()</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$arrFilterBy</h4>
+<code>string[]</code><p>Obrigatório.</p></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a name="filterByOr" id="filterByOr"></a><div class="element clickable method public filterByOr" data-toggle="collapse" data-target=".filterByOr .collapse">
+<h2>Monta uma string WHERE com o operador OR.</h2>
+<pre>filterByOr(string[] $arrFilterBy) : string</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"><p>Recebe um array associativo no formato $arr['NOME_DO_CAMPO'] = VALOR e
+retorna uma string WHERE com o operador OR.</p></p>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\app\sys\db\ORM::filterByOr()</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$arrFilterBy</h4>
+<code>string[]</code><p>Obrigatório.</p></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a name="findAll" id="findAll"></a><div class="element clickable method public findAll" data-toggle="collapse" data-target=".findAll .collapse">
+<h2>Faz o SELECT na tabela atual e retorna um array de objetos.</h2>
+<pre>findAll(string $where) : object[] | FALSE</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"><p>O exemplo abaixo imprime o campo EMAIL de cada registro da tabela Cliente.
+Note que cada registro é um objeto da classe Cliente:</p>
+
+<p>Exemplo 1 - sem uso de parâmetros:</p>
+
+<pre><code>$objCliente = new Cliente();
+$results    = $objCliente->findAll(); // Retorna todos os registros da tabela.
+foreach($results as $obj){
+     echo $obj->EMAIL;//Objetos da classe Cliente
+}
+</code></pre>
+
+<p>Exemplo 2 - Com uso de parâmetros.<br>
+Neste exemplo vamos localizar todos
+os registros Pessoa Física(PF) e que contenham 'Maria' no nome:</p>
+
+<pre><code>$objCliente  = new Cliente();
+$where       = "(PF_PJ='PF' AND NOME LIKE '%Maria%')";
+$results     = $objCliente->findAll($where);
+foreach($results as $obj){
+     echo $obj->EMAIL;//Objetos da classe Cliente
+}
+</code></pre></p>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\app\sys\db\ORM::findAll()</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$where</h4>
+<code>string</code><p>Opcional. Pode conter uma cláusula WHERE (ex: CAMPO1 = VALOR1 AND CAMPO2 = VALOR2)</p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>object[]</code><code>FALSE</code>Retorna FALSE caso a operação não tenha sido executada com sucesso, ou então retorna um array de objetos da classe atual.</div>
+</div></div>
+</div>
+<a name="findAutoNum" id="findAutoNum"></a><div class="element clickable method public findAutoNum" data-toggle="collapse" data-target=".findAutoNum .collapse">
+<h2>Localiza um registro a partir de seu campo AUTO_NUMBER.</h2>
+<pre>findAutoNum(int $id) : FALSE</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"><p>Exemplo 1:</p>
+
+<pre><code>//Localiza um registro pelo seu ID (campo autoNumber):
+ $objCliente = new Cliente();
+ $row        = $objCliente->findAutoNum(20);
+
+ if ($row !== false) {
+     print_r($row);//Campos do registro localizado.
+ } else {
+     echo 'Nenhum registro foi localizado';
+ }
+</code></pre>
+
+<p>Exemplo 2:<br>
+Ao iniciar um objeto (new...) fornecendo um ID de registro válido o método findAutoNum() é
+automaticamente chamado.</p>
+
+<pre><code> $objCliente = new Cliente(10);//Carrega o registro cujo ID na tabela é 10.
+ echo $objCliente->EMAIL;//Imprime o campo EMAIL do registro atual.
+</code></pre></p>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\app\sys\db\ORM::findAutoNum()</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$id</h4>
+<code>int</code><p>Obrigatório. ID do registro a ser localizado pelo seu campo AutoNumber.</p></div>
+<h3>Exceptions</h3>
+<table class="table table-bordered">
+<tr>
+<th><code>\Execption</code></th>
+<td>[ID_ZERO] Caso o parâmetro $id seja zero ou não numérico.</td>
+</tr>
+<tr>
+<th><code>\Execption</code></th>
+<td>[ID_NOT_EXISTS] Caso não encontre o registro do ID informado.</td>
+</tr>
+</table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>FALSE</code>| mixed[] Retorna um array unidimensional associativo com os dados do registro. Se não localizar o registro retorna FALSE.</div>
+</div></div>
+</div>
+<a name="getTable" id="getTable"></a><div class="element clickable method public getTable" data-toggle="collapse" data-target=".getTable .collapse">
+<h2>A partir do nome da classe atual monta o nome da tabela (entidade do DB) a que faz referência.</h2>
+<pre>getTable() : string</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"><p>Por exemplo, a classe Cliente.php representa a tabela SPRO_CLIENTE, CreditoConsolidado
+representa a tabela SPRO_CREDITO_CONSOLIDADO.</p>
+
+<p>Código de exemplo:</p>
+
+<pre><code> $objCreditoConsolidado = new CreditoConsolidado();
+
+//A linha abaixo imprime SPRO_CREDITO_CONSOLIDADO:
+ echo $objCreditoConsolidado->getTable();
+</code></pre></p>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\app\sys\db\ORM::getTable()</td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>string</code>Retorna o nome da tabela com a mesma grafia do DB.</div>
+</div></div>
+</div>
+<a name="joinUf" id="joinUf"></a><div class="element clickable method public joinUf" data-toggle="collapse" data-target=".joinUf .collapse">
+<h2>joinUf()
+        </h2>
+<pre>joinUf() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="query" id="query"></a><div class="element clickable method public query" data-toggle="collapse" data-target=".query .collapse">
+<h2>Executa uma string sql e retorna um array contendo os registros encontrados.</h2>
+<pre>query(string $sql) : mixed[]</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"><p>Exemplo - retorna os 10 primeiros registros da tabela SPRO_CLIENTE:</p>
+
+<pre><code> $sql        = "SELECT NOME,EMAIL FROM SPRO_CLIENTE LIMIT 10";
+ $results    = ORM::query($sql);
+ if ($results !== FALSE) {
+     foreach($results as $row){
+        echo $row['EMAIL'].'<BR>';//Imprime o campo EMAIL de cada registro
+     }
+ }
+</code></pre></p>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\app\sys\db\ORM::query()</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$sql</h4>
+<code>string</code><p>Obrigatório.</p></div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="http://php.net/manual/en/class.exception.php">\Exception</a></code></th>
+<td>[SQL_NULL] Caso o parâmetro $sql seja nulo ou vazio.</td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>mixed[]</code>| FALSE <br> Retorna um array bidimensional com os registros encontrados, ou FALSE caso nenhum registro tenha sido localizado.</div>
+</div></div>
+</div>
+<a name="save" id="save"></a><div class="element clickable method public save" data-toggle="collapse" data-target=".save .collapse">
+<h2>Faz o INSERT (novo registro) ou UPDATE (caso encontre conflito com campo único) do registro atual.</h2>
+<pre>save() : integer</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"><p>IMPORTANTE: este método deve ser usado apenas para autalização/gravação de um único registro.
+Para fazer atualizações em lote utilize o método <b>update()</b> com parâmetro WHERE.&lt;br/></p>
+
+<p>Exemplo 1 - alterar o campo PF_PJ de um registro cujo ID (autoNumber) é igual a 10:</p>
+
+<pre><code>$obj = new Cliente(10);//Localiza o registro cujo ID = 10
+$obj->PF_PJ = 'PJ';//Altera este campo para PJ
+$id = $obj->save();
+
+if ($id > 0){
+  echo 'Alteração realizada com sucesso.';
+} else {
+  echo 'Nada foi alterado.';
+}
+</code></pre>
+
+<p>Exemplo 2 - Novo registro para inclusão:</p>
+
+<pre><code>$obj = new Cliente();
+$obj->LOGIN             = 'admin';
+$obj->NOME_PRINCIPAL    = 'João Silva';
+$obj->EMAIL             = "joao@server.com";
+$obj->PF_PJ             = 'PF';
+$id                     = $obj->save();
+
+if ($id > 0){
+  echo 'Inclusão/alteraçaõ realizada com sucesso.';
+} else {
+  echo 'Nada foi feito.';
+}
+</code></pre></p>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\app\sys\db\ORM::save()</td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>integer</code><br> Retorna o ID do registro gravado/alterado. Para a ação de UPDATE, se não houver alteração retorna zero.</div>
+</div></div>
+</div>
+<a name="setLimit" id="setLimit"></a><div class="element clickable method public setLimit" data-toggle="collapse" data-target=".setLimit .collapse">
+<h2>Define o limite de registros de uma consulta.</h2>
+<pre>setLimit(integer $posFim, integer $posIni) : void</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"><p>Exemplo 1:<br>
+Retorna os primeiros 20 registros da tabela SPRO_CLIENTE (classe Cliente.php)
+ordenados por data de registro descrescente (DATA_REGISTRO DESC) e que
+sejam Pessoa Jurídica (PJ).</p>
+
+<pre><code>$obj = new Cliente();
+$obj->setLimit(20);//Deve retornar os primeiros 20 regsitros
+$obj->setOrderBy('DATA_REGISTRO DESC');//Ordem descendente de data
+$results = $obj->findAll(PF_PJ = 'PJ');//Apenas registros 'PJ'
+if (is_array($results)){
+   foreach($results as $var=>$objCliente){
+        ...
+   }
+}
+</code></pre>
+
+<p>Exemplo 2:<br>
+Retorna dados iniciando na posição 50 até 100.</p>
+
+<pre><code>$obj = new Cliente();
+$obj->setLimit(100,50);//Deve retornar 50 registros iniciando na posição 50.
+</code></pre></p>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\app\sys\db\ORM::setLimit()</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$posFim</h4>
+<code>integer</code><p>Posição final</p>
+</div>
+<div class="subelement argument">
+<h4>$posIni</h4>
+<code>integer</code><p>Posição inicial</p>
+</div>
+</div></div>
+</div>
+<a name="setNomePrincipal" id="setNomePrincipal"></a><div class="element clickable method public setNomePrincipal" data-toggle="collapse" data-target=".setNomePrincipal .collapse">
+<h2>setNomePrincipal()
+        </h2>
+<pre>setNomePrincipal(string $nome) : void</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>method</th>
+<td></td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$nome</h4>
+<code>string</code>
+</div>
+</div></div>
+</div>
+<a name="setOrderBy" id="setOrderBy"></a><div class="element clickable method public setOrderBy" data-toggle="collapse" data-target=".setOrderBy .collapse">
+<h2>Define uma cláusula ORDER BY na consulta.</h2>
+<pre>setOrderBy(string $orderBy) : void</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"><p>Este método deve ser utilizado apenas com findAll() ou setJoin()</p>
+
+<p>Exemplo:</p>
+
+<pre><code>$obj    = new Cliente();
+$obj->setOrderBy('DATA_REGISTRO DESC');
+$results = $obj->findAll('ID_INDICA_AMIGO <= 20');//Retorna cada registro como objeto da classe
+...
+</code></pre></p>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\app\sys\db\ORM::setOrderBy()</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$orderBy</h4>
+<code>string</code>
+</div>
+</div></div>
+</div>
+<a name="toArray" id="toArray"></a><div class="element clickable method public toArray" data-toggle="collapse" data-target=".toArray .collapse">
+<h2>Retorna os dados do objeto atual no formato ARRAY</h2>
+<pre>toArray() : mixed[]</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\app\sys\db\ORM::toArray()</td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response"><code>mixed[]</code></div>
+</div></div>
+</div>
+<a name="toJson" id="toJson"></a><div class="element clickable method public toJson" data-toggle="collapse" data-target=".toJson .collapse">
+<h2>Retorna os dados do objeto atual no formato JSON.</h2>
+<pre>toJson() : string</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\app\sys\db\ORM::toJson()</td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a name="toString" id="toString"></a><div class="element clickable method public toString" data-toggle="collapse" data-target=".toString .collapse">
+<h2>Retorna os dados do objeto atual no formato STRING.</h2>
+<pre>toString() : string</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\app\sys\db\ORM::toString()</td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a name="update" id="update"></a><div class="element clickable method public update" data-toggle="collapse" data-target=".update .collapse">
+<h2>Faz o UPDATE de um registro ou de um grupo de registros.</h2>
+<pre>update(string[] $arrWhere) : \app\sys\db\$integer</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"><p>Exemplo1:<br>
+Mostra a atualização do campo CIDADE para todos os registros 'PF'.</p>
+
+<pre><code>$objCliente  = new Cliente();
+$obj->CIDADE = 'São Paulo';
+$arrWhere    = array('PF_PJ=%s','PF');
+$id          = $obj->update($arrWhere);
+
+if ($id > 0) die("Gravou/atualizou o registro {$id}.");
+echo 'Nada foi feito.';
+</code></pre>
+
+<p>Exemplo 2:<br>
+Mostra a atualização de um único registro.</p>
+
+<pre><code>$objCliente  = new Cliente();
+</code></pre></p>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\app\sys\db\ORM::update()</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$arrWhere</h4>
+<code>string[]</code><p>Opcional. <br> Exemplo: $arrWhere = array('PF_PJ=%s AND NEWSLETTER=%i','PF',1). Observe que o primeiro índice (índice zero) do array contém a string da cláusula WHERE com variáveis que indicam o tipo de registro (%i = integer, %s = string, %d = decimal/double, %ss = usar com LIKE etc) e os demais índices contém as respectivas variáveis na ordem em que foram citadas no índice zero.</p>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="http://php.net/manual/en/class.exception.php">\Exception</a></code></th>
+<td>[WHERE_NULL] Caso o parâmetro $arrWhere seja NULL ou inválido.</td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>\app\sys\db\$integer</code>Retorna o total de linhas afetadas.</div>
+</div></div>
+</div>
+<a name="updateForId" id="updateForId"></a><div class="element clickable method public updateForId" data-toggle="collapse" data-target=".updateForId .collapse">
+<h2>Faz o UPDATE do registro atual a partir do ID (autoNumber) informado na chamada do método.</h2>
+<pre>updateForId(integer $id) : integer</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\app\sys\db\ORM::updateForId()</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$id</h4>
+<code>integer</code><p>Obrigatório. ID do registro a ser alterado.</p></div>
+<h3>Exceptions</h3>
+<table class="table table-bordered">
+<tr>
+<th><code><a href="http://php.net/manual/en/class.exception.php">\Exception</a></code></th>
+<td>[PARAMS_NULL] Caso o parâmetro $id seja > 0 e o objeto atual esteja vazio (sem dados de um registro válido).</td>
+</tr>
+<tr>
+<th><code><a href="http://php.net/manual/en/class.exception.php">\Exception</a></code></th>
+<td>[ID_ZERO] Caso o parâmetro $id seja = 0 ou inválido.</td>
+</tr>
+</table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>integer</code>Retorna 1 se alguma alteração ocorreu, ou zero caso nenhuma alteração tenha ocorrido.</div>
+</div></div>
+</div>
+<a name="debugOff" id="debugOff"></a><div class="element clickable method protected debugOff" data-toggle="collapse" data-target=".debugOff .collapse">
+<h2>Desativa a opção de debug.</h2>
+<pre>debugOff() </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\app\sys\db\ORM::debugOff()</td>
+</tr></table>
+</div></div>
+</div>
+<a name="debugOn" id="debugOn"></a><div class="element clickable method protected debugOn" data-toggle="collapse" data-target=".debugOn .collapse">
+<h2>Ativa a opção de debug (IMPORTANTE: não execute essa opção em ambiente de produção).</h2>
+<pre>debugOn() </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"><p>Este recurso é útil para localizar possíveis problemas em consultas SQL.
+Ao ativá-la as consultas SQL serão impressas na tela.</p></p>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\app\sys\db\ORM::debugOn()</td>
+</tr></table>
+</div></div>
+</div>
+<a name="innerJoinFrom" id="innerJoinFrom"></a><div class="element clickable method protected innerJoinFrom" data-toggle="collapse" data-target=".innerJoinFrom .collapse">
+<h2>Alternativa para chamar o método joinFrom() para criar 'INNER JOIN'.</h2>
+<pre>innerJoinFrom($objTableA, $objTableB, $fieldMap) </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\app\sys\db\ORM::innerJoinFrom()</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$objTableA</h4>
+<code></code>
+</div>
+<div class="subelement argument">
+<h4>$objTableB</h4>
+<code></code>
+</div>
+<div class="subelement argument">
+<h4>$fieldMap</h4>
+<code></code>
+</div>
+</div></div>
+</div>
+<a name="joinFrom" id="joinFrom"></a><div class="element clickable method protected joinFrom" data-toggle="collapse" data-target=".joinFrom .collapse">
+<h2>Faz um JOIN padrão entre duas tabelas.</h2>
+<pre>joinFrom(object $objTableA, object $objTableB, string $fieldMap, string $type) : void</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"><p>Exemplo - método criado dentro da classe Cliente:</p>
+
+<pre><code>class Cliente {
+     ...
+
+     function joinUf(){
+         //Objeto referente à tabela A:
+         $objA           = $this;
+         $objA->alias    = 'a';
+
+         //Objeto referente à tabela B:
+         $objB           = new Uf();
+         $objB->alias    = 'b';
+
+         //Array com campo(s) usado(s) para fazer o JOIN:
+         $arrFields      = 'ID_UF';
+         $a = $this->joinFrom($objA,$objB,$arrFields,'INNER');
+
+         //Método alternativo:
+         //$a = $this->innerJoinFrom($objA,$objB,$arrFields);
+
+         //Finalização do JOIN passando um parâmetro WHERE (opcional):
+         $this->setJoin("b.UF='SP'");
+
+         //Executará a string SQL abaixo:
+         //SELECT a.*,b.* FROM SPRO_CLIENTE a INNER JOIN SPRO_UF b ON a.ID_UF = b.ID_UF AND b.UF='SP'
+     }
+}
+
+//Chamada do método que faz o JOIN entre Cliente e Uf:
+ $objCliente = new Cliente();
+ $results    = $objCliente->joinUf();//Retorna um array de objetos da classe Cliente.
+
+//Ou então...
+$objCliente  = new Cliente();
+$objCliente->joinUf();
+$results     = $objCliente->load();//Retorna o array de objetos gerado ao chamar o método joinUf();
+</code></pre></p>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\app\sys\db\ORM::joinFrom()</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$objTableA</h4>
+<code>object</code><p>Obrigatório. Objeto referente à tabela A</p></div>
+<div class="subelement argument">
+<h4>$objTableB</h4>
+<code>object</code><p>Obrigatório. Objeto referente à tabela B</p></div>
+<div class="subelement argument">
+<h4>$fieldMap</h4>
+<code>string</code><p>Obrigatório. Campo usado para fazer o JOIN entre as duas tabelas.</p></div>
+<div class="subelement argument">
+<h4>$type</h4>
+<code>string</code><p>Opcional. Se não informado o padrão é 'INNER'. Valores possíveis:INNER | OUTER | LEFT | RIGHT.</p>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered">
+<tr>
+<th><code><a href="http://php.net/manual/en/class.exception.php">\Exception</a></code></th>
+<td>[ERR_MAP_FIELDS] Caso o parâmetro $fieldMap não está no formato correto.</td>
+</tr>
+<tr>
+<th><code><a href="http://php.net/manual/en/class.exception.php">\Exception</a></code></th>
+<td>[ERR_JOIN_PARAM] Caso um ou mais parâmetros obrigatórios sejam inválidos ou incorretos.</td>
+</tr>
+</table>
+</div></div>
+</div>
+<a name="joinFromAdd" id="joinFromAdd"></a><div class="element clickable method protected joinFromAdd" data-toggle="collapse" data-target=".joinFromAdd .collapse">
+<h2>joinFromAdd()
+        </h2>
+<pre>joinFromAdd(\app\sys\db\type $objTableA, \app\sys\db\type $objTableB, \app\sys\db\type $fieldMap, \app\sys\db\type $type) </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\app\sys\db\ORM::joinFromAdd()</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$objTableA</h4>
+<code>\app\sys\db\type</code>
+</div>
+<div class="subelement argument">
+<h4>$objTableB</h4>
+<code>\app\sys\db\type</code>
+</div>
+<div class="subelement argument">
+<h4>$fieldMap</h4>
+<code>\app\sys\db\type</code>
+</div>
+<div class="subelement argument">
+<h4>$type</h4>
+<code>\app\sys\db\type</code>
+</div>
+</div></div>
+</div>
+<a name="outerJoinFrom" id="outerJoinFrom"></a><div class="element clickable method protected outerJoinFrom" data-toggle="collapse" data-target=".outerJoinFrom .collapse">
+<h2>Alternativa para chamar o método joinFrom() para criar 'OUTER JOIN'.</h2>
+<pre>outerJoinFrom($objTableA, $objTableB, $fieldMap) </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\app\sys\db\ORM::outerJoinFrom()</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$objTableA</h4>
+<code></code>
+</div>
+<div class="subelement argument">
+<h4>$objTableB</h4>
+<code></code>
+</div>
+<div class="subelement argument">
+<h4>$fieldMap</h4>
+<code></code>
+</div>
+</div></div>
+</div>
+<a name="setJoin" id="setJoin"></a><div class="element clickable method protected setJoin" data-toggle="collapse" data-target=".setJoin .collapse">
+<h2>setJoin()
+        </h2>
+<pre>setJoin($where) </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\app\sys\db\ORM::setJoin()</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$where</h4>
+<code></code>
+</div>
+</div></div>
+</div>
+<a name="concatOrderByLimit" id="concatOrderByLimit"></a><div class="element clickable method private concatOrderByLimit" data-toggle="collapse" data-target=".concatOrderByLimit .collapse">
+<h2>Concatena as propriedades $orderBy e $limit à string $sql informada.</h2>
+<pre>concatOrderByLimit(string $sql) : string</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"><p>Estas propriedades são opcionais. Por isso, caso não tenham sido definidas
+a string retornada é a mesma passada no parâmetro $sql;</p></p>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\app\sys\db\ORM::concatOrderByLimit()</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$sql</h4>
+<code>string</code><p>Obrigatório. A string sql que deverá ser completada com $orderBy e $limit</p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a name="exec" id="exec"></a><div class="element clickable method private exec" data-toggle="collapse" data-target=".exec .collapse">
+<h2>Método responsável por centralizar e executar todas as ações SQL</h2>
+<pre>exec(string $stmt, string[] $args) : mixed</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"><p>Utiliza a biblioteca meekrodb (<a href="http://www.meekrodb.com">http://www.meekrodb.com</a>).</p>
+
+<p>SELECT : retorna um mixed[] multidimensional.
+INSERT | INSERT_UPDATE: retorna um int com o ID do registro cadastrado/alterado.
+DELETE: void
+FIRST_ROW: mixed Retorna o valor de uma coluna (int | string | float etc).
+FIRST_FIELD: mixed[] Retorna um array associativo unidimensional com as colunas de um único registro.*</p></p>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\app\sys\db\ORM::exec()</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$stmt</h4>
+<code>string</code><p>indica qual ação deve ser executada. Valores possíveis: SELECT | INSERT | UPDATE | DELETE | FIRST_ROW | FIRST_FIELD | INSERT_UPDATE</p>
+</div>
+<div class="subelement argument">
+<h4>$args</h4>
+<code>string[]</code><p>Opcional. Array com os argumentos esperados na ação solicitada.</p>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="http://php.net/manual/en/class.exception.php">\Exception</a></code></th>
+<td>[ARGS_NULL] Se argumentos informados forem inválidos para a ação solicitada (parâmetro $stmt).</td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>mixed</code>O método retorna um tipo específico de acordo com a ação solicitada:</div>
+</div></div>
+</div>
+<a name="filterBy" id="filterBy"></a><div class="element clickable method private filterBy" data-toggle="collapse" data-target=".filterBy .collapse">
+<h2>Recebe um array associativo no formato $arr['COL_NAME']=VALUE e retorna
+uma string para ser usada na cláusula WHERE de acordo com o operador AND/OR
+informado (parâmetro $andOr).</h2>
+<pre>filterBy(string[] $arrFilterBy, string $andOr) : string</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"><p>A partir do índice associativo do array $arrFilterBy o tipo de cada campo é confrontado
+com o tipo definido no DB para formar uma string com o devido tratamento ({@see setWhere()}).</p>
+
+<p>Exemplo:
+Para o campo NOME do tipo string o $param informado para o objeto $where ficará NOME=%s.
+Para o campo IDADE do tipo int o $param informado para o objeto $where ficará IDADE=%i.</p></p>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\app\sys\db\ORM::filterBy()</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$arrFilterBy</h4>
+<code>string[]</code>
+</div>
+<div class="subelement argument">
+<h4>$andOr</h4>
+<code>string</code><p>Define o tipo de filtro solicitado. Valores possíveis: AND|OR</p>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered">
+<tr>
+<th><code><a href="http://php.net/manual/en/class.exception.php">\Exception</a></code></th>
+<td>[PARAMS_NULL] Caso um dos parâmetros ($arrFilterBy ou $andOr) seja NULL ou inválido.</td>
+</tr>
+<tr>
+<th><code><a href="http://php.net/manual/en/class.exception.php">\Exception</a></code></th>
+<td>[ERR_AND_OR] Caso o parâmetro $andOr possua valor diferente de 'AND' ou 'OR'.</td>
+</tr>
+</table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>string</code>Retorna a string pronta que será concatenada com o WHERE.</div>
+</div></div>
+</div>
+<a name="getAlias" id="getAlias"></a><div class="element clickable method private getAlias" data-toggle="collapse" data-target=".getAlias .collapse">
+<h2>Retorna o alias da tabela.</h2>
+<pre>getAlias() : string</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"><p>Método auxiliar de setJoin().</p>
+
+<p>Caso o atributo $alias não esteja definido, retorna o nome da tabela.</p></p>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\app\sys\db\ORM::getAlias()</td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a name="getClassItem" id="getClassItem"></a><div class="element clickable method private getClassItem" data-toggle="collapse" data-target=".getClassItem .collapse">
+<h2>Retorna o nome da classe atual sem seu namespace.</h2>
+<pre>getClassItem() : string</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\app\sys\db\ORM::getClassItem()</td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a name="getObj" id="getObj"></a><div class="element clickable method private getObj" data-toggle="collapse" data-target=".getObj .collapse">
+<h2>Recebe os dados de um registro ($row) e
+converte em um objeto da classe atual (entidade de uma tabela).</h2>
+<pre>getObj(mixed[] $row) : Object</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\app\sys\db\ORM::getObj()</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$row</h4>
+<code>mixed[]</code><p>Obrigatório.</p></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>Object</code>| FALSE Retorna um objeto da classe atual, ou FALSE caso o parâmetro não seja um array.</div>
+</div></div>
+</div>
+<a name="init" id="init"></a><div class="element clickable method private init" data-toggle="collapse" data-target=".init .collapse">
+<h2>Inicializa os dados da tabela atual (nome da tabela, nome e atributos
+de cada coluna, campo(s) de chave primária).</h2>
+<pre>init() : void</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"><p>O nome da tabela deve seguir as regras do DB
+(prefixo + caixa alta + underline como separador de nome composto).
+Os atributos de cada coluna são guardados na variável string[] $arrCols, onde o
+índice é associativo (nome da coluna) e seu valor é uma string formada pelos
+seus respectivos atributos separados por barra normal (/), seguindoo formato
+($colName/$type/$null/$key/$extra).</p></p>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\app\sys\db\ORM::init()</td>
+</tr></table>
+</div></div>
+</div>
+<a name="insert" id="insert"></a><div class="element clickable method private insert" data-toggle="collapse" data-target=".insert .collapse">
+<h2>Método auxliar de save().</h2>
+<pre>insert() : integer</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"><p>Faz o INSERT do registro atual.</p></p>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\app\sys\db\ORM::insert()</td>
+</tr></table>
+<h3>Exceptions</h3>
+<table class="table table-bordered">
+<tr>
+<th><code><a href="http://php.net/manual/en/class.exception.php">\Exception</a></code></th>
+<td>[PARAMS_NULL] Caso o objeto atual esteja vazio (sem dados de um registro válido).</td>
+</tr>
+<tr>
+<th><code><a href="http://php.net/manual/en/class.exception.php">\Exception</a></code></th>
+<td>[UNIQUE_FIELD_NULL] Caso um campo único obrigatório não tenha sido definido.</td>
+</tr>
+<tr>
+<th><code><a href="http://php.net/manual/en/class.exception.php">\Exception</a></code></th>
+<td>[PK_CONFLICT] Caso exista conflito com um campo único.</td>
+</tr>
+</table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>integer</code>Retorna o ID (autoNumber) do novo registro cadastrado.</div>
+</div></div>
+</div>
+<a name="insertUpdate" id="insertUpdate"></a><div class="element clickable method private insertUpdate" data-toggle="collapse" data-target=".insertUpdate .collapse">
+<h2>Método auxliar de save().</h2>
+<pre>insertUpdate() : integer</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"><p>Executa a operação de INSERT/UPDATE com os dados do objeto atual.</p>
+
+<p>Caso já exista um registro com a mesma chave primária faz UPDATE.
+Caso contrário faz INSERT.</p></p>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\app\sys\db\ORM::insertUpdate()</td>
+</tr></table>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="http://php.net/manual/en/class.exception.php">\Exception</a></code></th>
+<td>[PARAMS_NULL] Caso o objeto atual não tenha parâmetros/atributos definidos.</td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>integer</code>Retorna o ID (autoNumber) do registro cadastrado/alterado, ou então retorna zero caso nenhuma modificação tenha ocorrido.</div>
+</div></div>
+</div>
+<a name="loadColumns" id="loadColumns"></a><div class="element clickable method private loadColumns" data-toggle="collapse" data-target=".loadColumns .collapse">
+<h2>Faz a leitura das colunas da tabela atual.</h2>
+<pre>loadColumns() : mixed[]</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"><p>Após a primeira leitura guarda em cache para reutilização na sessão do usuário.</p></p>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\app\sys\db\ORM::loadColumns()</td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>mixed[]</code>Array multidimensional com dados de cada coluna da tabela.</div>
+</div></div>
+</div>
+<a name="loadTables" id="loadTables"></a><div class="element clickable method private loadTables" data-toggle="collapse" data-target=".loadTables .collapse">
+<h2>Gera uma lista das tabelas do DB atual.</h2>
+<pre>loadTables() </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"><p>return string[] Retorna um array unidimensional com as tabelas do DB atual.</p></p>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\app\sys\db\ORM::loadTables()</td>
+</tr></table>
+</div></div>
+</div>
+<a name="setFormatRow" id="setFormatRow"></a><div class="element clickable method private setFormatRow" data-toggle="collapse" data-target=".setFormatRow .collapse">
+<h2>Método auxiliar de toJson(), toArray() e toString.</h2>
+<pre>setFormatRow(string $format) : false</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"><p>Converte os dados do objeto atual no formato solicitado (ARRAY | JSON | STRING).</p></p>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\app\sys\db\ORM::setFormatRow()</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$format</h4>
+<code>string</code><p>Valores possíveis: ARRAY | JSON | STRING.</p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>false</code>| mixed[] | string</div>
+</div></div>
+</div>
+<a name="setWhere" id="setWhere"></a><div class="element clickable method private setWhere" data-toggle="collapse" data-target=".setWhere .collapse">
+<h2>Recebe o nome de uma coluna da tabela e gera uma string no formato COL_NAME=%type,
+onde type pode ser %i,%s,%d, %ls, %li, %ld, necessária para fazer consultas no mySql.</h2>
+<pre>setWhere(string $var) : string</pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"><p>O tipo da coluna é confrontado com o formato definido na tabela do DB ($arrCols).
+Exemplo: para o formato string o tipo será '%s' e para o formato integer o tipo será '%i'.</p>
+
+<p>Para conhecer melhor os tipos permitidos, consulte o site <a href="http://meekrodb.com">http://meekrodb.com</a>.
+          *</p></p>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\app\sys\db\ORM::setWhere()</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$var</h4>
+<code>string</code><p>Obrigatório. Nome da coluna (deve existir no DB)</p>
+</div>
+<h3>Exceptions</h3>
+<table class="table table-bordered"><tr>
+<th><code><a href="http://php.net/manual/en/class.exception.php">\Exception</a></code></th>
+<td>[COL_NAME_NOT_EXISTS] Caso os campos da tabela atual não tenham sido carregados corretamente.</td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>string</code>Retorna a string com o nome da coluna + código Sql. Exemplo: NOME=%s</div>
+</div></div>
+</div>
+<h3>
+<i class="icon-custom icon-property"></i> Properties</h3>
+<a name="" id=""> </a><div class="element clickable property public " data-toggle="collapse" data-target=". .collapse">
+<h2>ID_CLIENTE</h2>
+<pre> : int</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>property</th>
+<td>ID_CLIENTE</td>
+</tr>
+</table>
+</div></div>
+</div>
+<a name="" id=""> </a><div class="element clickable property public " data-toggle="collapse" data-target=". .collapse">
+<h2>HASH</h2>
+<pre> : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>property</th>
+<td>HASH</td>
+</tr>
+</table>
+</div></div>
+</div>
+<a name="" id=""> </a><div class="element clickable property public " data-toggle="collapse" data-target=". .collapse">
+<h2>NOME_PRINCIPAL</h2>
+<pre> : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>property</th>
+<td>NOME_PRINCIPAL</td>
+</tr>
+</table>
+</div></div>
+</div>
+<a name="" id=""> </a><div class="element clickable property public " data-toggle="collapse" data-target=". .collapse">
+<h2>EMAIL</h2>
+<pre> : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>property</th>
+<td>EMAIL</td>
+</tr>
+</table>
+</div></div>
+</div>
+<a name="" id=""> </a><div class="element clickable property public " data-toggle="collapse" data-target=". .collapse">
+<h2>LOGIN</h2>
+<pre> : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>property</th>
+<td>LOGIN</td>
+</tr>
+</table>
+</div></div>
+</div>
+<a name="" id=""> </a><div class="element clickable property public " data-toggle="collapse" data-target=". .collapse">
+<h2>SENHA</h2>
+<pre> : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>property</th>
+<td>SENHA</td>
+</tr>
+</table>
+</div></div>
+</div>
+<a name="" id=""> </a><div class="element clickable property public " data-toggle="collapse" data-target=". .collapse">
+<h2>PF_PJ</h2>
+<pre> : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>property</th>
+<td>PF_PJ</td>
+</tr>
+</table>
+</div></div>
+</div>
+<a name="" id=""> </a><div class="element clickable property public " data-toggle="collapse" data-target=". .collapse">
+<h2>DATA_REGISTRO</h2>
+<pre> : \app\models\tables\datetime</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered">
+<tr>
+<th>magic</th>
+<td></td>
+</tr>
+<tr>
+<th>property</th>
+<td>DATA_REGISTRO</td>
+</tr>
+</table>
+</div></div>
+</div>
+<a name="%24alias" id="$alias"> </a><div class="element clickable property protected $alias" data-toggle="collapse" data-target=".$alias .collapse">
+<h2>$alias</h2>
+<pre>$alias </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\app\sys\db\ORM::$$alias</td>
+</tr></table>
+</div></div>
+</div>
+<a name="%24fieldsJoin" id="$fieldsJoin"> </a><div class="element clickable property protected $fieldsJoin" data-toggle="collapse" data-target=".$fieldsJoin .collapse">
+<h2>$fieldsJoin</h2>
+<pre>$fieldsJoin </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\app\sys\db\ORM::$$fieldsJoin</td>
+</tr></table>
+</div></div>
+</div>
+<a name="%24joinWhere" id="$joinWhere"> </a><div class="element clickable property protected $joinWhere" data-toggle="collapse" data-target=".$joinWhere .collapse">
+<h2>$joinWhere</h2>
+<pre>$joinWhere </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\app\sys\db\ORM::$$joinWhere</td>
+</tr></table>
+</div></div>
+</div>
+<a name="%24orderBy" id="$orderBy"> </a><div class="element clickable property protected $orderBy" data-toggle="collapse" data-target=".$orderBy .collapse">
+<h2>$orderBy</h2>
+<pre>$orderBy </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\app\sys\db\ORM::$$orderBy</td>
+</tr></table>
+</div></div>
+</div>
+<a name="%24results" id="$results"> </a><div class="element clickable property protected $results" data-toggle="collapse" data-target=".$results .collapse">
+<h2>$results</h2>
+<pre>$results </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\app\sys\db\ORM::$$results</td>
+</tr></table>
+</div></div>
+</div>
+<a name="%24arrCols" id="$arrCols"> </a><div class="element clickable property private $arrCols" data-toggle="collapse" data-target=".$arrCols .collapse">
+<h2>$arrCols</h2>
+<pre>$arrCols </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\app\sys\db\ORM::$$arrCols</td>
+</tr></table>
+</div></div>
+</div>
+<a name="%24arrColumns" id="$arrColumns"> </a><div class="element clickable property private $arrColumns" data-toggle="collapse" data-target=".$arrColumns .collapse">
+<h2>Método que retorna o nome da tabela do DB composto de prefixo e em caixa alta.</h2>
+<pre>$arrColumns </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"><p>O nome da tabela formado pelo nome da classe usando o
+caracter "_" como seprador das palavras iniciadas em letra maiúscula.
+Exemplo: CampanhaIndicaAmigo, ficaria CAMPANHA_INDICA_AMIGO.</p></p>
+<table class="table table-bordered">
+<tr>
+<th>param</th>
+<td>&lt;p&gt;Nome da classe&lt;/p&gt;</td>
+</tr>
+<tr>
+<th>return</th>
+<td></td>
+</tr>
+<tr>
+<th>inherited_from</th>
+<td>\app\sys\db\ORM::$$arrColumns</td>
+</tr>
+</table>
+</div></div>
+</div>
+<a name="%24arrKey" id="$arrKey"> </a><div class="element clickable property private $arrKey" data-toggle="collapse" data-target=".$arrKey .collapse">
+<h2>$arrKey</h2>
+<pre>$arrKey </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\app\sys\db\ORM::$$arrKey</td>
+</tr></table>
+</div></div>
+</div>
+<a name="%24arrObjJoin" id="$arrObjJoin"> </a><div class="element clickable property private $arrObjJoin" data-toggle="collapse" data-target=".$arrObjJoin .collapse">
+<h2>$arrObjJoin</h2>
+<pre>$arrObjJoin </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\app\sys\db\ORM::$$arrObjJoin</td>
+</tr></table>
+</div></div>
+</div>
+<a name="%24arrParams" id="$arrParams"> </a><div class="element clickable property private $arrParams" data-toggle="collapse" data-target=".$arrParams .collapse">
+<h2>$arrParams</h2>
+<pre>$arrParams </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\app\sys\db\ORM::$$arrParams</td>
+</tr></table>
+</div></div>
+</div>
+<a name="%24arrUnique" id="$arrUnique"> </a><div class="element clickable property private $arrUnique" data-toggle="collapse" data-target=".$arrUnique .collapse">
+<h2>$arrUnique</h2>
+<pre>$arrUnique </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\app\sys\db\ORM::$$arrUnique</td>
+</tr></table>
+</div></div>
+</div>
+<a name="%24colAutoNum" id="$colAutoNum"> </a><div class="element clickable property private $colAutoNum" data-toggle="collapse" data-target=".$colAutoNum .collapse">
+<h2>$colAutoNum</h2>
+<pre>$colAutoNum </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\app\sys\db\ORM::$$colAutoNum</td>
+</tr></table>
+</div></div>
+</div>
+<a name="%24debug" id="$debug"> </a><div class="element clickable property private $debug" data-toggle="collapse" data-target=".$debug .collapse">
+<h2>$debug</h2>
+<pre>$debug </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\app\sys\db\ORM::$$debug</td>
+</tr></table>
+</div></div>
+</div>
+<a name="%24id" id="$id"> </a><div class="element clickable property private $id" data-toggle="collapse" data-target=".$id .collapse">
+<h2>$id</h2>
+<pre>$id </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\app\sys\db\ORM::$$id</td>
+</tr></table>
+</div></div>
+</div>
+<a name="%24limit" id="$limit"> </a><div class="element clickable property private $limit" data-toggle="collapse" data-target=".$limit .collapse">
+<h2>$limit</h2>
+<pre>$limit </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\app\sys\db\ORM::$$limit</td>
+</tr></table>
+</div></div>
+</div>
+<a name="%24prefixoTable" id="$prefixoTable"> </a><div class="element clickable property private $prefixoTable" data-toggle="collapse" data-target=".$prefixoTable .collapse">
+<h2>$prefixoTable</h2>
+<pre>$prefixoTable </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\app\sys\db\ORM::$$prefixoTable</td>
+</tr></table>
+</div></div>
+</div>
+<a name="%24row" id="$row"> </a><div class="element clickable property private $row" data-toggle="collapse" data-target=".$row .collapse">
+<h2>$row</h2>
+<pre>$row </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\app\sys\db\ORM::$$row</td>
+</tr></table>
+</div></div>
+</div>
+<a name="%24tableName" id="$tableName"> </a><div class="element clickable property private $tableName" data-toggle="collapse" data-target=".$tableName .collapse">
+<h2>$tableName</h2>
+<pre>$tableName </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\app\sys\db\ORM::$$tableName</td>
+</tr></table>
+</div></div>
+</div>
+<a name="%24where" id="$where"> </a><div class="element clickable property private $where" data-toggle="collapse" data-target=".$where .collapse">
+<h2>$where</h2>
+<pre>$where </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\app\sys\db\ORM::$$where</td>
+</tr></table>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="row"><footer class="span12">
+            Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
+            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a8</a> and<br>
+            generated on 2012-08-31T16:54:24-03:00.<br></footer></div>
+</div>
+</body>
+</html>

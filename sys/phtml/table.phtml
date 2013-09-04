@@ -1,0 +1,24 @@
+<?php
+    $columns    = (!is_array($columns))?array():$columns;
+    $rows       = (!is_array($rows))?array():$rows;
+    $rowsCount  = count($rows);        
+?>
+
+<table <?=$cls?> <?=$css?> id="<?=$id?>">
+    <!-- Cabeçalho da tabela -->
+    <tr>
+    <?php foreach($columns as $column) { ?>
+       <th><?=$column?></th>  
+    <?php } ?>
+    </tr>
+
+    <!-- Linhas da tabela -->
+    <?php for($i=0;$i<$rowsCount;$i++) { ?>   
+       <tr>
+        <!-- Células da tabela -->
+        <?php foreach($rows as $row) { ?>
+            <td><?=$row?></td>  
+        <?php } ?>       
+       </tr>
+    <?php } ?>           
+</table>

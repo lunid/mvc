@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <Slider>
+        <init>
+            <msg id="CATCH"><![CDATA[Error to init slider:]]></msg>
+            <msg id="ERROR_ID"><![CDATA[Slider ID is not defined!]]></msg>
+        </init>
+    </Slider>
+    <Menu>
+        <default>
+            <msg id="ERROR_ID_MENU"><![CDATA[Menu ID is not defined!]]></msg>
+        </default>
+        <init>
+            <msg id="CATCH"><![CDATA[Error to init menu:]]></msg>
+        </init>
+        <changeMenu>
+            <msg id="CATCH"><![CDATA[Error to change-menu:]]></msg>
+            <msg id="ERROR_ID_ITEM"><![CDATA[Item ID is not defined!]]></msg>
+        </changeMenu>
+    </Menu>    
+</root>
