@@ -54,7 +54,7 @@
        */          
         public static function setup(){                       
             
-            //Faz a leitura dos parâmetros em config.xml na raíz do site                
+            //Faz a leitura dos parâmetros em cfg/app.xml na raíz do site                
             $baseUrl    = CfgApp::get('baseUrl');
             $objUri     = \Uri::parts();
 
