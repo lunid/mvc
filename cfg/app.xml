@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
     <params>
-        <!-- URLs -->
-        <param id='baseUrl'>dev</param>        
+        <!-- 
+        URLs:
+        baseUrl: não é necessário incluir a barra (/) antes e depois.
+        No exemplo a seguir todos os formatos são válidos: 
+            app/site
+            /app/site/
+            /app/site
+            app/site/
+        -->
+        <param id='baseUrl'>astrolabius</param>        
         <param id='baseUrlHttp'>localhost</param>
         <param id='baseUrlHttps'></param>
         

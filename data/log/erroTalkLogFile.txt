@@ -1,0 +1,18 @@
+**************************************************************
+!Oops : [Run-time notices] (Undefined variable: teste).
+Line Number  : 69.
+File Path : C:\wamp\www\astrolabius\sys\classes\_init\Application.php.
+Date : 05.09.2013 02:17:24.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined variable: teste).
+Line Number  : 69.
+File Path : C:\wamp\www\astrolabius\sys\classes\_init\Application.php.
+Date : 05.09.2013 02:17:48.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined variable: teste).
+Line Number  : 69.
+File Path : C:\wamp\www\astrolabius\sys\classes\_init\Application.php.
+Date : 05.09.2013 02:17:55.
+**************************************************************

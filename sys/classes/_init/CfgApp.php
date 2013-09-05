@@ -11,7 +11,14 @@
         }
         
         public static function get($id){
-            return self::getValueForId($id, get_class());            
+            $value = self::getValueForId($id, get_class());            
+            if ($id == 'baseUrl') {
+                //Certifica-se de incluir a barra normal (/) antes e depois do baseUrl.
+                $value  = trim($value, '/');//Retira as barras antes e depois caso existam, para evitar inserí-las em duplicidade.
+                $value  = "/$value/";
+            }
+            $value = trim($value);
+            return $value;
         }
           
     }

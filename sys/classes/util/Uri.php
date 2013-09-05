@@ -5,7 +5,8 @@
         public static function parts(){
             $objUriParts        = new \stdClass();//Objeto de dados (return)
             $arrPartsUrl        = array();
-            $controller         = 'index';     
+            $controller         = 'index';   
+            $baseUrl            = CfgApp::get('baseUrl');
             $action             = '';
             
             //Módulos:
@@ -26,27 +27,30 @@
             
             /*
              * Quebra a variável 'PG' recebida via GET em partes identificáveis 
-             * como módulo, controller e action:
+             * como módulo, controller e action.
+             * 
+             * IMPORTANTE:
+             * A pasta root do projeto, se houver, deve ser retirada da URL antes de
+             * identificar o módulo, controller e action.
              */
-            $params         = (isset($_GET['PG']))?$_GET['PG']:'';             
+            $params         = (isset($_GET['PG']))?trim($_GET['PG']):'';             
+            $params         = str_replace($baseUrl,'','/'.$params);//Retira a pasta root da string.
+            
             $pathParts      = explode('/',$params);            
                        
             $action         = self::getPartUrl(@$pathParts[1]);            
             
             if (is_array($pathParts) && count($pathParts) > 0) { 
                 //A URL pode conter partes que representam o módulo, controller e action
-
-                //$arrModulesDefault  = array('panel','commerce','test');//Módulos que não precisam constar no config.xml.
-
-                
                 $controllerPart = $pathParts[0];
                 
                 $controllerPart = self::mapMagicModule($controllerPart);
                 
                 //Verifica se a primeira parte da URL é um idioma
                 $keyLang = FALSE; 
-                if (is_array($arrLanguages[0])) $keyLang = array_search($controllerPart,$arrLanguages);
-
+                
+                if (is_array($arrLanguages)) $keyLang = array_search($controllerPart,$arrLanguages);
+               
                 if ($keyLang !== FALSE) {
                     //O primeiro parâmetro refere-se a um idioma específico
                     $language = $controllerPart;
@@ -109,9 +113,11 @@
                              * 
                              */                            
                             @list($prefixo,$listModules) = explode(':',$groupMagicModules);                         
-                            $key = strpos($listModules,$controller);
+                            $arrModules = explode(',',$listModules);
+                            $key = array_search($controller,$arrModules);
+                            
                             if ($key !== false) {
-                                //O controller atual refere-se a um módulo mapeado.
+                                //O controller atual refere-se a um módulo mapeado.                                
                                 $controller = $prefixo.$controller;
                                 break;
                             }                        

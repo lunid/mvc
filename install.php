@@ -20,6 +20,24 @@ foreach($apacheModulesRequired as $strModule) {
     }
 }
 
+//Cria a pasta para repositório de dados
+$rootFolderData         = 'data/';
+$arrSubfolders          = array('log','upload');
+$msgCreateFoldersData   = '<br/><h4>Criação das pastas de dados:</h4>';
+
+foreach($arrSubfolders as $subfolder) {
+    $path = $rootFolderData.$subfolder;
+    if (!is_dir($path)) {               
+        if (!mkdir($path,0777, TRUE)) {
+            $msgCreateFoldersData .= "Impossível criar a pasta <span class='folder'>{$path}</span>.";
+        } else {
+            $msgCreateFoldersData .=  "Pasta <span class='folder'>{$path}</span> criada com sucesso!<br>";
+        }
+    } else {
+        $msgCreateFoldersData .= "Pasta <span class='folder'>{$path}</span> já existe.<br/>";
+    }
+}
+
 $msgInstall = "<h4>Resumo da verificação do ambiente:</h4>";
 if ($errors == 0) {
     $msgInstall .= "Módulos do Apache OK.";
@@ -41,10 +59,16 @@ if ($errors == 0) {
             
             h4 {
                 font-size: 16px;
+                margin-bottom:8px;
+            }
+            
+            .folder {
+                color: #00F;
             }
         </style>
     </head>
     <body>
         <?php echo $msgInstall ?>
+        <?php echo $msgCreateFoldersData ?>
     </body>
 </html>

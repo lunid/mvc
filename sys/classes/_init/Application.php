@@ -18,6 +18,9 @@
     require_once('sys/classes/security/Token.php');
     require_once('sys/classes/security/Auth.php');         
 
+    //Vendors
+    require_once('sys/vendors/errorTrack/class.errorTalk.php');         
+    
     use sys\classes\util\DI;
     use sys\classes\mvc as MVC;
     use sys\classes\util as UTIL;
@@ -52,22 +55,22 @@
        * actionFaleConosco().                         
        *  
        */          
-        public static function setup(){                       
+        public static function setup(){                                
             
             //Faz a leitura dos parâmetros em cfg/app.xml na raíz do site                
             $baseUrl    = CfgApp::get('baseUrl');
             $objUri     = \Uri::parts();
-
+                       
+            //Inicializa tratamento de erro.
+            errorTalk::initialize();   
+            errorTalk::$conf['logFilePath'] = "data/log/erroTalkLogFile.txt";
+            errorTalk::errorTalk_Open(); // run error talk object
+            //echo $test; // Run-time notices (Undefined variable: test)               
+             
             $module         = $objUri->module;
             $controller     = $objUri->controller;
             $action         = $objUri->action;            
-            $method         = 'action'.ucfirst($action);
-            
-            /*
-             * Inicializa a conexão com o DB.
-             * Necessário para evitar erro de conexão ao executar o Controller->action().
-             */            
-            Conn::init();
+            $method         = 'action'.ucfirst($action);                        
            
             //Carrega, a partir do namespace, classes invocadas na aplicação.
             spl_autoload_register('self::loadClass');	                           
@@ -98,211 +101,68 @@
                 //$objController->actionError($e);
                 throw $e;
             }
+        }        
 
-        }
-        
-        public static function listFiles($directory = NULL, array $paths = NULL){
-            if ($directory !== NULL) {
-                // Add the directory separator
-                $directory .= DIRECTORY_SEPARATOR;
+        public static function listFiles($dir = NULL, $path = NULL){
+            $baseUrl    = CfgApp::get('baseUrl');
+            $dir        = $baseUrl;
+            if ($dir !== NULL) {
+                $dir = $baseUrl.trim($dir,'/').'/';            
             }
 
-            if ($paths === NULL) {
-                // Use the default paths
-                $paths = Kohana::$_paths;
-            }
+            // Array para guardar os arquivos
+            $arrFound = array();         
+            if (is_dir($dir)) {
+                // Cria um novo directory iterator
+                $dirIterator = new DirectoryIterator($dir);
+                foreach ($dir as $file) {
+                    // Pega o nome do arquivo
+                    $filename = $file->getFilename();
+                    if ($filename[0] === '.' OR $filename[strlen($filename)-1] === '~') {
+                        // Ignora arquivos ocultos e arquivos de backup do UNIX
+                        continue;
+                    }
 
-            // Create an array for the files
-            $found = array();
+                    // Relative filename is the array key
+                    $key = $dir.$filename;
 
-            foreach ($paths as $path)
-            {
-                if (is_dir($path.$directory))
-                {
-                    // Create a new directory iterator
-                    $dir = new DirectoryIterator($path.$directory);
-
-                    foreach ($dir as $file)
-                    {
-                        // Get the file name
-                        $filename = $file->getFilename();
-
-                        if ($filename[0] === '.' OR $filename[strlen($filename)-1] === '~')
-                        {
-                            // Skip all hidden files and UNIX backup files
-                            continue;
-                        }
-
-                        // Relative filename is the array key
-                        $key = $directory.$filename;
-
-                        if ($file->isDir())
-                        {
-                            if ($sub_dir = Kohana::list_files($key, $paths))
-                            {
-                                if (isset($found[$key]))
-                                {
-                                    // Append the sub-directory list
-                                    $found[$key] += $sub_dir;
-                                }
-                                else
-                                {
-                                    // Create a new sub-directory list
-                                    $found[$key] = $sub_dir;
-                                }
+                    if ($file->isDir()) {
+                        if ($subDir = self::listFiles($key, $paths)) {
+                            if (isset($found[$key])) {
+                                // Faz um append à lista de sub-diretoórios.
+                                $arrFound[$key] += $subDir;
+                            } else {
+                                // Cria uma nova lista de sub-diretórios.
+                                $arrFound[$key] = $subDir;
                             }
                         }
-                        else
-                        {
-                            if ( ! isset($found[$key]))
-                            {
-                                // Add new files to the list
-                                $found[$key] = realpath($file->getPathName());
-                            }
+                    } else {
+                        if (!isset($arrFound[$key])) {
+                            // Adiciona novos arquivos para a lista.
+                            $arrFound[$key] = realpath($file->getPathName());
                         }
                     }
                 }
             }
-
-            // Sort the results alphabetically
-            ksort($found);
-
-            return $found;
-        }
-        
-        private static function processaUrl(){
-            $arrPartsUrl    = array();
-            $module         = LoadConfig::defaultModule(); 
-            $params         = (isset($_GET['PG']))?$_GET['PG']:''; 
             
-            $pathParts      = explode('/',$params);            
-            $controller     = 'index';
-            $language       = LoadConfig::defaultLang();            
-            $action         = self::getPartUrl(@$pathParts[1]);            
+            // Ordena os resultados alfabeticamente.
+            ksort($arrFound);
+            return $arrFound;
+        }        
+                
+        
+        public static function setDefaultConnDb($defaultConnDb){            
+            if (!defined('APPLICATION_DEFAULT_CONN_DB')) {                             
+                define ('APPLICATION_DEFAULT_CONN_DB', $defaultConnDb);
+            }        
             
-            if (is_array($pathParts) && count($pathParts) > 0) { 
-                //A URL pode conter partes que representam o módulo, controller e action
-                $lang           = LoadConfig::langs();//Idiomas aceitos pelo sistema
-                $modules        = LoadConfig::modules();
-                
-                $arrLangs       = explode(',',$lang); 
-                
-                $arrModulesDefault  = array('panel','commerce','test');//Módulos que não precisam constar no config.xml.
-                $arrModules         = explode(',',$modules);
-                $arrModules         = array_merge($arrModules,$arrModulesDefault);
-                
-                $controllerPart = $pathParts[0];
-                
-                $controllerPart = self::mapMagicModule($controllerPart);
-                
-                //Verifica se a primeira parte da URL é um idioma
-                $keyLang        = FALSE; 
-                if (strlen($arrLangs[0]) > 0) $keyLang = array_search($controllerPart,$arrLangs);
-
-                if ($keyLang !== FALSE) {
-                    //O primeiro parâmetro refere-se a um idioma específico
-                    $language   = $controllerPart;
-                    array_shift($pathParts); 
-                    $controllerPart = (isset($pathParts[0]))?$pathParts[0]:'';
-                }
-                
-                $keyModule      = array_search($controllerPart,$arrModules);
-                if ($keyModule !== FALSE) {
-                    //O primeiro parâmetro é um módulo
-                    $module     = $controllerPart;
-                    array_shift($pathParts);
-                    $controller = self::getPartUrl(@$pathParts[0]);            
-                    $action     = self::getPartUrl(@$pathParts[1]);            
-                } else {                    
-                    $controller = self::getPartUrl($controllerPart);                
-                }
-            }   
-            
-            //Guarda o idioma(language), module, controller e action em variáveis de sessão.
-            //Necessário para criar as URLs de navegação do site.            
-            self::setLanguage($language);  
-            self::setModule($module);       
-            self::setController($controller);
-            self::setAction($action);  
-            
-            $arrPartsUrl['module']       = $module;
-            $arrPartsUrl['controller']   = $controller;
-            $arrPartsUrl['action']       = $action;
-            return $arrPartsUrl;
-        }  
-        
-        
-        
-        /**
-         * Define o nome da pasta, a partir da raíz do ambiente web, onde se localiza a aplicação.
-         * 
-         * @param string $folder 
-         * @return void
-         */
-        public static function folder($folder) {
-            //Define o path do diretório da aplicação:
-            if (!defined('APPLICATION_PATH')) {
-                $root = $folder;
-                if (strlen($folder) > 0 && $folder != '/') $root = "/{$folder}/";
-                define ('APPLICATION_PATH', $root);
-            }  
+            /*
+             * Inicializa a conexão com o DB.
+             * Necessário para evitar erro de conexão ao executar o Controller->action().
+             */            
+            Conn::init();                        
         }
         
-        
-        /**
-         * Define o ambiente atual. Valores possíveis:
-         * - test   = define o ambiente atual como ambiente de teste.
-         * - dev    = define o ambiente atual como ambiente de desenvolvimento.
-         * - prod   = define o ambiente atual como ambiente de produção
-         * 
-         * @param string $env Pode ser test | dev | prod
-         */
-        private static function setEnv($env){
-            //Define o ambiente da aplicação caso a constante ainda não tenha sido definida
-            if (defined('APPLICATION_ENV')) {
-                echo "A constante APPLICATION_ENV não pode ser definida duas vezes.";
-            } else {
-                define ('APPLICATION_ENV',$env);
-            }
-        }
-        
-        public static function getEnv(){
-            return APPLICATION_ENV;
-        }
-        
-        private static function getPartUrl($pathPart,$default='index'){
-           $value = (isset($pathPart) && $pathPart != null)?$pathPart:$default; 
-           return $value;
-        }
-        
-        private static function setAbsolutePathIncludes($rootIncludes){
-            $_SESSION[self::$sessionAbsolutePathIncludes] = $rootIncludes;
-        }
-        
-        static function getAbsolutePathIncludes(){
-            return (isset($_SESSION[self::$sessionAbsolutePathIncludes]))?$_SESSION[self::$sessionAbsolutePathIncludes]:'';
-        }
-        
-        private static function setLanguage($language){
-            $_SESSION[self::$sessionLangName] = trim($language);
-        }
-        
-        static function getLanguage(){
-            return self::getVarApplication(self::$sessionLangName);                  
-        }
-        
-        private static function setModule($module){
-            $_SESSION[self::$sessionModuleName] = $module;                                                                  
-
-            try {                
-                $cfgFolderViews     = LoadConfig::folderViews();               
-                $cfgFolderTemplate  = LoadConfig::folderTemplate();
-                $pathTplFolder      = $module.'/'.$cfgFolderViews.'/'.self::getLanguage().'/'.$cfgFolderTemplate.'/'; 
-                self::vldTemplate($pathTplFolder);
-            } catch(\Exception $e) {
-                die('LoadConfig->loadVars(): '.$e->getMessage());
-            }            
-        }
         
         
         /**
@@ -389,40 +249,6 @@
                 throw new \Exception("Classe $class não encontrada ({$urlInc})");
             }                      
         }     
-        
-        /**
-         * Verifica se o ambiente atual é o ambiente de produção.
-         * 
-         * @return boolean
-         */
-        public static function checkAmbienteDeProducao(){
-            $dominioAtual       = $_SERVER['SERVER_NAME'];//Domínio do ambiente atual
-            $dominioProd        = LoadConfig::baseUrlHttp();//Domínio de produção
-            $key                = strpos($dominioAtual, $dominioProd);
-            $ambienteDeProducao = FALSE;
-            
-            if ($key !== FALSE) {
-                //O usuário está no domínio de produção
-                $ambienteDeProducao = TRUE;
-            }
-            return $ambienteDeProducao;
-        }
-        
-        /**
-         * Faz o redirecionamento para a home do ambiente de produção caso a origem do
-         * acesso seja no domínio de produção.
-         * Muito útil para páginas que possuem uma interface para os ambientes de desenvolvimento, teste e homologação,
-         * porém devem acessar outra página (versão mais antiga) no ambiente de produção.
-         * 
-         * @return void
-         */
-        public static function redirect2Prod(){            
-            if (self::checkAmbienteDeProducao()) {
-                //O usuário está no domínio de produção. Faz o redirecionamento para a URL 
-                //de $dominioProd
-                header('Location:'.$dominioProd);
-                die();
-            }
-        }
+
     }
 ?>

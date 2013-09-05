@@ -20,10 +20,10 @@ class Conn {
      * @return void
      */
     public static function init($conn=''){
-       if (!defined('APPLICATION_ENV')) die('Impossível efetuar conexão como DB. Ambiente não definido.');
+       if (!defined('APPLICATION_DEFAULT_CONN_DB')) die('Impossível efetuar conexão como DB. A constante APPLICATION_DEFAULT_CONN_DB não foi definida.');
         
        $arrConn    = NULL;
-       $ambiente   = (strlen($conn) > 0)?$conn:APPLICATION_ENV;                
+       $ambiente   = (strlen($conn) > 0)?$conn:APPLICATION_DEFAULT_CONN_DB;                
         
        $objConn    = ConnConfig::$ambiente();       
        self::setConn($objConn);
