@@ -10,6 +10,13 @@
             parent::__construct($xmlFile,$arrAtribId);            
         }
         
+        /**
+         * Retorna a propriedade de um item definido em app.xml.
+         * O atributo id da tag <param> deve coincidir com o parâmetro $id informado na chamada do método.
+         * 
+         * @param string $id         
+         * @return string
+         */
         public static function get($id){
             $value = self::getValueForId($id, get_class());            
             if ($id == 'baseUrl') {

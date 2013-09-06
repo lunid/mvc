@@ -20,27 +20,15 @@
 
     //Vendors
     require_once('sys/vendors/errorTrack/class.errorTalk.php');         
+    require_once('sys/vendors/di/DI.php');   
     
     use sys\classes\util\DI;
     use sys\classes\mvc as MVC;
     use sys\classes\util as UTIL;
     
     class Application {
-        /**
-         * Classe de inicialização da aplicação.
-         * 
-         * Faz o carregamento dos arquivos comuns aos módulos do sistema (require_once),
-         * identifica o módulo e seu respectivo Controller->action() a partir da URL e 
-         * carrega as classes solicitadas na aplicação a partir de seu namespace.
-        */           
-        private static $sessionLangName                 = 'GLB_LANG';
-        private static $sessionModuleName               = 'GLB_MODULE';
-        private static $sessionControllerName           = 'GLB_CONTROLLER';
-        private static $sessionActionName               = 'GLB_ACTION';       
-        private static $sessionAbsolutePathIncludes     = 'GLB_ROOT_INCLUDES';
-        private static $arrModules                      = array('app','admin');        
-        
-      /**
+       /**
+       * Classe de inicialização da aplicação.
        * Identifica o módulo, controller e action a partir da URL e faz a chamada
        * do método, como segue:
        * 
@@ -58,18 +46,19 @@
         public static function setup(){                                
             
             //Faz a leitura dos parâmetros em cfg/app.xml na raíz do site                
-            $baseUrl    = CfgApp::get('baseUrl');
-            $objUri     = \Uri::parts();
-                       
-            //Inicializa tratamento de erro.
+            $baseUrl        = CfgApp::get('baseUrl');
+            $objUri         = new Uri();
+            $objMvcParts    = $objUri->getMvcParts();  
+            
+            //Inicializa tratamento de erro para o projeto atual.
             errorTalk::initialize();   
             errorTalk::$conf['logFilePath'] = "data/log/erroTalkLogFile.txt";
             errorTalk::errorTalk_Open(); // run error talk object
             //echo $test; // Run-time notices (Undefined variable: test)               
              
-            $module         = $objUri->module;
-            $controller     = $objUri->controller;
-            $action         = $objUri->action;            
+            $module         = $objMvcParts->module;
+            $controller     = $objMvcParts->controller;
+            $action         = $objMvcParts->action;            
             $method         = 'action'.ucfirst($action);                        
            
             //Carrega, a partir do namespace, classes invocadas na aplicação.
@@ -161,9 +150,7 @@
              * Necessário para evitar erro de conexão ao executar o Controller->action().
              */            
             Conn::init();                        
-        }
-        
-        
+        }                
         
         /**
          * Valida o template padrão da aplicação e cria um arquivo novo 
@@ -201,33 +188,7 @@
                 }
                 fclose($open);                  
             }            
-        }            
-        
-        public static function getModule(){
-            return self::getVarApplication(self::$sessionModuleName);      
-        }        
-        
-        private static function setController($controller){
-            $_SESSION[self::$sessionControllerName] = $controller;
-        }
-        
-        public static function getController(){
-            return self::getVarApplication(self::$sessionControllerName);           
-        }        
-        
-        private static function setAction($action){
-            $_SESSION[self::$sessionActionName] = $action;
-        }
-        
-        public static function getAction(){
-            return self::getVarApplication(self::$sessionActionName);
-        }
-        
-        private static function getVarApplication($name){            
-            $value = (isset($_SESSION[$name]))?$_SESSION[$name]:'';
-            return $value;
-        }
-         
+        }                             
         
         /**
         * Localiza a classe solicitada de acordo com o seu namespace e faz o include do arquivo.

@@ -16,3 +16,21 @@ Line Number  : 69.
 File Path : C:\wamp\www\astrolabius\sys\classes\_init\Application.php.
 Date : 05.09.2013 02:17:55.
 **************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined property: Uri::$module).
+Line Number  : 71.
+File Path : C:\wamp\www\astrolabius\sys\classes\_init\Application.php.
+Date : 06.09.2013 12:42:54.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined property: Uri::$controller).
+Line Number  : 72.
+File Path : C:\wamp\www\astrolabius\sys\classes\_init\Application.php.
+Date : 06.09.2013 12:42:55.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined property: Uri::$action).
+Line Number  : 73.
+File Path : C:\wamp\www\astrolabius\sys\classes\_init\Application.php.
+Date : 06.09.2013 12:42:56.
+**************************************************************

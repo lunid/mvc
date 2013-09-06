@@ -1,24 +1,43 @@
 <?php
 
+    /**
+     * @Inject objCfgApp
+     */
     class Uri {
         
-        public static function parts(){
-            $objUriParts        = new \stdClass();//Objeto de dados (return)
+        private $cfgClass;
+        private $objUriMvcParts;
+        
+        function __construct($cfgClass='CfgApp'){
+            $this->cfgClass = $cfgClass;
+            $this->setUriMvcParts();
+        }
+        
+        private function getCfgClass(){
+            $cfgClass = $this->cfgClass;
+            if (strlen($cfgClass) == 0) {
+                throw new \Exception("Uri: o objeto {$cfgClass} não foi informado.");
+            }
+            return $cfgClass;
+        }
+        
+        private function setUriMvcParts(){            
+            $cfgClass           = $this->getCfgClass();
             $arrPartsUrl        = array();
             $controller         = 'index';   
-            $baseUrl            = CfgApp::get('baseUrl');
+            $baseUrl            = $cfgClass::get('baseUrl');
             $action             = '';
             
             //Módulos:
-            $modules            = CfgApp::get('modules');//String com módulos do sistema
+            $modules            = $cfgClass::get('modules');//String com módulos do sistema
             $arrModules         = explode(',',$modules);
-            $module             = CfgApp::get('defaultModule');
+            $module             = $cfgClass::get('defaultModule');
             $arrModulesSys      = array('panel','test');//Módulos que não precisam constar em app.xml.            
             $arrMergeModules    = array_merge($arrModules,$arrModulesSys);//Array com todos os módulos.
 
             //Idioma:
-            $languages          = CfgApp::get('languages');//Idiomas aceitos
-            $language           = CfgApp::get('defaultLang');//Idioma padrão         
+            $languages          = $cfgClass::get('languages');//Idiomas aceitos
+            $language           = $cfgClass::get('defaultLang');//Idioma padrão         
             $arrLanguages       = NULL;
             
             if (strlen($languages) > 0) {
@@ -70,13 +89,13 @@
                 }       
             } 
             
+            $objUriMvcParts                = new \stdClass();//Objeto de dados (return)
+            $objUriMvcParts->lang          = $language;
+            $objUriMvcParts->module        = $module;
+            $objUriMvcParts->controller    = $controller;
+            $objUriMvcParts->action        = $action;
             
-            $objUriParts->lang          = $language;
-            $objUriParts->module        = $module;
-            $objUriParts->controller    = $controller;
-            $objUriParts->action        = $action;
-            
-            return $objUriParts;
+            $this->objUriMvcParts = $objUriMvcParts;
         }
         
         private static function getPartUrl($pathPart,$default='index'){
@@ -85,15 +104,31 @@
         }  
         
         /**
+         * Retorna um objeto de dados contendo os seguintes parâmetros:
+         *  - lang
+         *  - module
+         *  - controller
+         *  - action
+         * 
+         * O objeto é criado após a execução do método setUriMvcParts() 
+         * no construtor da classe
+         * 
+         * @return stdClass
+         */
+        function getMvcParts(){
+            return $this->objUriMvcParts;
+        }
+        /**
          * Faz o mapeamento do controller informado para um nome diferente, 
          * caso o nome do controller informado esteja na lista magicModules de app.xml.
          * 
          * @param string $controller
          * @return string Nome do $controller alterado com o prefixo.
          */
-        private static function mapMagicModule($controller=''){
+        private function mapMagicModule($controller=''){
+            $cfgClass = $this->getCfgClass();
             if (strlen($controller) > 0) {
-                $magicModules   = CfgApp::get('magicModules');
+                $magicModules   = $cfgClass::get('magicModules');
                 
                 if (strlen($magicModules) > 0) {
                     //Há configurações de módulos mágicos para o projeto atual.
