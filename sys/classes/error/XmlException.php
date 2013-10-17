@@ -1,7 +1,9 @@
-<?php    
+<?php
+
     namespace sys\classes\error;
     use \sys\classes\util\Xml;
     use \sys\classes\mvc\MvcFactory;
+    
     
     class XmlException extends Xml {
         
@@ -31,6 +33,8 @@
          * @throws \Exception Caso o arquivo XML solicitado não seja localizado.
          */
         public static function getErrorString($nameFileXml,$codErr,$arrParams=array()){
+            //$baseUrl        = CfgApp::get('baseUrl');
+           
             $objXmlException = new XmlException();          
             
             if ($objXmlException->findFileXmlError($nameFileXml)){

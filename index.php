@@ -27,7 +27,7 @@
         //Inicializa a aplicação:
         Application::setup();         
         Application::setDefaultConnDb('dev');         
-    } catch(Exception $e) {
+    } catch(Exception $e) {                                                     
         echo 'Infelizmente não foi possível completar sua requisição: '.$e->getMessage();
     }
 ?>

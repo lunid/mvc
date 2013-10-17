@@ -3,13 +3,14 @@
 @require_once 'System.php';
 $pearInstall = class_exists('System', false);
 
-$msgPear = "<h4>Biblioteca PEAR:</h4>";
+$msgPear    = "<h4>Biblioteca PEAR:</h4>";
+$pearPath   = 'c:\xampp\php';
+
 if (!$pearInstall) {
     $msgPear .= "Pear ainda não instalado...";
     
     //Inclui o pear no class_path
-    $classpath  = shell_exec('echo %PATH%');
-    $pearPath   = 'c:\xampp\php';
+    $classpath  = shell_exec('echo %PATH%');    
     if (strlen($classpath) > 0) {
         if (file_exists($pearPath.'\\pear.bat')) {
             //Pear está instalado corretamente.
@@ -35,9 +36,44 @@ if (!$pearInstall) {
 //Checa novamente a biblioteca PEAR, após a verificação/instalação
 if (class_exists('System', false)) {
     //PEAR instalado.
-    $phpdoc  = "c:\xampp\php\phpdoc.bat";
-    $output  = shell_exec($phpdoc);    
-    echo $output;    
+    
+    chmod ($pearPath."/data/PEAR", 0777);
+    chmod ($pearPath."/tests", 0777);
+    
+    set_time_limit(120);//120 segundos
+    $msgPear    .= "<br>Instalação do PhpDocumentor...<br>";
+
+    //Pear upgrade
+    $phpdoc     = $pearPath."\pear.bat upgrade pear";
+    $output     = shell_exec($phpdoc);    
+    $msgPear    .= $output.'<br>';    
+    
+    //PhpDoc channel
+    $phpdoc     = $pearPath."\pear.bat channel-discover pear.phpdoc.org";
+    $output     = shell_exec($phpdoc);    
+    $msgPear    .= $output;    
+    
+    //PhpDoc install
+    $phpdoc     = $pearPath."\pear.bat install phpdoc/phpDocumentor";
+    $output     = shell_exec($phpdoc);    
+    $msgPear    .= '<br>'.$output;      
+    
+    //PhpDoc Graphviz
+    $msgPear    .= "<br>Atualizando channel...<br>";
+    $phpdoc     = $pearPath."\pear.bat channel-update pear.php.net";
+    //$output     = shell_exec($phpdoc);    
+    $msgPear    .= $output; 
+    
+    $msgPear .= "<br><br>Instale o GraphViz a partir do link 
+        <a href='http://graphviz.org/Download_windows.php' target='_blank'>http://graphviz.org/Download_windows.php</a>";
+    //PhpDoc Graphviz
+    /*
+    $msgPear    .= "<br>Instalando GraphViz...<br>";
+    $phpdoc     = $pearPath."\pear.bat install Image_GraphViz";
+    $output     = shell_exec($phpdoc);    
+    $msgPear    .= $output;        
+     */
+
 } else {
     echo "PEAR não instalado corretamente.";
 }

@@ -1,8 +1,7 @@
 <?php
     
     namespace sys\classes\error;
-    use \sys\classes\util\File;
-        
+
     /**
      * Classe usada para tratar mensagens de erro.
      * Crie uma classe moduloAtual/classes/helpers/Error estendendo a classe atual para fazer uso dos recursos contidos aqui.
