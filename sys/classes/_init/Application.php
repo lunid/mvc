@@ -9,8 +9,7 @@
     require_once('sys/classes/db/Table.php');
     require_once('sys/classes/mvc/Controller.php');
     require_once('sys/classes/mvc/Model.php'); 
-    require_once('sys/classes/mvc/Module.php');      
-    require_once('sys/classes/_init/CfgApp.php');
+    require_once('sys/classes/mvc/Module.php');          
     require_once('sys/classes/util/Uri.php');  
     
     require_once('sys/classes/util/Url.php');  
@@ -18,9 +17,11 @@
     require_once('sys/classes/security/Token.php');
     require_once('sys/classes/security/Auth.php');         
 
-    require_once('sys/classes/error/XmlException.php');
-    require_once('sys/classes/error/ErrorHandler.php'); 
-    require_once('sys/errors/Error.php');     
+    //Classes globais (disponíveis para toda a aplicação)
+    require_once('sys/classes/global/CfgApp.php');
+    require_once('sys/classes/global/ErrorHandler.php');
+    require_once('sys/classes/global/ExceptionHandler.php');
+    require_once('sys/classes/global/LoadXml.php');      
     
     //Vendors
     require_once('sys/vendors/errorTrack/class.errorTalk.php');         
@@ -46,37 +47,19 @@
        * Para $action='faleConosco' a variável $method será 
        * actionFaleConosco().                         
        *  
-       */    
-        
-        private static function exceptionErrorHandler($errno, $errstr, $errfile, $errline){
-            $str = '';
-            switch ($errno) {
-                case E_USER_ERROR:
-                    $str = "<b>ERROR</b> [$errno] $errstr<br />\n";
-                    $str .= "  Erro fatal na linha $errline, do arquivo $errfile";                    
-                case E_USER_WARNING:
-                    $str = "<b>WARNING</b> [$errno] $errstr<br />\n";
-                    break;
-                case E_USER_NOTICE:
-                    $str = "<b>NOTICE</b> [$errno] $errstr<br />\n";
-                    break;
-                default:
-                    $str = "Erro desconhecido: [$errno] $errstr<br />\n";
-                    break;
-            }            
-            throw new \ErrorException($str, 0, $errno, $errfile, $errline);
-        }
+       */                    
         
         public static function setup(){                                
         
             //Captura erros em tempo de execução e trata como Exception
-            set_error_handler("self::exceptionErrorHandler");                       
+            //set_error_handler("self::exceptionErrorHandler");                       
+                        
             
-            $msgErr = Error::eApp('LOGIN');     
-            throw new \Exception($msgErr);
+            //$msgErr = Error::eApp('LOGIN');     
+            //throw new \Exception($msgErr);
             
             //Faz a leitura dos parâmetros em cfg/app.xml na raíz do site                
-            $baseUrl        = CfgApp::get('baseUrl');
+            $baseUrl        = \CfgApp::get('baseUrl');
             $objUri         = new Uri();
             $objMvcParts    = $objUri->getMvcParts();              
             

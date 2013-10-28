@@ -9,6 +9,10 @@
         private $objUriMvcParts;
         
         function __construct($cfgClass='CfgApp'){
+            $e = new \ExceptionHandler('FILE_NOT_EXISTS');
+            //$e->getException('FILE_NOT_EXISTS');
+            throw $e;
+            
             $this->cfgClass = $cfgClass;
             $this->setUriMvcParts();
         }

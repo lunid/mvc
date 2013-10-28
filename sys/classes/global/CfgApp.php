@@ -1,6 +1,6 @@
 <?php
 
-    require_once('sys/classes/_init/AbstractCfg.php');  
+    require_once('AbstractCfg.php');  
     
     class CfgApp extends AbstractCfg {
         

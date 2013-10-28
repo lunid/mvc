@@ -10,6 +10,7 @@
     define("PATH_PROJECT", $pathProject);      
     
     include('sys/classes/_init/Application.php');
+                 
     
     try {
                 
