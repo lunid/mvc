@@ -1,5 +1,9 @@
 <?php
     
+    //Vendors
+    require_once('sys/vendors/di/Pimple.php');//Dependency Injection
+    
+    //Conexão DB
     require_once('sys/classes/db/Meekrodb_2_2.php');
     require_once('sys/classes/db/IConnInfo.php');
     require_once('sys/classes/db/ConnInfo.php');
@@ -21,7 +25,7 @@
     require_once('sys/classes/global/CfgApp.php');
     require_once('sys/classes/global/ErrorHandler.php');
     require_once('sys/classes/global/ExceptionHandler.php');
-    require_once('sys/classes/global/LoadXml.php');      
+    require_once('sys/classes/global/DicionaryXml.php');      
     
     //Vendors
     require_once('sys/vendors/errorTrack/class.errorTalk.php');         
