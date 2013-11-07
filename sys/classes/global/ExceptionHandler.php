@@ -7,6 +7,12 @@
         
         /**
          * Inicializa o objeto da classe atual.
+         * O método utiliza polimorfismo, podendo receber o nome do arquivo xml, 
+         * um objeto Exception ou ambos.
+         * 
+         *  1 - Recebe os parâmetros (um ou dois).
+         *  2 - Cria um objeto do tipo DicionaryXml informando o nome do arquivo XML.
+         *  3 - Se o id for informado, gera a mensagem de Exception a retornar.
          * 
          * Opções de inicialização:
          * <code>
@@ -51,6 +57,13 @@
             }
         }    
         
+        /**
+         * Localiza no arquivo XML, a mensagem referente ao id informado.
+         * Monta a mensagem da Exception usando também o objeto Exception, caso 
+         * tenha sido informado no construtor.
+         * 
+         * @param type $id
+         */
         function getException($id){
             $objDicionaryXml    = $this->objDicionaryXml;
             $exception          = $this->exception;
@@ -67,6 +80,7 @@
                 $code       = $exception->getCode();
             }
             
+            //Define a mensagem do objeto Exception
             parent::__construct($message, $code, $exception); 
         }
     }

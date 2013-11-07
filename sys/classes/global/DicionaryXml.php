@@ -1,9 +1,22 @@
 <?php
 
+    /**
+     * Classe responsável por localizar/carregar um arquivo XML 
+     * a ser usado como dicionário.
+     * 
+     * Se nenhum nome de arquivo for informado, utiliza o arquivo XML padrão ('exceptions/common.xml')
+     * armazenado em /sys/dic/.
+     * 
+     */
     class DicionaryXml extends \ErrorHandler {
         
         private $xmlPath;
         
+        /**
+         * Pode receber o nome do arquivo XML 
+         * @param type $xmlFilename
+         * @throws Exception
+         */
         function __construct($xmlFilename='') {
             self::initErrorHandler();//Trata um erro (caso ocorra) como uma Exception
             if (strlen($xmlFilename) == 0) $xmlFilename = 'exceptions/common.xml';
@@ -31,11 +44,11 @@
             
             /*
              * Localiza o caminho físico (c:/root/..) da pasta root do projeto             
-             * usando como separador a string de baseUrl             
+             * usando como separador a string de baseUrl.             
              */
             list($realPath,$pathFile) = explode($rootProject,__DIR__);
             
-            //Inverte a barra invertida por barra normal
+            //Muda a barra invertida para barra normal.
             $realPath   = str_replace('\\', '/', $realPath);
             
             //Monta o path do arquivo xml a partir da pasta padrão de dicionário

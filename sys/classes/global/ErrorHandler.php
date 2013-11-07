@@ -7,20 +7,20 @@
         }
         
         protected static function exceptionErrorHandler($errno, $errstr, $errfile, $errline){
-            $str = '';
+            $str = '<br/>Um erro foi capturado:<br/>';
             
             switch ($errno) {
                 case E_USER_ERROR:
-                    $str = "<b>ERROR</b> [$errno] $errstr<br />\n";
+                    $str .= "<b>ERROR</b> [$errno] $errstr<br />\n";
                     $str .= "  Erro fatal na linha $errline, do arquivo $errfile";                    
                 case E_USER_WARNING:
-                    $str = "<b>WARNING</b> [$errno] $errstr<br />\n";
+                    $str .= "<b>WARNING</b> [$errno] $errstr<br />\n";
                     break;
                 case E_USER_NOTICE:
-                    $str = "<b>NOTICE</b> [$errno] $errstr<br />\n";
+                    $str .= "<b>NOTICE</b> [$errno] $errstr<br />\n";
                     break;
                 default:
-                    $str = "Erro desconhecido: [$errno] $errstr<br />\n";
+                    $str .= "Erro desconhecido: [$errno] $errstr<br />\n";
                     break;
             }            
             throw new \ErrorException($str, 0, $errno, $errfile, $errline);

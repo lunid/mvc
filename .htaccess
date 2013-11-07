@@ -17,6 +17,8 @@ RewriteRule ^(.*)$ index.php?PG=$1&%{QUERY_STRING} [NC,L]
 
 RewriteRule ^(.*)/assets/(.*)$ /dev/assets/$1 [NC,L]
 
+#RewriteRule ^.* - [F,L]
+RewriteRule \.(txt|mdb|accdb)$ ? [F]
 
 <IfModule mod_deflate.c>
 	# Files and Text to compress
@@ -76,3 +78,4 @@ RewriteRule ^(.*)/assets/(.*)$ /dev/assets/$1 [NC,L]
 <filesMatch "\.(html|htm|xml|css|js)$">
     Header set Cache-Control "max-age=25920000, must-revalidate"
 </filesMatch>
+
