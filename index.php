@@ -28,7 +28,10 @@
         //Inicializa a aplicação:
         Application::setup();         
         Application::setDefaultConnDb('dev');         
-    } catch(Exception $e) {                                                     
-        echo 'Infelizmente não foi possível completar sua requisição: '.$e->getMessage();
+    } catch(Exception $e) {        
+       $msgErr = "Infelizmente não foi possível completar sua requisição:<br/>".$e->getMessage()."<br/>";
+       $msgErr .= "Origem: ".$e->getFile()."<br/>";
+       $msgErr .= "Linha: ".$e->getLine()."<br/>";
+       echo $msgErr;
     }
 ?>

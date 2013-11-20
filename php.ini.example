@@ -1,0 +1,22 @@
+allow_call_time_pass_reference	= Off
+display_errors = Off
+display_startup_errors = On
+allow_url_include = On
+magic_quotes_gpc = Off
+max_execution_time = 180
+max_input_time = 60
+memory_limit = 1024M
+output_buffering = 4096
+post_max_size = 100M
+track_errors = On
+upload_max_filesize = 100M
+upload_tmp_dir = /storage/7/2c/72/superpro1/public_html/tmp
+extension = memcached.so
+mysqli.reconnect = 1
+
+session.entropy_file 		= /dev/urandom
+session.entropy_length 		= 512
+session.cache_expire 		= 20
+
+;Ocultar a versão do PHP
+expose_php Off

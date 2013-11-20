@@ -9,8 +9,10 @@
             /app/site/
             /app/site
             app/site/
+            
+        Caso nenhum valor seja definido, public_html será adotado como valor padrão.
         -->
-        <param id='baseUrl'>astrolabius</param>        
+        <param id='baseUrl'>mvc</param>
         <param id='baseUrlHttp'>localhost</param>
         <param id='baseUrlHttps'></param>
         

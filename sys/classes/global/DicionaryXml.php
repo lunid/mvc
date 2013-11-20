@@ -20,7 +20,7 @@
         function __construct($xmlFilename='') {
             self::initErrorHandler();//Trata um erro (caso ocorra) como uma Exception
             if (strlen($xmlFilename) == 0) $xmlFilename = 'exceptions/common.xml';
-            
+           
             //Retira a extensão, caso tenha sido informada, para evitar erro ao concatenar com '.xml'
             $xmlFilename = str_replace('.xml','',$xmlFilename);
             
@@ -40,13 +40,23 @@
          */
         private function checkXmlFile($xmlFilename){
             //Retira as barras de início e fim da pasta root
-            $rootProject    = str_replace('/','',\CfgApp::get('baseUrl'));
+            $rootProject    = str_replace('/','',\CfgApp::get('baseUrl'));            
+            $realPath       = '';
+            $pathFile       = '';
             
-            /*
-             * Localiza o caminho físico (c:/root/..) da pasta root do projeto             
-             * usando como separador a string de baseUrl.             
-             */
-            list($realPath,$pathFile) = explode($rootProject,__DIR__);
+            if (strlen($rootProject) > 0) {
+                /*
+                 * Localiza o caminho físico (c:/root/..) da pasta root do projeto             
+                 * usando como separador a string de baseUrl.             
+                 */            
+                $arrRootProject = explode($rootProject,__DIR__);
+                if (count($arrRootProject) == 1) {
+                    //A pasta definida em baseUrl no arquivo app.xml não corresponde à pasta do projeto
+                    $msgErr = "A pasta definida no nó 'baseUrl' no arquivo cfg/app.xml aparentemente não corresponde à pasta raíz do projeto.";
+                    throw new \Exception($msgErr);
+                }                
+                list($realPath,$pathFile) = $arrRootProject;
+            }
             
             //Muda a barra invertida para barra normal.
             $realPath   = str_replace('\\', '/', $realPath);

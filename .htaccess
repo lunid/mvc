@@ -3,6 +3,16 @@
 
 RewriteEngine on
 
+# Impedir listar diretórios via navegador
+Options -Indexes
+
+# Ocultar versão do Apache
+ServerSignature Off 
+
+#Bloquear requisições a tipos não autorizados de arquivos
+RewriteRule \.(txt|mdb|accdb)$ ? [F]
+
+
 # RewriteCond %{REQUEST_URI} !.*\.(ico|gif|jpg|jpeg|png|js|css)
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
@@ -17,8 +27,6 @@ RewriteRule ^(.*)$ index.php?PG=$1&%{QUERY_STRING} [NC,L]
 
 RewriteRule ^(.*)/assets/(.*)$ /dev/assets/$1 [NC,L]
 
-#RewriteRule ^.* - [F,L]
-RewriteRule \.(txt|mdb|accdb)$ ? [F]
 
 <IfModule mod_deflate.c>
 	# Files and Text to compress

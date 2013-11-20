@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <info>
+        <projeto>Astrolabius</projeto>
+        <descricao>Framework MVC</descricao>
+        <url_dev>dev.mvc.com</url_dev>
+        <url_homolog>homolog.mvc.com</url_homolog>
+        <url_prod>www.mvc.com</url_prod>        
+    </info>
+</root>

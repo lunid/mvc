@@ -10,7 +10,7 @@
          * O método utiliza polimorfismo, podendo receber o nome do arquivo xml, 
          * um objeto Exception ou ambos.
          * 
-         *  1 - Recebe os parâmetros (um ou dois).
+         *  1 - Recebe os parâmetros (nome do arquivo xml e/ou um objeto Exception).
          *  2 - Cria um objeto do tipo DicionaryXml informando o nome do arquivo XML.
          *  3 - Se o id for informado, gera a mensagem de Exception a retornar.
          * 
@@ -32,20 +32,22 @@
                 $numParams        = func_num_args();
                 $arrParams        = func_get_args();
                 
+                //Faz o tratamento de polimorfismo a partir das variáveis recebidas:
                 if ($numParams > 0) {
-                    foreach($arrParams as $param) {                        
+                    foreach($arrParams as $param) {  
+                      
                         $pathParts = pathinfo($param);
                         if (@$pathParts['extension'] == 'xml') {
                             $xmlFilename = $param;
                         } elseif (is_object($param) && get_class($param) == 'Exception') {
-                            $exception = $param;
+                            $exception = $param;                            
                         } else {
                             $id = $param;
                         }
                     }
                 }
                 
-                if ($exception instanceof \Exception) {                   
+                if ($exception instanceof \Exception) {                                      
                     $this->exception    = $exception;
                 }
                 
@@ -64,7 +66,7 @@
          * 
          * @param type $id
          */
-        function getException($id){
+        function getException($id){            
             $objDicionaryXml    = $this->objDicionaryXml;
             $exception          = $this->exception;
             $code               = 0;

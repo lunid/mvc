@@ -9,7 +9,8 @@
         private $objUriMvcParts;
         
         function __construct($cfgClass='CfgApp'){
-            $e = new \ExceptionHandler('FILE_NOT_EXISTS');
+            $e = new \ExceptionHandler('FILE_NOT_EXISTS',new \Exception);
+            //$e->setParam('FILE_EXISTS','teste.xml');
             //$e->getException('FILE_NOT_EXISTS');
             throw $e;
             
