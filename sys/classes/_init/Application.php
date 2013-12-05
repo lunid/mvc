@@ -22,6 +22,7 @@
     require_once('sys/classes/security/Auth.php');         
 
     //Classes globais (disponíveis para toda a aplicação)
+    require_once('sys/classes/global/Replace.php');
     require_once('sys/classes/global/CfgApp.php');
     require_once('sys/classes/global/ErrorHandler.php');
     require_once('sys/classes/global/ExceptionHandler.php');
