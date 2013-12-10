@@ -1,7 +1,5 @@
 <?php
 
-    namespace sys\classes\mvc;
-    
     class ExceptionController extends Controller {
         
         function actionError($exception){                                 

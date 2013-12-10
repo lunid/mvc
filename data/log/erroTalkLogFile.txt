@@ -34,3 +34,57 @@ Line Number  : 73.
 File Path : C:\wamp\www\astrolabius\sys\classes\_init\Application.php.
 Date : 06.09.2013 12:42:56.
 **************************************************************
+**************************************************************
+!Oops : [Run-time warnings] (Missing argument 1 for AbstractCfg::__construct(), called in C:\wamp\www\mvc\sys\classes\global\AbstractCfg.php on line 201 and defined).
+Line Number  : 17.
+File Path : C:\wamp\www\mvc\sys\classes\global\AbstractCfg.php.
+Date : 09.12.2013 05:28:35.
+**************************************************************
+**************************************************************
+!Oops : [Run-time warnings] (Missing argument 2 for AbstractCfg::__construct(), called in C:\wamp\www\mvc\sys\classes\global\AbstractCfg.php on line 201 and defined).
+Line Number  : 17.
+File Path : C:\wamp\www\mvc\sys\classes\global\AbstractCfg.php.
+Date : 09.12.2013 05:28:37.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined variable: xmlFile).
+Line Number  : 18.
+File Path : C:\wamp\www\mvc\sys\classes\global\AbstractCfg.php.
+Date : 09.12.2013 05:28:38.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined variable: arrAtribId).
+Line Number  : 23.
+File Path : C:\wamp\www\mvc\sys\classes\global\AbstractCfg.php.
+Date : 09.12.2013 05:28:39.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined index: extension).
+Line Number  : 42.
+File Path : C:\wamp\www\mvc\sys\classes\global\ExceptionHandler.php.
+Date : 09.12.2013 06:11:39.
+**************************************************************
+**************************************************************
+!Oops : [Run-time warnings] (Illegal string offset 'extension').
+Line Number  : 42.
+File Path : C:\wamp\www\mvc\sys\classes\global\ExceptionHandler.php.
+Date : 09.12.2013 06:11:40.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Uninitialized string offset: 0).
+Line Number  : 42.
+File Path : C:\wamp\www\mvc\sys\classes\global\ExceptionHandler.php.
+Date : 09.12.2013 06:11:41.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined variable: nodesParam).
+Line Number  : 15.
+File Path : C:\wamp\www\mvc\sys\classes\global\Cfg.php.
+Date : 09.12.2013 06:25:01.
+**************************************************************
+**************************************************************
+!Oops : [Run-time warnings] (Invalid argument supplied for foreach()).
+Line Number  : 137.
+File Path : C:\wamp\www\mvc\sys\classes\util\Xml.php.
+Date : 09.12.2013 06:25:02.
+**************************************************************

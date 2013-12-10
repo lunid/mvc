@@ -3,8 +3,7 @@
 /*
  * Classe abastrata que contém os recursos comuns a todos os Controllers
  * @abstract
- */
-    namespace sys\classes\mvc;
+ */    
     use \sys\classes\performance\Cache;
     
     abstract class Controller {

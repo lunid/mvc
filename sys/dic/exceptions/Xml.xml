@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <msg id="ATRIB_ERR">
+        O atributo informado {ATRIB} não foi localizado.
+    </msg>                    
+</root>
