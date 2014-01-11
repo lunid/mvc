@@ -33,5 +33,6 @@
        $msgErr .= "Origem: ".$e->getFile()."<br/>";
        $msgErr .= "Linha: ".$e->getLine()."<br/>";
        echo $msgErr;
+       die();
     }
 ?>

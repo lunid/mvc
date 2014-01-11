@@ -29,11 +29,9 @@
     
     //Vendors
     require_once('sys/vendors/errorTrack/class.errorTalk.php');         
-    require_once('sys/vendors/di/DI.php');   
-    
-    use sys\classes\util\DI;
-    use sys\classes\mvc as MVC;
-    use sys\classes\util as UTIL;
+    require_once('sys/vendors/di/DI.php');
+
+use sys\classes\util\String;
     
     class Application {
        /**
