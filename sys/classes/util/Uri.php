@@ -12,8 +12,16 @@
             //$arrReplace = array('FILE'=>'teste.php');
             //$e = new \ExceptionHandler('FILE_NOT_EXISTS',new \Exception,$arrReplace);
             //throw $e;            
-            $this->cfgClass = $cfgClass;
+            $this->setCfgClass($cfgClass);
             $this->setUriMvcParts();
+        }
+        
+        private function setCfgClass($cfgClass){
+            if (class_exists($cfgClass)) {
+                $this->cfgClass = $cfgClass;
+            } else {
+                throw new \Exception("A classe '{$cfgClass}' informada no parâmetro do construtor da classe Uri não foi localizada.");
+            }  
         }
         
         private function getCfgClass(){
@@ -28,23 +36,29 @@
             $cfgClass           = $this->getCfgClass();
             $arrPartsUrl        = array();
             $controller         = 'index';   
-            $baseUrl            = $cfgClass::get('baseUrl');
-            $action             = '';
             
-            //Módulos:
-            $modules            = $cfgClass::get('modules');//String com módulos do sistema
-            $arrModules         = explode(',',$modules);
-            $module             = $cfgClass::get('defaultModule');
-            $arrModulesSys      = array('panel','test');//Módulos que não precisam constar em app.xml.            
-            $arrMergeModules    = array_merge($arrModules,$arrModulesSys);//Array com todos os módulos.
+            try {
+                $baseUrl            = $cfgClass::get('baseUrl');
+                $action             = '';
 
-            //Idioma:
-            $languages          = $cfgClass::get('languages');//Idiomas aceitos
-            $language           = $cfgClass::get('defaultLang');//Idioma padrão         
-            $arrLanguages       = NULL;
-            
-            if (strlen($languages) > 0) {
-                $arrLanguages  = explode(',',$languages); 
+                //Módulos:
+                $modules            = $cfgClass::get('modules');//String com módulos do sistema
+                $arrModules         = explode(',',$modules);
+                $module             = $cfgClass::get('defaultModule');
+                $arrModulesSys      = array('panel','test');//Módulos que não precisam constar em app.xml.            
+                $arrMergeModules    = array_merge($arrModules,$arrModulesSys);//Array com todos os módulos.
+
+                //Idioma:
+                $languages          = $cfgClass::get('languages');//Idiomas aceitos
+                $language           = $cfgClass::get('defaultLang');//Idioma padrão         
+                $arrLanguages       = NULL;
+
+                if (strlen($languages) > 0) {
+                    $arrLanguages  = explode(',',$languages); 
+                }
+            } catch (\Exception $e) {
+                $msgErr = "Erro ao executar Uri->setUriMvcParts:<br/>".$e->getMessage();
+                throw new \Exception($msgErr);
             }
             
             /*
@@ -131,7 +145,12 @@
         private function mapMagicModule($controller=''){
             $cfgClass = $this->getCfgClass();
             if (strlen($controller) > 0) {
-                $magicModules   = $cfgClass::get('magicModules');
+                try {
+                    $magicModules   = $cfgClass::get('magicModules');
+                } catch(\Exception $e) {
+                    $msgErr = "Erro ao executar Uri->mapMagicModule:<br/>".$e->getMessage();
+                    throw new \Exception($msgErr);                    
+                }
                 
                 if (strlen($magicModules) > 0) {
                     //Há configurações de módulos mágicos para o projeto atual.

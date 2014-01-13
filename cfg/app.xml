@@ -12,7 +12,7 @@
             
         Caso nenhum valor seja definido, public_html será adotado como valor padrão.
         -->
-        <param id='baseUrl'>mvc</param>
+        <param id='baseUrl'>mvc</param>        
         <param id='baseUrlHttp'>localhost</param>
         <param id='baseUrlHttps'></param>
         
@@ -25,6 +25,11 @@
         
         <!-- Idiomas do sistema -->
         <param id='languages'>br,en,es</param>
-        <param id='defaultLang'>br</param>        
+        <param id='defaultLang'>br</param> 
+        
+        <!-- Preferências -->
+        <param id='folder_common'>common</param> <!-- guarda conteúdo compartilhado em toda a aplicação --> 
+        <param id='html_extension'>html</param>    
+        <param id='view_template_default'>padrao</param> <!-- Arquivo HTML salvo na pasta commons/views_tpl-->      
     </params>        
 </root>

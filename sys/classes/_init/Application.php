@@ -21,9 +21,12 @@
 
     //MVC
     require_once('sys/classes/global/mvc/Controller.php');
+    require_once('sys/classes/global/mvc/View.php');
     require_once('sys/classes/global/mvc/ExceptionController.php');
     
     //Classes globais (disponíveis para toda a aplicação)
+    require_once('sys/classes/global/DIContainer.php');
+    require_once('sys/classes/global/DIContainerController.php');
     require_once('sys/classes/global/Replace.php');
     require_once('sys/classes/global/Cfg.php');
     require_once('sys/classes/global/CfgApp.php');
@@ -66,9 +69,10 @@
             //$msgErr = Error::eApp('LOGIN');     
             //throw new \Exception($msgErr);
             
-            //Faz a leitura dos parâmetros em cfg/app.xml na raíz do site                
-            $baseUrl        = \CfgApp::get('baseUrl');
-            $objUri         = new Uri();
+            //Faz a leitura dos parâmetros em cfg/app.xml na raíz do site 
+            $container      = new DIContainer();
+            $baseUrl        = CfgApp::get('baseUrl');            
+            $objUri         = $container->Uri();
             $objMvcParts    = $objUri->getMvcParts();              
             
             //Inicializa tratamento de erro para o projeto atual.
@@ -86,17 +90,29 @@
             spl_autoload_register('self::loadClass');	                          
             
             //Faz o include do Controller atual
-            $urlFileController = $module . '/classes/controllers/'.ucfirst($controller).'Controller.php';
+            $DI                 = 'DI'.ucfirst($module);
+            $DIClass            = $DI.'.php';
+            $urlFileController  = $module . '/classes/controllers/'.ucfirst($controller).'Controller.php';
+            $urlDI              = $module .'/classes/'.$DIClass;
             
             if (!file_exists($urlFileController)) {                
-                $msgErr = 'Arquivo de inclusão '.$urlFileController.' não localizado, ou então o módulo solicitado não foi informado no item \'modules\' do arquivo global config.xml';
+                $msgErr = "Arquivo de inclusão ".$urlFileController." não localizado, 
+                    ou então o módulo solicitado não foi informado no item \'modules\' do arquivo global config.xml";
+                throw new \Exception( $msgErr );  
+            } elseif (!file_exists($urlDI)) {
+                $msgErr = "O arquivo a ser usado como container do módulo, ".$urlDI.", não foi localizado. 
+                    Este arquivo é obrigatório para o desenvolvimento com injeção de dependência.";
                 throw new \Exception( $msgErr );                  
             }else{
+                require_once($urlDI);                
                 require_once($urlFileController);
             }
-
-            $objController  = new $controller;
-            if (!method_exists($objController,$method)) throw new \Exception ('Método '.$controller.'Controller->'.$method.'() não existe.');
+            
+            $controller     .= 'Controller';
+            $objContainer   = new $DI();
+            $objController  = $objContainer->$controller('Claudio');
+            
+            if (!method_exists($objController,$method)) throw new \Exception ('Método '.$controller.'->'.$method.'() não existe.');
             if (method_exists($objController, 'before')) {
                 try {
                     $objController->before();//Executa o método before(), caso esteja implementado.
@@ -112,7 +128,7 @@
             }
         }  
         
-/**
+        /**
         * Localiza a classe solicitada de acordo com o seu namespace e faz o include do arquivo.
         * @param String $class (nome da classe requisitada).
         * return void
@@ -120,13 +136,12 @@
         public static function loadClass($class){   
             //Tratamento para utilização do Hybridauth.
             if($class == 'FacebookApiException') return false; 
+            $class  = rtrim($class,'.php');
             $urlInc = str_replace("\\", "/" , $class . '.php');                           
-            $urlInc = $_SERVER['DOCUMENT_ROOT'] . $urlInc;
-
+            $urlInc = $_SERVER['DOCUMENT_ROOT'] . $urlInc;            
+            
             if (isset($class) && file_exists($urlInc)){          
-                require_once($urlInc);  
-                //$obj = DI::loadMapXml($class);
-                //die();            
+                require_once($urlInc);           
             } else {      
                 throw new \Exception("Classe $class não encontrada ({$urlInc})");
             }                      
@@ -159,7 +174,7 @@
                     if ($file->isDir()) {
                         if ($subDir = self::listFiles($key, $paths)) {
                             if (isset($found[$key])) {
-                                // Faz um append à lista de sub-diretoórios.
+                                // Faz um append à lista de sub-diretórios.
                                 $arrFound[$key] += $subDir;
                             } else {
                                 // Cria uma nova lista de sub-diretórios.

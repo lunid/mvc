@@ -1,13 +1,7 @@
 <?php
 
-    namespace sys\classes\mvc;
-    use \sys\classes\util\Dic;
-    use \sys\classes\util\Plugin;
-    //use \sys\classes\mvc\Header;
-    use \sys\classes\util\File;
-    //use \sys\classes\mvc\ViewPart;
     
-    class View extends ViewPart {
+    class View {
 
         private $objHeader          = NULL;        
         private $tplFile            = '';           
@@ -15,76 +9,79 @@
         private $pathTpl            = '';
         private $arrIncludeCfgOff   = array();
         private $includeCfgAllOff   = FALSE;
+        private $pathView;
+        private $arrAssign          = array();
+        private $common             = FALSE; //Determina se o arquivo View está em common (TRUE) ou no módulo atual.
         
-        function __construct(){                            
-            $this->init();
-        } 
+        function __construct($pathView,$common=FALSE){   
+            $this->common = $common;
+            $this->checkPathView($pathView);
+        }                 
         
-        /**
-         * Inicializa o template definido em config.xml
-         * 
-         * Pode conter também outros recursos de inicialização da View (não implementados).
-         * return void 
-         */
-        function init(){            
-            $fileTpl = \LoadConfig::defaultTemplate();                 
-            $this->setTemplate($fileTpl);
+        function setView($pathView){
+            $this->common = FALSE;
+            $this->checkPathView($pathView);            
         }
         
-        /**
-         * Define um novo template html para a view atual.
-         * O arquivo informado deve existir na pasta padrão de template, previamente definida no arquivo config.xml.
-         * 
-         * Exemplo:
-         * $objView->setTemplate('novoModelo.html');
-         * 
-         * @param string $fileTpl Deve conter um nome ou path de um arquivo. A extensão (htm ou html) é obrigatória.
-         */
-        function setTemplate($fileTpl=''){
-            $pathTpl = '';            
-            if (strlen($fileTpl) > 0) {
-                $physicalTplPath    = \Url::physicalPath($fileTpl);                
-                if (file_exists($physicalTplPath)) {
-                    $pathTpl = $fileTpl;
-                } else {
-                    $objModule  = MvcFactory::getModule();
-                    $pathTpl    = APPLICATION_PATH.$objModule->tplLangFile($fileTpl);                              
+        private function checkPathView($pathView){  
+            $container      = new DIContainer();
+            $baseUrl        = \CfgApp::get('baseUrl');            
+            $objUri         = $container->Uri();
+            $objMvcParts    = $objUri->getMvcParts();            
+            $module         = $objMvcParts->module;
+            $viewExtension  = CfgApp::get('html_extension');  
+            $common         = CfgApp::get('folder_common');
+            $extension      = '.'.$viewExtension;  
+            
+            $path           = ($this->common) ? $common.'/views/' : $module.'/classes/views/';
+            $path           .= $pathView.$extension;
+            
+            $find           = FALSE;
+            
+            if (file_exists($path)) {
+                $find = TRUE;
+            } else {
+                $path = rtrim($path,$extension);
+                if (file_exists($path)) {
+                    $find = TRUE;
                 }
             }
             
-            $this->pathTpl  = $pathTpl;
+            if (!$find) {
+                throw new \Exception("O arquivo '".$pathView."' da view informada não foi localizado.");
+            }
+            $this->pathView = $path;
         }
         
-        /**
-         * Define um template que está localizado na pasta common (comuns) do projeto.
-         * 
-         * @see setTemplate()
-         * @param string $fileTpl Nome do arquivo template. A extensão é obrigatória.
-         */
-        function setTemplateCommon($fileTpl=''){                        
-            $objModule  = MvcFactory::getModule('/common');
-            $pathTpl    = $objModule->tplLangFile($fileTpl);  
-            $this->setTemplate($pathTpl);
+        function assign($name,$value){
+            $this->arrAssign[$name] = utf8_encode($value);
         }
-                
-        /**
-         * Retorna um nome de arquivo a ser usado como template. Caso um arquivo de Template não tenha sido informado 
-         * um template padrão (blank.html) é criado no módulo atual, pasta de templates.
-         * 
-         * @return string
-         * @throws \Exception Caso ocorra erro ao tentar criar um template padrão. 
-         */
-        private function getTemplate(){
-            $pathTpl        = $this->pathTpl;
-            if (strlen($pathTpl) == 0) {
-                if (!$this->createNewTemplate()) {
-                    $msgErr = Dic::loadMsg(__CLASS__,__METHOD__,__NAMESPACE__,'ERR_CREATE_TEMPLATE'); 
-                    $msgErr = str_replace('{PATH_TPL}',$pathTemplate,$msgErr);
-                    throw new \Exception( $msgErr );                                           
+        
+        function render(){
+            $string     = $this->getString();
+            if (strlen($string) > 0) {
+                $arrAssign  = $this->arrAssign;
+                if (is_array($arrAssign)) {
+                    foreach($arrAssign as $name => $value) {
+                        $tag    = "{{$name}}";
+                        $string = str_replace($tag,$value,$string);
+                    }
                 }
-            } 
-            return $pathTpl;
-        }                   
+            }
+            $string = utf8_decode($string);
+            return $string;
+        }
+        
+        function setModel(){
+            
+        }
+        
+        function getString(){
+            $string = file_get_contents($this->pathView);
+            return $string;
+        }
+        
+             
         
         /**
          * Cria um novo arquivo template caso ainda não exista e guarda o nome em $pathTpl.
@@ -120,35 +117,6 @@
             }
             return $tplExists;
         }
-        
-        
-        /**
-         * Método usado para gerar um link para um controller/action no módulo atualmente ativo.
-         *
-         * @param string $controller Nome do controller. Ex,.: usuarios
-         * @param string $action Nome do método (geralmente refere-se a uma página) a ser executado. Ex.: pedidos.
-         *  
-         * @return string
-         */
-        function setModuleUrl($controller='',$action=''){
-            $module = \Application::getModule();
-            return $this->setUrl($module,$controller,$action);
-        }
-        
-        /**
-         * Método usado para gerar um link para um module/controller/action.
-         * 
-         * @param string $module Nome do módulo.
-         * @param string $controller Nome do controller. Ex,.: usuarios.
-         * @param string $action Nome do método (geralmente refere-se a uma página) a ser executado. Ex.: pedidos.
-         * 
-         * @return string
-         */        
-        function setUrl($module='',$controller='',$action=''){           
-           $arrUrl = array('module'=>$module,'controller'=>$controller,'action'=>$action);           
-           $url = \Url::setUrl($arrUrl);               
-           return $url;
-        }                        
         
         
         /**
@@ -357,7 +325,7 @@
          * 
          * @return string Conteúdo HMTL
          */
-        function render($layoutName='',$objMemCache=NULL){                
+        function renderOld($layoutName='',$objMemCache=NULL){                
             $css    = '';
             $js     = '';
             
