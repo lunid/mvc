@@ -25,7 +25,10 @@
                     return new $c['className']();
                 };                                  
                 
-                //Inclui um objeto padrão da classe View no Controller atual com conteúdo do arquivo default, em common.
+                /*                 
+                 * Inclui um objeto padrão da classe View no Controller atual com conteúdo do arquivo default.html, 
+                 * existente na pasta common/views.                 
+                 */
                 $objController = $container['object'];
                 $objController->addView('default',$this->view('default',TRUE));   
                 $objController->getView();
