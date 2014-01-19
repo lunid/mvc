@@ -88,3 +88,303 @@ Line Number  : 137.
 File Path : C:\wamp\www\mvc\sys\classes\util\Xml.php.
 Date : 09.12.2013 06:25:02.
 **************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Use of undefined constant Claudio - assumed 'Claudio').
+Line Number  : 7.
+File Path : C:\wamp\www\mvc\site\classes\DISite.php.
+Date : 13.01.2014 04:03:34.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Use of undefined constant Claudio - assumed 'Claudio').
+Line Number  : 7.
+File Path : C:\wamp\www\mvc\site\classes\DISite.php.
+Date : 13.01.2014 04:03:36.
+**************************************************************
+**************************************************************
+!Oops : [Run-time warnings] (require_once(controllers\Index.php): failed to open stream: No such file or directory).
+Line Number  : 10.
+File Path : C:\wamp\www\mvc\site\classes\DISite.php.
+Date : 13.01.2014 04:21:14.
+**************************************************************
+**************************************************************
+!Oops : [Run-time warnings] (require_once(controllers\Index.php): failed to open stream: No such file or directory).
+Line Number  : 10.
+File Path : C:\wamp\www\mvc\site\classes\DISite.php.
+Date : 13.01.2014 04:21:15.
+**************************************************************
+**************************************************************
+!Oops : [Run-time warnings] (Missing argument 1 for Index::actionIndex(), called in C:\wamp\www\mvc\sys\classes\_init\Application.php on line 122 and defined).
+Line Number  : 6.
+File Path : C:\wamp\www\mvc\site\classes\controllers\IndexController.php.
+Date : 13.01.2014 04:21:31.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined variable: temp).
+Line Number  : 7.
+File Path : C:\wamp\www\mvc\site\classes\controllers\IndexController.php.
+Date : 13.01.2014 04:21:32.
+**************************************************************
+**************************************************************
+!Oops : [Run-time warnings] (Missing argument 1 for Index::actionIndex(), called in C:\wamp\www\mvc\sys\classes\_init\Application.php on line 122 and defined).
+Line Number  : 6.
+File Path : C:\wamp\www\mvc\site\classes\controllers\IndexController.php.
+Date : 13.01.2014 04:26:51.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined variable: temp).
+Line Number  : 7.
+File Path : C:\wamp\www\mvc\site\classes\controllers\IndexController.php.
+Date : 13.01.2014 04:26:52.
+**************************************************************
+**************************************************************
+!Oops : [Run-time warnings] (Missing argument 1 for Index::actionIndex(), called in C:\wamp\www\mvc\sys\classes\_init\Application.php on line 122 and defined).
+Line Number  : 6.
+File Path : C:\wamp\www\mvc\site\classes\controllers\IndexController.php.
+Date : 13.01.2014 04:28:31.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined variable: temp).
+Line Number  : 7.
+File Path : C:\wamp\www\mvc\site\classes\controllers\IndexController.php.
+Date : 13.01.2014 04:28:32.
+**************************************************************
+**************************************************************
+!Oops : [Run-time warnings] (Missing argument 1 for Index::actionIndex(), called in C:\wamp\www\mvc\sys\classes\_init\Application.php on line 122 and defined).
+Line Number  : 6.
+File Path : C:\wamp\www\mvc\site\classes\controllers\IndexController.php.
+Date : 13.01.2014 04:29:43.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined variable: temp).
+Line Number  : 7.
+File Path : C:\wamp\www\mvc\site\classes\controllers\IndexController.php.
+Date : 13.01.2014 04:29:44.
+**************************************************************
+**************************************************************
+!Oops : [Run-time warnings] (Missing argument 1 for Index::actionIndex(), called in C:\wamp\www\mvc\sys\classes\_init\Application.php on line 122 and defined).
+Line Number  : 6.
+File Path : C:\wamp\www\mvc\site\classes\controllers\IndexController.php.
+Date : 13.01.2014 04:30:38.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined variable: temp).
+Line Number  : 7.
+File Path : C:\wamp\www\mvc\site\classes\controllers\IndexController.php.
+Date : 13.01.2014 04:30:39.
+**************************************************************
+**************************************************************
+!Oops : [Run-time warnings] (Missing argument 2 for Controller::addView(), called in C:\wamp\www\mvc\site\classes\DISite.php on line 17 and defined).
+Line Number  : 19.
+File Path : C:\wamp\www\mvc\sys\classes\global\mvc\Controller.php.
+Date : 13.01.2014 06:31:17.
+**************************************************************
+**************************************************************
+!Oops : [Run-time warnings] (Illegal offset type).
+Line Number  : 20.
+File Path : C:\wamp\www\mvc\sys\classes\global\mvc\Controller.php.
+Date : 13.01.2014 06:31:18.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined variable: objView).
+Line Number  : 20.
+File Path : C:\wamp\www\mvc\sys\classes\global\mvc\Controller.php.
+Date : 13.01.2014 06:31:19.
+**************************************************************
+**************************************************************
+!Oops : [Run-time warnings] (Missing argument 2 for Controller::addView(), called in C:\wamp\www\mvc\site\classes\DISite.php on line 17 and defined).
+Line Number  : 19.
+File Path : C:\wamp\www\mvc\sys\classes\global\mvc\Controller.php.
+Date : 13.01.2014 06:31:21.
+**************************************************************
+**************************************************************
+!Oops : [Run-time warnings] (Illegal offset type).
+Line Number  : 20.
+File Path : C:\wamp\www\mvc\sys\classes\global\mvc\Controller.php.
+Date : 13.01.2014 06:31:22.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined variable: objView).
+Line Number  : 20.
+File Path : C:\wamp\www\mvc\sys\classes\global\mvc\Controller.php.
+Date : 13.01.2014 06:31:23.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined variable: common).
+Line Number  : 12.
+File Path : C:\wamp\www\mvc\sys\classes\global\DIContainerController.php.
+Date : 13.01.2014 08:31:52.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined variable: pathViewHtml).
+Line Number  : 32.
+File Path : C:\wamp\www\mvc\sys\classes\global\mvc\View.php.
+Date : 13.01.2014 08:31:53.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined variable: common).
+Line Number  : 12.
+File Path : C:\wamp\www\mvc\sys\classes\global\DIContainerController.php.
+Date : 13.01.2014 08:31:54.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined variable: pathViewHtml).
+Line Number  : 32.
+File Path : C:\wamp\www\mvc\sys\classes\global\mvc\View.php.
+Date : 13.01.2014 08:31:55.
+**************************************************************
+**************************************************************
+!Oops : [Run-time warnings] (file_get_contents(site/classes/views/): failed to open stream: No such file or directory).
+Line Number  : 74.
+File Path : C:\wamp\www\mvc\sys\classes\global\mvc\View.php.
+Date : 13.01.2014 08:31:56.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined variable: common).
+Line Number  : 12.
+File Path : C:\wamp\www\mvc\sys\classes\global\DIContainerController.php.
+Date : 13.01.2014 08:31:58.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined variable: pathViewHtml).
+Line Number  : 32.
+File Path : C:\wamp\www\mvc\sys\classes\global\mvc\View.php.
+Date : 13.01.2014 08:31:59.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined variable: common).
+Line Number  : 12.
+File Path : C:\wamp\www\mvc\sys\classes\global\DIContainerController.php.
+Date : 13.01.2014 08:32:00.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined variable: pathViewHtml).
+Line Number  : 32.
+File Path : C:\wamp\www\mvc\sys\classes\global\mvc\View.php.
+Date : 13.01.2014 08:32:01.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined variable: common).
+Line Number  : 12.
+File Path : C:\wamp\www\mvc\sys\classes\global\DIContainerController.php.
+Date : 13.01.2014 08:32:22.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined variable: pathViewHtml).
+Line Number  : 32.
+File Path : C:\wamp\www\mvc\sys\classes\global\mvc\View.php.
+Date : 13.01.2014 08:32:23.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined variable: common).
+Line Number  : 12.
+File Path : C:\wamp\www\mvc\sys\classes\global\DIContainerController.php.
+Date : 13.01.2014 08:32:24.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined variable: pathViewHtml).
+Line Number  : 32.
+File Path : C:\wamp\www\mvc\sys\classes\global\mvc\View.php.
+Date : 13.01.2014 08:32:25.
+**************************************************************
+**************************************************************
+!Oops : [Run-time warnings] (file_get_contents(site/classes/views/): failed to open stream: No such file or directory).
+Line Number  : 74.
+File Path : C:\wamp\www\mvc\sys\classes\global\mvc\View.php.
+Date : 13.01.2014 08:32:26.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined variable: common).
+Line Number  : 12.
+File Path : C:\wamp\www\mvc\sys\classes\global\DIContainerController.php.
+Date : 13.01.2014 08:32:28.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined variable: pathViewHtml).
+Line Number  : 32.
+File Path : C:\wamp\www\mvc\sys\classes\global\mvc\View.php.
+Date : 13.01.2014 08:32:29.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined variable: common).
+Line Number  : 12.
+File Path : C:\wamp\www\mvc\sys\classes\global\DIContainerController.php.
+Date : 13.01.2014 08:32:30.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined variable: pathViewHtml).
+Line Number  : 32.
+File Path : C:\wamp\www\mvc\sys\classes\global\mvc\View.php.
+Date : 13.01.2014 08:32:31.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined variable: pathViewHtml).
+Line Number  : 32.
+File Path : C:\wamp\www\mvc\sys\classes\global\mvc\View.php.
+Date : 13.01.2014 08:33:38.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined variable: pathViewHtml).
+Line Number  : 32.
+File Path : C:\wamp\www\mvc\sys\classes\global\mvc\View.php.
+Date : 13.01.2014 08:33:39.
+**************************************************************
+**************************************************************
+!Oops : [Run-time warnings] (file_get_contents(site/classes/views/): failed to open stream: No such file or directory).
+Line Number  : 74.
+File Path : C:\wamp\www\mvc\sys\classes\global\mvc\View.php.
+Date : 13.01.2014 08:33:40.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined variable: pathViewHtml).
+Line Number  : 32.
+File Path : C:\wamp\www\mvc\sys\classes\global\mvc\View.php.
+Date : 13.01.2014 08:33:42.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined variable: pathViewHtml).
+Line Number  : 32.
+File Path : C:\wamp\www\mvc\sys\classes\global\mvc\View.php.
+Date : 13.01.2014 08:33:43.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined variable: pathViewHtml).
+Line Number  : 46.
+File Path : C:\wamp\www\mvc\sys\classes\global\mvc\View.php.
+Date : 13.01.2014 08:34:08.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined variable: pathViewHtml).
+Line Number  : 46.
+File Path : C:\wamp\www\mvc\sys\classes\global\mvc\View.php.
+Date : 13.01.2014 08:34:10.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined variable: arrView).
+Line Number  : 24.
+File Path : C:\wamp\www\mvc\sys\classes\global\mvc\Controller.php.
+Date : 13.01.2014 08:36:19.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined index: default).
+Line Number  : 25.
+File Path : C:\wamp\www\mvc\sys\classes\global\mvc\Controller.php.
+Date : 13.01.2014 08:36:43.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined index: default).
+Line Number  : 26.
+File Path : C:\wamp\www\mvc\sys\classes\global\mvc\Controller.php.
+Date : 13.01.2014 08:39:26.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined index: default).
+Line Number  : 26.
+File Path : C:\wamp\www\mvc\sys\classes\global\mvc\Controller.php.
+Date : 13.01.2014 08:40:49.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined variable: objView).
+Line Number  : 29.
+File Path : C:\wamp\www\mvc\sys\classes\global\mvc\Controller.php.
+Date : 13.01.2014 08:41:34.
+**************************************************************

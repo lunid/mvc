@@ -9,11 +9,32 @@
     abstract class Controller {
         
         private $memCache;
-        private $nameCache = NULL;
+        private $nameCache  = NULL;
+        private $arrView    = array();
         
         function __construct(){
              
-        }                
+        }  
+        
+        function addView($nameView, $objView){
+            $this->arrView[$nameView] = $objView;  
+        }
+        
+        function getView($nameView=''){
+            $objView    = NULL;
+            $arrView    = $this->arrView; 
+           
+            if (strlen(trim($nameView)) == 0) $nameView = 'default';
+            if (isset($arrView[$nameView])) {
+                $objView = $arrView[$nameView];
+            }
+            
+            if (!is_object($objView)) {                
+                throw new \Exception("Controller->getView(): o objeto View solicitado não foi encontrado.");
+            }
+            
+            return $objView;
+        }
         
         /*
          * Método que recebe o nome do arquivo e um objeto cujos atributos 

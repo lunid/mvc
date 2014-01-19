@@ -1,10 +1,14 @@
 <?php
 use \site\classes\controllers\SiteController;
 
-class Index extends SiteController {
+class IndexController extends SiteController {
     
     public function actionIndex(){
-     
+       $objView = $this->getView();
+       $objView->setView('teste');
+       $objView->assign('BODY','<b>Olá mundo</b>');
+       $output = $objView->render();
+       echo $output;
     }
     
 }

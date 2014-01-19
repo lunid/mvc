@@ -203,8 +203,13 @@ abstract class AbstractCfg extends sys\classes\util\Xml {
          * @return string
          */
         public static function getValueForId($id, $childClass){
-            $objCfg = new $childClass;
-            return $objCfg->$id;
+            try {
+                $objCfg = new $childClass;
+                return $objCfg->$id;
+            } catch (\Exception $e) {
+                $msgErr = "ID não localizado no construtor da classe chamada ({$childClass}). <br/>".$e->getMessage();
+                throw  new \Exception( $msgErr );
+            }            
         }                
           
         
@@ -214,7 +219,8 @@ abstract class AbstractCfg extends sys\classes\util\Xml {
             if ($key !== FALSE) {
                 return $this->getSessionVar($name);
             } else {
-                $msgErr = "A variável {$name} não é um id conhecido para o arquivo de configuração {$this->pathXml}.";
+                $msgErr = "A variável <b>{$name}</b> não é um id conhecido para o arquivo de configuração {$this->pathXml}.
+                Caso queira incluir um novo atributo no arquivo {$this->pathXml}, edite a classe chamada para que possa reconhecer o novo atributo.";
                 throw new \Exception( $msgErr );
             }
         }

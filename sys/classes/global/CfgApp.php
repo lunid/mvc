@@ -6,7 +6,19 @@
         
         function __construct(){ 
             $xmlFile    = 'app.xml';
-            $arrAtribId = array('baseUrl','baseUrlHttp','baseUrlHttps','modules','defaultModule','magicModules','defaultTemplate','languages','defaultLang');
+            $arrAtribId = array(
+                'baseUrl',
+                'baseUrlHttp',
+                'baseUrlHttps',
+                'modules',
+                'defaultModule',
+                'magicModules',
+                'defaultTemplate',
+                'languages',
+                'defaultLang',
+                'folder_common',
+                'html_extension'
+            );
             parent::__construct($xmlFile,$arrAtribId);            
         }
         
