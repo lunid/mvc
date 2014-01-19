@@ -13,9 +13,10 @@ abstract class AbstractCfg extends sys\classes\util\Xml {
         private $arrAtribId         = NULL;
         private $nodesParam         = NULL;
         private $prefixoSessionVar  = 'SVIP_CFG_';
+        private $pathXmlFile;
         
         function __construct($xmlFile,$arrAtribId, $prefixoSessionVar=''){                        
-            $pathXml            = 'cfg/'.$xmlFile;                        
+            $pathXml = 'cfg/'.$xmlFile;                        
             
             /*
              * Carrega um array com os IDs permitidos no XML informado
@@ -38,10 +39,14 @@ abstract class AbstractCfg extends sys\classes\util\Xml {
                  */
                 $this->persistParams();
             }
-        }          
+        }  
+        
+        function setPathXmlFile($pathXmlFile){
+            $this->pathXmlFile = $pathXmlFile;
+        }
         
         /**
-         * Método responsável por definir um arrray contendo os valores aceitos
+         * Método responsável por definir um array contendo os valores aceitos
          * nos atributos dos nós XML <param> lidos a partir do arquivo informado no construtor.
          * 
          * @param String[] $arrAtribId Array unidimensional array(item1, item2, ...)

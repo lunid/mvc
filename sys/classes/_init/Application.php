@@ -11,17 +11,21 @@
     require_once('sys/classes/db/Conn.php');
     require_once('sys/classes/db/ORM.php');
     require_once('sys/classes/db/Table.php');
-    require_once('sys/classes/mvc/Controller.php');
-    require_once('sys/classes/mvc/Model.php'); 
-    require_once('sys/classes/mvc/Module.php');          
-    require_once('sys/classes/util/Uri.php');  
     
+    require_once('sys/classes/util/Uri.php');      
     require_once('sys/classes/util/Url.php');  
     require_once('sys/classes/util/Session.php');
+    
     require_once('sys/classes/security/Token.php');
     require_once('sys/classes/security/Auth.php');         
 
+    //MVC
+    require_once('sys/classes/global/mvc/Controller.php');
+    require_once('sys/classes/global/mvc/ExceptionController.php');
+    
     //Classes globais (disponíveis para toda a aplicação)
+    require_once('sys/classes/global/Replace.php');
+    require_once('sys/classes/global/Cfg.php');
     require_once('sys/classes/global/CfgApp.php');
     require_once('sys/classes/global/ErrorHandler.php');
     require_once('sys/classes/global/ExceptionHandler.php');
@@ -80,7 +84,7 @@ use sys\classes\util\String;
             spl_autoload_register('self::loadClass');	                          
             
             //Faz o include do Controller atual
-            $urlFileController = $baseUrl .'/'. $module . '/classes/controllers/'.ucfirst($controller).'Controller.php';
+            $urlFileController = $module . '/classes/controllers/'.ucfirst($controller).'Controller.php';
             
             if (!file_exists($urlFileController)) {                
                 $msgErr = 'Arquivo de inclusão '.$urlFileController.' não localizado, ou então o módulo solicitado não foi informado no item \'modules\' do arquivo global config.xml';
@@ -95,17 +99,37 @@ use sys\classes\util\String;
                 try {
                     $objController->before();//Executa o método before(), caso esteja implementado.
                 } catch (\Exception $e) {
-                    echo $e->getMessage();
+                    throw $e;
                 }
             }
 
             try {
                 $objController->$method();//Executa o Controller->method()            
-            } catch(\Exception $e) {          
-                //$objController->actionError($e);
+            } catch(\Exception $e) {                         
                 throw $e;
             }
-        }        
+        }  
+        
+/**
+        * Localiza a classe solicitada de acordo com o seu namespace e faz o include do arquivo.
+        * @param String $class (nome da classe requisitada).
+        * return void
+        */             
+        public static function loadClass($class){   
+            //Tratamento para utilização do Hybridauth.
+            if($class == 'FacebookApiException') return false; 
+            $urlInc = str_replace("\\", "/" , $class . '.php');                           
+            $urlInc = $_SERVER['DOCUMENT_ROOT'] . $urlInc;
+
+            if (isset($class) && file_exists($urlInc)){          
+                require_once($urlInc);  
+                //$obj = DI::loadMapXml($class);
+                //die();            
+            } else {      
+                throw new \Exception("Classe $class não encontrada ({$urlInc})");
+            }                      
+        }     
+        
 
         public static function listFiles($dir = NULL, $path = NULL){
             $baseUrl    = CfgApp::get('baseUrl');
@@ -203,28 +227,6 @@ use sys\classes\util\String;
                 }
                 fclose($open);                  
             }            
-        }                             
-        
-        /**
-        * Localiza a classe solicitada de acordo com o seu namespace e faz o include do arquivo.
-        * @param String $class (nome da classe requisitada).
-        * return void
-        */             
-        public static function loadClass($class){   
-            //Tratamento para utilização do Hybridauth.
-            if($class == 'FacebookApiException') return false; 
-            
-            $urlInc = str_replace("\\", "/" , $class . '.php');                           
-            $urlInc = PATH_PROJECT . $urlInc;
-            echo $urlInc.'<br>';
-            if (isset($class) && file_exists($urlInc)){          
-                require_once($urlInc);  
-                //$obj = DI::loadMapXml($class);
-                //die();            
-            } else {      
-                throw new \Exception("Classe $class não encontrada ({$urlInc})");
-            }                      
-        }     
-
+        }                                             
     }
 ?>

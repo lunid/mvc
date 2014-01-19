@@ -11,6 +11,7 @@
     class DicionaryXml extends \ErrorHandler {
         
         private $xmlPath;
+        private $exceptionFolder = 'exceptions';
         
         /**
          * Pode receber o nome do arquivo XML 
@@ -19,7 +20,7 @@
          */
         function __construct($xmlFilename='') {
             self::initErrorHandler();//Trata um erro (caso ocorra) como uma Exception
-            if (strlen($xmlFilename) == 0) $xmlFilename = 'exceptions/common.xml';
+            if (strlen($xmlFilename) == 0) $xmlFilename = $this->exceptionFolder.'/common.xml';
            
             //Retira a extensão, caso tenha sido informada, para evitar erro ao concatenar com '.xml'
             $xmlFilename = str_replace('.xml','',$xmlFilename);
@@ -62,14 +63,16 @@
             $realPath   = str_replace('\\', '/', $realPath);
             
             //Monta o path do arquivo xml a partir da pasta padrão de dicionário
-            $xmlPath = $realPath.$rootProject.'/sys/dic/'.$xmlFilename.'.xml';
-
-            if (file_exists($xmlPath)) {
-                $this->xmlPath = $xmlPath;
-                return TRUE;
-            } else {
-                throw new \Exception("O arquivo {$xmlPath} não foi localizado.");
+            $arrPath = array($xmlFilename, $this->exceptionFolder.'/'.$xmlFilename);
+            foreach($arrPath as $path){
+                $xmlPath = $realPath.$rootProject.'/sys/dic/'.$path.'.xml';
+                if (file_exists($xmlPath)) {
+                    $this->xmlPath = $xmlPath;
+                    return TRUE;
+                }                
             }
+            
+            throw new \Exception("O arquivo {$xmlPath} não foi localizado.");
         }
         
         function getMessageForId($id){

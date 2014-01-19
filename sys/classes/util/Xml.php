@@ -3,7 +3,8 @@
     namespace sys\classes\util;
     
     abstract class Xml {
-        protected $objXml = NULL;
+        protected $objXml = NULL;        
+        private static $ExceptionFile = 'Xml.xml';
         
         public static function loadXml($pathXml=''){
             if (isset($pathXml)){
@@ -18,8 +19,7 @@
                     }
                 }
             }
-        }                
-        
+        }      
         
         /**
          * Retorna o valor contido em um atributo do nó informado.
@@ -138,7 +138,12 @@
                 foreach($node->attributes() as $name => $value){                       
                     if ($name == $atribName && $value == $atribValue) return $node;                    
                 }                
-            }           
+            }  
+            
+            $objE = new \ExceptionHandler(new \Exception, self::$ExceptionFile);            
+            $objE->setCodeMessage('ATRIB_ERR')->replaceTagFor(array('ATRIB'=>$atribValue));
+            $objE->render();                             
+            throw $objE;              
         }
         
         public static function getNode($arrNodes,$node){            

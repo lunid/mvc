@@ -6,6 +6,7 @@
      * Reportar todos os erros
      */
     error_reporting(-1);
+    
     $pathProject = '/';
     define("PATH_PROJECT", $pathProject);      
     
@@ -28,11 +29,11 @@
         //Inicializa a aplicação:
         Application::setup();         
         Application::setDefaultConnDb('dev');         
-    } catch(Exception $e) {        
+    } catch(Exception $e) {         
        $msgErr = "Infelizmente não foi possível completar sua requisição:<br/>".$e->getMessage()."<br/>";
        $msgErr .= "Origem: ".$e->getFile()."<br/>";
        $msgErr .= "Linha: ".$e->getLine()."<br/>";
-       echo $msgErr;
+       echo utf8_decode($msgErr);
        die();
     }
 ?>
