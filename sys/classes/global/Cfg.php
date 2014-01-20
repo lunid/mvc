@@ -6,7 +6,7 @@
      * Os arquivos de configuração devem possuir a mesma estrutura e ficar na pasta
      * cfg do projeto.
      */
-    class Cfg extends sys\classes\util\Xml {
+    abstract class Cfg extends sys\classes\util\Xml {
         private static $ExceptionFile = 'Cfg.xml';//Nome do arquivo com mensagens de Exception da classe atual
         
         
@@ -20,8 +20,8 @@
          * @return string
          * @throws \ExceptionHandler Caso o arquivo referente ao método chamado não exista.
          */
-        public static function __callstatic($nameXmlFile, $args) {
-            $pathXml = $_SERVER['DOCUMENT_ROOT'] . 'cfg/'.$nameXmlFile .'.xml';
+        public static function __callstatic($nameXmlFile, $args) {            
+            $pathXml = Url::physicalBase('cfg/'.$nameXmlFile .'.xml');
            
             if (file_exists($pathXml)) {                
                 $objXmlParams   = self::getObjXml($pathXml);
@@ -40,7 +40,9 @@
                 $value = trim($value);
                 return $value;                
             } else {                
-                $arrReplace = array('FILE'=>$pathXml);               
+                $arrReplace = array('FILE'=>$pathXml);      
+                print_r($arrReplace);
+                die();
                 $exception  = new \ExceptionHandler('FILE_NOT_EXISTS',new \Exception, $arrReplace);                       
                 throw $exception;                    
             }

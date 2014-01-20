@@ -12,8 +12,7 @@
     require_once('sys/classes/db/ORM.php');
     require_once('sys/classes/db/Table.php');
     
-    require_once('sys/classes/util/Uri.php');      
-    require_once('sys/classes/util/Url.php');  
+    require_once('sys/classes/util/Uri.php');       
     require_once('sys/classes/util/Session.php');
     
     require_once('sys/classes/security/Token.php');
@@ -27,6 +26,7 @@
     //Classes globais (disponíveis para toda a aplicação)
     require_once('sys/classes/global/DIContainer.php');
     require_once('sys/classes/global/DIContainerController.php');
+    require_once('sys/classes/global/Url.php');
     require_once('sys/classes/global/Replace.php');
     require_once('sys/classes/global/Cfg.php');
     require_once('sys/classes/global/CfgApp.php');
@@ -62,10 +62,9 @@ use sys\classes\util\String;
         
             //Captura erros em tempo de execução e trata como Exception
             //set_error_handler("self::exceptionErrorHandler");                       
-                        
             
             //$msgErr = Error::eApp('LOGIN');     
-            //throw new \Exception($msgErr);
+            //throw new \Exception($msgErr);            
             
             //Faz a leitura dos parâmetros em cfg/app.xml na raíz do site 
             $container      = new DIContainer();
@@ -126,6 +125,33 @@ use sys\classes\util\String;
             }
         }  
         
+        public static function environmentSetup(){
+            /**
+             * Configura o ambiente por domínio.
+             */
+            Application::development();//Default
+            if (strpos($_SERVER['HTTP_HOST'], 'kohanaphp.com') !== FALSE){
+                //Ambiente de produção
+                Application::production();
+            }               
+        }
+        
+        public static function development(){
+            //Habilita todos os avisos de erro.
+            error_reporting(-1);
+            self::defineEnv('development');
+        }
+        
+        public static function production(){
+             // Desabilita notices e erros strict
+            error_reporting(E_ALL ^ E_NOTICE ^ E_STRICT);
+            self::defineEnv('production');
+        }        
+        
+        private static function defineEnv($env){
+            define("ENV_SETUP", $env);  
+        }
+        
         /**
         * Localiza a classe solicitada de acordo com o seu namespace e faz o include do arquivo.
         * @param String $class (nome da classe requisitada).
@@ -134,9 +160,10 @@ use sys\classes\util\String;
         public static function loadClass($class){   
             //Tratamento para utilização do Hybridauth.
             if($class == 'FacebookApiException') return false; 
-            $class  = rtrim($class,'.php');
-            $urlInc = str_replace("\\", "/" , $class . '.php');                           
-            $urlInc = $_SERVER['DOCUMENT_ROOT'] . $urlInc;            
+            $class      = rtrim($class,'.php');
+            $urlInc     = str_replace("\\", "/" , $class . '.php');
+            $rootFolder = trim(ROOT_FOLDER,'/');
+            $urlInc     = Url::physicalBase($urlInc);            
             
             if (isset($class) && file_exists($urlInc)){          
                 require_once($urlInc);           
@@ -145,7 +172,6 @@ use sys\classes\util\String;
             }                      
         }     
         
-
         public static function listFiles($dir = NULL, $path = NULL){
             $baseUrl    = CfgApp::get('baseUrl');
             $dir        = $baseUrl;
