@@ -1,5 +1,6 @@
 <?php
-
+    require_once('ErrorHandler.php'); 
+    
     /**
      * Classe responsável por localizar/carregar um arquivo XML 
      * a ser usado como dicionário.

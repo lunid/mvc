@@ -21,19 +21,8 @@
     //MVC
     require_once('sys/classes/global/mvc/Controller.php');
     require_once('sys/classes/global/mvc/View.php');
-    require_once('sys/classes/global/mvc/ExceptionController.php');
-    
-    //Classes globais (disponíveis para toda a aplicação)
-    require_once('sys/classes/global/DIContainer.php');
-    require_once('sys/classes/global/DIContainerController.php');
-    require_once('sys/classes/global/Url.php');
-    require_once('sys/classes/global/Replace.php');
-    require_once('sys/classes/global/Cfg.php');
-    require_once('sys/classes/global/CfgApp.php');
-    require_once('sys/classes/global/ErrorHandler.php');
-    require_once('sys/classes/global/ExceptionHandler.php');
-    require_once('sys/classes/global/DicionaryXml.php');      
-    
+    require_once('sys/classes/global/mvc/ExceptionController.php');        
+
     //Vendors
     require_once('sys/vendors/errorTrack/class.errorTalk.php');         
     require_once('sys/vendors/di/DI.php');
@@ -66,7 +55,9 @@ use sys\classes\util\String;
             //$msgErr = Error::eApp('LOGIN');     
             //throw new \Exception($msgErr);            
             
-            //Faz a leitura dos parâmetros em cfg/app.xml na raíz do site 
+            //Faz a inclusão de classes globais (disponíveis para toda a aplicação)
+            self::includeGlobalClass();
+            
             $container      = new DIContainer();
             $baseUrl        = CfgApp::get('baseUrl');            
             $objUri         = $container->Uri();
@@ -125,6 +116,36 @@ use sys\classes\util\String;
             }
         }  
         
+        /**
+         * Faz a inclusão de todas as classes existentes em sys/classes/global.
+         * Método de apoio ao método setup().
+         * 
+         * @return void
+         */
+        private static function includeGlobalClass($subdir = ''){
+            $dir = 'sys/classes/global/';
+            if (strlen($subdir) > 0) $dir .= $subdir.'/';
+            if (is_dir($dir)) {
+                // Cria um novo directory iterator
+                $dirIterator = new DirectoryIterator($dir);
+                foreach ($dirIterator as $file) {
+                    // Pega o nome do arquivo
+                    $filename = $file->getFilename();
+                    if ($filename[0] === '.' OR $filename[strlen($filename)-1] === '~') {
+                        // Ignora arquivos ocultos e arquivos de backup do UNIX
+                        continue;
+                    } 
+                    
+                    if ($file->isDir()) {
+                        $subdir = $filename;
+                        self::includeGlobalClass ($subdir);
+                    } else {    
+                        require_once($dir.$filename);                        
+                    }
+                }
+            }
+        }
+        
         public static function environmentSetup(){
             /**
              * Configura o ambiente por domínio.
@@ -161,8 +182,7 @@ use sys\classes\util\String;
             //Tratamento para utilização do Hybridauth.
             if($class == 'FacebookApiException') return false; 
             $class      = rtrim($class,'.php');
-            $urlInc     = str_replace("\\", "/" , $class . '.php');
-            $rootFolder = trim(ROOT_FOLDER,'/');
+            $urlInc     = str_replace("\\", "/" , $class . '.php');            
             $urlInc     = Url::physicalBase($urlInc);            
             
             if (isset($class) && file_exists($urlInc)){          

@@ -1,14 +1,8 @@
 <?php
 
     session_start();    
- 
-
-    /*
-     * Reportar todos os erros
-     */
-    error_reporting(-1);
     
-    $rootFolder = 'astrolabius';
+    $rootFolder = '';
     define("ROOT_FOLDER", $rootFolder);      
     
     include('sys/classes/_init/Application.php');

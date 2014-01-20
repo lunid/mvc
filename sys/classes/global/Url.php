@@ -16,7 +16,7 @@
         public static function physicalBase($file=''){
             $file       = ltrim($file,'/');
             $rootFolder = self::rootFolder();
-            $path       = $_SERVER['DOCUMENT_ROOT'] .'/'. $rootFolder;            
+            $path       = rtrim($_SERVER['DOCUMENT_ROOT'],'/') .'/'. $rootFolder;            
             if (strlen($file) > 0) $path .= $file;
             return $path;
         }
