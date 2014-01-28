@@ -8,6 +8,7 @@
             $xmlFile    = 'app.xml';
             $arrAtribId = array(
                 'baseUrl',
+                'rootFolder',
                 'baseUrlHttp',
                 'baseUrlHttps',
                 'modules',
@@ -16,8 +17,8 @@
                 'defaultTemplate',
                 'languages',
                 'defaultLang',
-                'folder_common',
-                'html_extension'
+                'commonFolder',
+                'htmlExtension'
             );
             parent::__construct($xmlFile,$arrAtribId);            
         }

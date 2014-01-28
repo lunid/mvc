@@ -388,3 +388,9 @@ Line Number  : 29.
 File Path : C:\wamp\www\mvc\sys\classes\global\mvc\Controller.php.
 Date : 13.01.2014 08:41:34.
 **************************************************************
+**************************************************************
+!Oops : [Run-time warnings] (file_get_contents(site/classes/views/): failed to open stream: No such file or directory).
+Line Number  : 80.
+File Path : C:\xampp\htdocs\astrolabius\sys\classes\global\mvc\View.php.
+Date : 28.01.2014 01:35:48.
+**************************************************************

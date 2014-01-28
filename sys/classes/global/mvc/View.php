@@ -11,30 +11,33 @@
         private $includeCfgAllOff   = FALSE;
         private $pathView;
         private $arrAssign          = array();
-        private $common             = FALSE; //Determina se o arquivo View está em common (TRUE) ou no módulo atual.
+        private $commonFolder       = FALSE; //Determina se o arquivo View está em common (TRUE) ou no módulo atual.
         
         function __construct($pathView,$common=FALSE){   
-            $this->common = $common;
+            $this->commonFolder = $common;
             $this->checkPathView($pathView);
         }                 
         
-        function setView($pathView){
-            $this->common = FALSE;
-            $this->checkPathView($pathView);            
+        function setContent($filename=''){
+            if (strlen($filename) > 0) {
+                $this->commonFolder = FALSE;
+                $this->checkPathView($filename);            
+            }
+            return $this;
         }
         
-        private function checkPathView($pathView){  
+        private function checkPathView($filename){  
             $container      = new DIContainer();
             $baseUrl        = \CfgApp::get('baseUrl');            
             $objUri         = $container->Uri();
             $objMvcParts    = $objUri->getMvcParts();            
             $module         = $objMvcParts->module;
-            $viewExtension  = CfgApp::get('html_extension');  
-            $common         = CfgApp::get('folder_common');
+            $viewExtension  = CfgApp::get('htmlExtension');  
+            $common         = CfgApp::get('commonFolder');
             $extension      = '.'.$viewExtension;  
             
-            $path           = ($this->common) ? $common.'/views/' : $module.'/classes/views/';
-            $path           .= $pathView.$extension;
+            $path           = ($this->commonFolder) ? $common.'/views/' : $module.'/classes/views/';
+            $path           .= $filename.$extension;
             
             $find           = FALSE;
             
@@ -48,8 +51,9 @@
             }
             
             if (!$find) {
-                throw new \Exception("O arquivo '".$pathView."' da view informada não foi localizado.");
+                throw new \Exception("O arquivo '".$filename."' da view informada não foi localizado.");
             }
+            echo $path.'<br>';
             $this->pathView = $path;
         }
         
@@ -57,7 +61,16 @@
             $this->arrAssign[$name] = utf8_encode($value);
         }
         
+        function getRender(){
+            return $this->joinString();
+        }
+        
         function render(){
+            $string = $this->joinString();
+            echo $string;
+        }
+        
+        private function joinString(){
             $string     = $this->getString();
             if (strlen($string) > 0) {
                 $arrAssign  = $this->arrAssign;
@@ -68,7 +81,7 @@
                     }
                 }
             }
-            $string = utf8_decode($string);
+            $string = utf8_decode($string);            
             return $string;
         }
         

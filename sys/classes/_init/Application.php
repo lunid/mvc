@@ -59,9 +59,13 @@ use sys\classes\util\String;
             self::includeGlobalClass();
             
             $container      = new DIContainer();
-            $baseUrl        = CfgApp::get('baseUrl');            
+            $baseUrl        = CfgApp::get('baseUrl');   
+            $rootFolder     = CfgApp::get('rootFolder');   
             $objUri         = $container->Uri();
             $objMvcParts    = $objUri->getMvcParts();              
+            
+            //Define a pasta root do projeto
+            self::setRootFolder($rootFolder);
             
             //Inicializa tratamento de erro para o projeto atual.
             errorTalk::initialize();   
@@ -115,6 +119,10 @@ use sys\classes\util\String;
                 throw $e;
             }
         }  
+        
+        private static function setRootFolder($rootFolder=''){            
+            define("ROOT_FOLDER", $rootFolder); 
+        }
         
         /**
          * Faz a inclusão de todas as classes existentes em sys/classes/global.
