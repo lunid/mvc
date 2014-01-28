@@ -19,7 +19,7 @@
                 'defaultLang',
                 'commonFolder',
                 'htmlExtension'
-            );
+            );            
             parent::__construct($xmlFile,$arrAtribId);            
         }
         

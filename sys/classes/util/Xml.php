@@ -134,10 +134,11 @@
          * @return string
          */
         public static function valueForAttrib($nodes,$atribName,$atribValue){        
-            foreach($nodes as $node){     
-                foreach($node->attributes() as $name => $value){                       
+            foreach($nodes as $node){                     
+                foreach($node->attributes() as $name => $value){   
+                    echo "$name = $value <br>";
                     if ($name == $atribName && $value == $atribValue) return $node;                    
-                }                
+                }   
             }  
             
             $objE = new \ExceptionHandler(new \Exception, self::$ExceptionFile);            
