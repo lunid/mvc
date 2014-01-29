@@ -9,25 +9,22 @@ require_once('sys/classes/util/Xml.php');
  */
 abstract class AbstractCfg extends sys\classes\util\Xml {
 
-        protected $pathXml          = '';                
+        protected $pathXml          = '';     
+        private $xmlFile            = '';
         private $arrAtribId         = NULL;
         private $nodesParam         = NULL;
         private $prefixoSessionVar  = 'SVIP_CFG_';
-        private $folderCfg          = 'cfg/';
+        private $folderCfg          = 'cfg';
         private $pathXmlFile;
         
         function __construct($xmlFile,$arrAtribId, $prefixoSessionVar=''){  
-            $host           = $_SERVER['HTTP_HOST'];
-            $pathXmlHost    = $this->folderCfg.$host.'.xml';
-            $pathXml        = $this->folderCfg.$xmlFile;     
+            $pathXml        = $this->folderCfg.'/'.$xmlFile;     
+            $this->xmlFile  = $xmlFile;
+            $this->pathXml  = $pathXml;
             
-            if (file_exists($pathXmlHost)) {
-                //Encontrou uma arquivo de config específico para o domínio atual.
-                $pathXml = $pathXmlHost;
-            }            
-            
-            /*
-             * Carrega um array com os IDs permitidos no XML informado
+            /**
+             * Carrega um array com os IDs permitidos no XML informado.
+             * 
              */
             $this->setAtribId($arrAtribId);
             
@@ -36,7 +33,7 @@ abstract class AbstractCfg extends sys\classes\util\Xml {
                 $this->prefixoSessionVar = $prefixoSessionVar;            
             }
 
-            /*
+            /**
              * Valida o XML informado e retorna o nó de itens <param id=''>...</param>
              */
             $nodesParam = $this->loadCfgXml($pathXml);  
@@ -48,68 +45,8 @@ abstract class AbstractCfg extends sys\classes\util\Xml {
                 $this->persistParams();
             }
             
-        }
+        } 
         
-        
-        /**
-         * Lê cada nó XML do arquivo informado a partir da lista de IDs permitidos
-         * e persiste os valores em variáveis SESSION. 
-         * 
-         * O array $arrAtribId contém os IDs fornecidos pela classe-filha.
-         * @return void
-         */
-        private function persistParams(){
-            $nodesParam = $this->getNodesParam();
-            $arrAtribId = $this->getArrAtribId();//Atributos permitidos para o arquivo XML informado.            
-            if (is_object($nodesParam) && is_array($arrAtribId)) {                
-                foreach($arrAtribId as $id) {
-                    //Para cada id encontra o valor contido entre as tags <param>...</param>
-                    $value = self::valueForAttrib($nodesParam,'id',$id);                     
-                    $this->setSessionVar($id,$value);//Persiste o valor encontrado em Session
-               }                     
-            } elseif (is_array($arrAtribId)) {
-                //O objeto não existe. Limpa as variáveis do objeto atual, se houver.
-                foreach($arrAtribId as $id) {                         
-                    $this->setSessionVar($id,'');
-               }                 
-            }              
-        }            
-        
-        /**
-         * Retorna o objeto XML criado no método loadCfgXml().
-         * @return XML
-         */
-        function getNodesParam(){
-            return $this->nodesParam;
-        }
-        
-                
-        protected function getArrAtribId(){
-            return $this->arrAtribId;
-        }          
-        
-        function setPathXmlFile($pathXmlFile){
-            $this->pathXmlFile = $pathXmlFile;
-        }
-        
-        /**
-         * Método responsável por definir um array contendo os valores aceitos
-         * nos atributos dos nós XML <param> lidos a partir do arquivo informado no construtor.
-         * 
-         * @param String[] $arrAtribId Array unidimensional array(item1, item2, ...)
-         * @return void
-         * 
-         * @throws \Exception Caso o valor informado não seja um array
-         */
-        protected function setAtribId($arrAtribId){
-            if (is_array($arrAtribId)) {
-                $this->arrAtribId = $arrAtribId;
-            } else {
-                $msgErr = "Os atributos do arquivo XML não foram informados.";
-                throw new \Exception($msgErr);
-            }
-        }      
-
 
         /**
          * Verifica e valida o path do arquivo XML informado.
@@ -156,7 +93,114 @@ abstract class AbstractCfg extends sys\classes\util\Xml {
                 $msgErr = "Arquivo {$pathXml} não foi localizado.";                
             }                        
             if (strlen($msgErr)) throw new \Exception( $msgErr );    
-        }                               
+        }                                      
+        
+        /**
+         * Define em session o status de leitura do arquivo config XML atual.
+         * Esta variável session é definida como TRUE após a leitura do arquivo de configuração.
+         * É útil no método persistParams(), evitando leituras repetidas do mesmo arquivo.
+         * 
+         * @param boolean $value
+         * @return void
+         */
+        function setStatusLoadCfg($value){
+            if (is_bool($value)) {                
+                $_SESSION[$this->getNameVarStatusLoadCfg()]  = $value;
+            }
+        }
+        
+        function getStatusLoadCfg(){
+            $out = FALSE;
+            if (isset($_SESSION[$this->getNameVarStatusLoadCfg()])) {
+                $out = (bool)$_SESSION[$this->getNameVarStatusLoadCfg()];
+            }
+            return $out;
+        }
+        
+        private function getNameVarStatusLoadCfg(){
+            $nameVarSession = $this->prefixoSessionVar.$this->xmlFile;
+            return $nameVarSession;
+        }        
+        
+        /**
+         * Lê cada nó XML do arquivo informado verificando se o atributo 'id' 
+         * está na lista de IDs permitidos ($arrAtribId). 
+         * Guarda em SESSION os atributos lidos.
+         * 
+         * O array $arrAtribId contém os IDs fornecidos pela classe-filha.
+         * @return void         
+         */
+        private function persistParams(){
+            
+            if (!$this->getStatusLoadCfg()) {                        
+                $nodesParam = $this->getNodesParam();
+                $arrAtribId = $this->getArrAtribId();//Atributos permitidos para o arquivo XML informado.            
+                if (is_object($nodesParam) && is_array($arrAtribId || 1==1)) {  
+                    foreach($nodesParam as $node){                        
+                        if ($node->attributes() !== NULL) {
+                            $id     = (string)$node->attributes();
+                            $key    = array_search($id, $arrAtribId);
+                            if ($key !== FALSE) {
+                                //O atributo é válido. Guarda o valor em SESSION.                        
+                                $value = (string)$node;  
+                                echo $value.'<br>';
+                                $this->setSessionVar($id,$value);//Persiste o valor encontrado em Session
+                            }                 
+                        }
+                    }
+                    
+                    $this->setStatusLoadCfg(TRUE);                    
+                    
+                } elseif (is_array($arrAtribId)) {
+                    //O objeto não existe. Limpa as variáveis do objeto atual, se houver.
+                    foreach($arrAtribId as $id) {                         
+                        $this->setSessionVar($id,'');
+                   }                 
+                }                 
+            } else {
+                /*
+                 * Não é necessário carregar os parâmetros do arquivo XML atual 
+                 * porque já foi lido anteriormente.
+                 */
+                
+            }
+        }            
+        
+        /**
+         * Retorna o objeto XML criado no método loadCfgXml().
+         * @return XML
+         */
+        function getNodesParam(){
+            return $this->nodesParam;
+        }
+        
+                
+        protected function getArrAtribId(){
+            return $this->arrAtribId;
+        }          
+        
+        function setPathXmlFile($pathXmlFile){
+            $this->pathXmlFile = $pathXmlFile;
+        }
+        
+        /**
+         * Método responsável por definir um array contendo os valores aceitos
+         * nos atributos dos nós XML <param> lidos a partir do arquivo informado no construtor.
+         * 
+         * @param String[] $arrAtribId Array unidimensional array(item1, item2, ...)
+         * @return void
+         * 
+         * @throws \Exception Caso o valor informado não seja um array
+         */
+        protected function setAtribId($arrAtribId){
+            if (is_array($arrAtribId)) {
+                $this->arrAtribId = $arrAtribId;
+            } else {
+                $msgErr = "Os atributos do arquivo XML não foram informados.";
+                throw new \Exception($msgErr);
+            }
+        }      
+ 
         
         /**
          * Persiste o valor informado em uma variável SESSION.
@@ -191,7 +235,7 @@ abstract class AbstractCfg extends sys\classes\util\Xml {
          * 
          * Exemplo:
          * <code>
-         *  echo CfgApp::get('rootFolder');
+         *  echo CfgEnv::get('rootFolder');
          * </code>
          * 
          * @param string $id Atributo id da tag <param> cujo valor se deseja recuperar.

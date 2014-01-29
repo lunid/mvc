@@ -27,8 +27,7 @@
         }
         
         private function checkPathView($filename){  
-            $container      = new DIContainer();
-            $baseUrl        = \CfgApp::get('baseUrl');            
+            $container      = new DIContainer();                   
             $objUri         = $container->Uri();
             $objMvcParts    = $objUri->getMvcParts();            
             $module         = $objMvcParts->module;

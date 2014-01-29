@@ -42,7 +42,7 @@
          */
         private function checkXmlFile($xmlFilename){
             //Retira as barras de início e fim da pasta root
-            $rootProject    = str_replace('/','',\CfgApp::get('baseUrl'));            
+            $rootProject    = str_replace('/','',\CfgEnv::get('baseUrl'));            
             $realPath       = '';
             $pathFile       = '';
             

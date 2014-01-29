@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<root>
-    <params>
-        <param id='rootFolder'></param>
-        <param id='baseUrl'>site</param>     
-        <param id='baseUrlHttp'>localhost</param>
-        <param id='baseUrlHttps'></param>
-    </params>
-</root>

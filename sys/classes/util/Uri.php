@@ -38,13 +38,13 @@
             $controller         = 'index';   
             
             try {
-                $baseUrl            = $cfgClass::get('baseUrl');
+                $rootFolder         = CfgEnv::get('rootFolder');
                 $action             = '';
 
                 //Módulos:
                 $modules            = $cfgClass::get('modules');//String com módulos do sistema
                 $arrModules         = explode(',',$modules);
-                $module             = $cfgClass::get('defaultModule');
+                $module             = $cfgClass::get('defaultModule');                
                 $arrModulesSys      = array('panel','test');//Módulos que não precisam constar em app.xml.            
                 $arrMergeModules    = array_merge($arrModules,$arrModulesSys);//Array com todos os módulos.
 
@@ -70,7 +70,7 @@
              * identificar o módulo, controller e action.
              */
             $params         = (isset($_GET['PG']))?trim($_GET['PG']):'';             
-            $params         = str_replace($baseUrl,'','/'.$params);//Retira a pasta root da string.
+            $params         = str_replace($rootFolder,'','/'.$params);//Retira a pasta root da string.
             
             $pathParts      = explode('/',$params);            
                        

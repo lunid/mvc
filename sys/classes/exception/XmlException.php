@@ -32,9 +32,7 @@
          * @return string
          * @throws \Exception Caso o arquivo XML solicitado não seja localizado.
          */
-        public static function getErrorString($nameFileXml,$codErr,$arrParams=array()){
-            //$baseUrl        = CfgApp::get('baseUrl');
-           
+        public static function getErrorString($nameFileXml,$codErr,$arrParams=array()){           
             $objXmlException = new XmlException();          
             
             if ($objXmlException->findFileXmlError($nameFileXml)){

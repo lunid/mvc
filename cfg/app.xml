@@ -1,22 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
     <params>
-        <!-- 
-        URLs:
-        baseUrl: não é necessário incluir a barra (/) antes e depois.
-        No exemplo a seguir todos os formatos são válidos: 
-            app/site
-            /app/site/
-            /app/site
-            app/site/
-            
-        Caso nenhum valor seja definido, public_html será adotado como valor padrão.
-        -->        
-        <param id='baseUrl'>site</param>   
-        <param id='rootFolder'>astrolabius</param>     
-        <param id='baseUrlHttp'>localhost</param>
-        <param id='baseUrlHttps'></param>
-        
         <!-- Módulos -->
         <param id='modules'>site,app,beemos</param>
         <param id='defaultModule'>site</param> 

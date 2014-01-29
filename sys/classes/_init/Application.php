@@ -2,6 +2,8 @@
     
     //Vendors
     require_once('sys/vendors/di/Pimple.php');//Dependency Injection
+    require_once('sys/vendors/errorTrack/class.errorTalk.php');         
+    require_once('sys/vendors/di/DI.php');
     
     //Conexão DB
     require_once('sys/classes/db/Meekrodb_2_2.php');
@@ -18,14 +20,6 @@
     require_once('sys/classes/security/Token.php');
     require_once('sys/classes/security/Auth.php');         
 
-    //MVC
-    require_once('sys/classes/global/mvc/Controller.php');
-    require_once('sys/classes/global/mvc/View.php');
-    require_once('sys/classes/global/mvc/ExceptionController.php');        
-
-    //Vendors
-    require_once('sys/vendors/errorTrack/class.errorTalk.php');         
-    require_once('sys/vendors/di/DI.php');
 
 use sys\classes\util\String;
     
@@ -50,7 +44,7 @@ use sys\classes\util\String;
         public static function setup(){                                
         
             //Captura erros em tempo de execução e trata como Exception
-            //set_error_handler("self::exceptionErrorHandler");                       
+            //set_error_handler("self::exceptionErrorHandler");                                  
             
             //$msgErr = Error::eApp('LOGIN');     
             //throw new \Exception($msgErr);            
@@ -58,12 +52,17 @@ use sys\classes\util\String;
             //Faz a inclusão de classes globais (disponíveis para toda a aplicação)
             self::includeGlobalClass();
             
+            //Destrói variáveis criadas anteriormente.
+            self::destroy();
+             
             $container      = new DIContainer();
-            $baseUrl        = CfgApp::get('baseUrl');   
-            $rootFolder     = CfgApp::get('rootFolder');   
+            //$baseUrl        = CfgEnv::get('baseUrl');   
+            $rootFolder     = CfgEnv::get('rootFolder');   
             $objUri         = $container->Uri();
             $objMvcParts    = $objUri->getMvcParts();              
             
+            echo $rootFolder.'x';
+            die();
             //Define a pasta root do projeto
             self::setRootFolder($rootFolder);
             
@@ -154,6 +153,10 @@ use sys\classes\util\String;
             }
         }
         
+        public static function destroy(){
+            new CfgEnv(FALSE);            
+        }
+        
         public static function environmentSetup(){
             /**
              * Configura o ambiente por domínio.
@@ -201,7 +204,7 @@ use sys\classes\util\String;
         }     
         
         public static function listFiles($dir = NULL, $path = NULL){
-            $baseUrl    = CfgApp::get('baseUrl');
+            $baseUrl    = CfgEnv::get('baseUrl');
             $dir        = $baseUrl;
             if ($dir !== NULL) {
                 $dir = $baseUrl.trim($dir,'/').'/';            

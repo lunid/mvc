@@ -108,7 +108,7 @@
          *               $nodeValue = '';
          *               if (is_object($objXml)) {
          *                 $nodes      = $objXml->headers->include;
-         *                 $numItens    = count($nodes);
+         *                 $numItens   = count($nodes);
          *
          *                 if ($numItens > 0){
          *                     $nodeValue  = self::valueForAttrib($nodes,$attribName,$attribValue);
@@ -135,8 +135,7 @@
          */
         public static function valueForAttrib($nodes,$atribName,$atribValue){        
             foreach($nodes as $node){                     
-                foreach($node->attributes() as $name => $value){   
-                    echo "$name = $value <br>";
+                foreach($node->attributes() as $name => $value){                       
                     if ($name == $atribName && $value == $atribValue) return $node;                    
                 }   
             }  
