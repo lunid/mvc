@@ -36,6 +36,13 @@
       'tag'         => 'tags,palavra-chave, palavras-chave'        
     );
     
+    $arrHtmlMap     = array(
+        'tk'    => 'Tarefa:',
+        'tks'   => 'Tarefas:',
+        'ds'    => 'Descrição:',
+        'tag'   => 'Palavras-chave:'
+    );
+    
     foreach($arrCodMap as $key=>$value){
         $arrCod[] = $key;
     }
@@ -49,58 +56,61 @@
     
     $mbox = imap_open("{{$server}:{$port}/pop3/novalidate-cert}INBOX", $user, $passwd);
     if ($mbox) {
-        $totalMsg = imap_num_msg($mbox);        
+        $totalMsg           = imap_num_msg($mbox);  
+        $totalMsgNaoLidas   = imap_num_recent($mbox);        
+        
         for ($msgId = 1; $msgId <= $totalMsg; $msgId++) {
             $header                 = imap_header($mbox, $msgId);
+            
+            $from                   = $header->from[0];
+            
+            //Info Remetente:
+            $fromName               = $from->personal;
+            $fromMailbox            = $from->mailbox;
+            $fromHost               = $from->host;
+            $fromEmail              = "$fromMailbox@$fromHost";
+
             $message['subject']     = $header->subject;
             $message['fromaddress'] = $header->fromaddress;
+            
             $message['toaddress']   = $header->toaddress;
             $message['ccaddress']   = (isset($header->ccaddress)) ? $header->ccaddress : '';
             $message['date']        = $header->date;
-            $message['body']        = imap_fetchbody($mbox,$msgId,"1"); ## GET THE BODY OF MULTI-PART MESSAGE
-            if(!$message['body']) {$message['body'] = '[Nenhuma mensagem foi enviada]\n\n';}
+            $message['size']        = $header->Size;//Em bytes
+            $messageId              = $header->message_id;     
+            $bodyReturn             = getBody($msgId,$mbox);//Mensagem a ser reenviada no final do script
+
+            $bodyArray              = quoted_printable_decode(imap_fetchbody($mbox,$msgId,"1")); ## GET THE BODY OF MULTI-PART MESSAGE
+            if(!$bodyArray) {$bodyArray = '[Nenhuma mensagem foi enviada]\n\n';}
             
+            //$struct                 = imap_fetchstructure($mbox,$msgId,FT_UID); 
+            //$existAttachments       = existAttachment($struct); 
+            //echo $struct;
+            //die();
+           
             $titulo     = utf8_decode(iconv_mime_decode($message['subject'],0,"UTF-8"));               
             
-            /*
-             * Tratamento do remetente (separa nome da conta de e-mail)
-             */
-            $from       = $message['fromaddress'];  
-            $from       = 'Teste <claudio@supervip.com.br>';
-            $arrFrom    = explode('<',$from);
-            $fromName   =  '';
-            
-            if (isset($arrFrom[0]) && strlen($arrFrom[0]) > 0) {
-                $fromName = trim($arrFrom[0]);
-            }
-            
-            $fromMail  = preg_replace("/^(.*)</", "",$from);
-            $fromMail  = str_replace('>','',$fromMail);
-            if (strlen($fromName) == 0) $fromName = $fromMail;
-            //==================================================================
-            //
-            //
             //Converte data para o formato Y-m-d H:i:s
-            $arrDate    = date_parse($message['date']);            
-            $dataHoraEn = $arrDate['year'].'-'.$arrDate['month'].'-'.$arrDate['day'].' '.$arrDate['hour'].':'.$arrDate['minute'].':'.$arrDate['second'];
+            $data       = strtotime($message['date']);
+            $dataHoraEn = date("Y-m-d H:i:s", $data);
             
-            $msg        = imap_qprint($message['body']);
-            $arrMsg     = explode("\n",$msg);                 
-            //$arrMsg     = array_filter($arrMsgTk, "delLinhaVazia");
-            //$arrMsg     = array_values($arrMsg);
-            $arrTag     = array();
-            $arrTask    = array();
-            $codKey     = '';//Índice associativo do arrTag
+            $msg        = imap_qprint($bodyArray);
+            $arrMsg     = explode("\n",$msg);            
+            
+            $arrTag         = array();
+            $arrTask        = array();
+            $arrBodyReturn  = array();
+            $codKey         = '';//Índice associativo do arrTag
             
             if (is_array($arrMsg)) {
                 $tam = count($arrMsg);
   
                 for($i=0; $i < $tam; $i++) {
-                    $line = trim($arrMsg[$i]);
- 
-                    foreach($arrPseudoCod as $cod) {
-                        $codLang    = '#'.$cod.':';
-                        $codKey     = '';
+                    $line   = trim($arrMsg[$i]);
+                    //$lineR  = $line;
+                    foreach($arrPseudoCod as $cod) {                        
+                        $codLang            = '#'.$cod.':';
+                        $codKey             = '';
                         if (isset($arrCodMap[$cod])) {
                             $codKey = $cod;
                         } else {
@@ -126,15 +136,17 @@
                                         $line       = preg_replace("/\s\s+/", "",$line);//retira espaços vazios adicionais
                                         $line       = preg_replace("/^(-)\s?/", "",$line);//retira hífen no início da linha com ou sem espaço à direita
                                         //$line       = preg_replace("/[^\x01-\x7F]/","", $line);//remove qualquer caractere não ASCII
+                                        //$lineR      = $line;
                                         $arrTask[]  = $line;
                                     } else {                                                    
-                                        if (preg_match("/^#[[:alpha:]]{2,3}:/", $line)) $i--;//Se for uma tag (#..:) volta um item no loop                                       
+                                        if (preg_match("/^#[[:alpha:]]{2,3}:/", $line)) {                                           
+                                            $i--;//Se for uma tag (#..:) volta um item no loop                                       
+                                        }
                                         $fimLoop = true;
                                     }
                                }
                                $arrTag[$codKey] = $arrTask;
-                          } else { 
-                               
+                          } else {                                
                                $arrPartTag = explode($codLang,$line);
                                if (isset($arrPartTag[1]) && strlen($arrPartTag[1]) > 0) {
                                    //O conteúdo do pseudo-código está na mesma linha.                               
@@ -144,33 +156,60 @@
                                    $i++;//Avança uma linha.
                                    while(!$fimLoop){
                                        //Localiza a próxima linha com texto.                                       
-                                       $line = trim($arrMsg[++$i]);                                      
+                                       $line    = trim($arrMsg[++$i]);
+                                       //$lineR   = $line;
                                        if (strlen($line) == 0) continue; //Ignora linha vazia  
                                        $arrTag[$codKey] = $line;
                                        $fimLoop = true;
                                    }                                                                           
                                }
-                          }
+                          }                          
+                          //$lineR = str_replace($codLang, '', $lineR);
                         }
                     }
+                    //if (strlen($lineR) > 0) $arrBodyReturn[]  = $lineR;
                 }
             }
+            
+            /*
+            $vazio = 0;
+            foreach($arrMsg as $line) {
+                if (strlen(trim($line)) == 0) {
+                    $vazio++;
+                    if ($vazio > 1) {
+                        $vazio = 0;
+                        continue;
+                    }
+                }
+                $key  = strpos($line,'#tks:');
+                $line = str_replace('#tks:','',$line);
+                if (strlen(trim($line)) == 0 && $key !== false) {
+                    //echo '<br/>';
+                    continue;
+                }
+                echo $line.'<br/>';
+            }
+            die();
+            $strBody = join($arrMsg,'<br/>');
+            echo $strBody;
+            die();
+            */
             
             $tipo           = '';
             $deadline       = '';
             $tags           = '';
-            $obs           = '';
-            $descricao    = '';
+            $obs            = '';
+            $descricao      = '';
             
             if (isset($arrTag['type'])) $tipo = $arrTag['type'];
             if (isset($arrTag['descryption'])) $descricao = $arrTag['descryption'];
             if (isset($arrTag['deadline'])) $deadline = $arrTag['deadline'];
             if (isset($arrTag['tag'])) $tags = $arrTag['tag'];
             
-            $autor = $message['fromaddress'];
+            $autor  = $message['fromaddress'];
             $to     = $message['toaddress'];
             $copy   = $message['ccaddress'];           
-            
+            $size   = (int)$message['size'];
             /*
              * Grava dados no DB
              */
@@ -193,12 +232,16 @@
                 DB::startTransaction();
                 DB::replace('SVIP_EMOP_MSG', array(
                   'ID_ASSINATURA' => $idAssinatura,
+                  'TAM_BYTES' => $size,
+                  'MESSAGE_ID' => $messageId,
                   'DATA_HORA_ENVIO' => $dataHoraEn,
                   'TIPO' => $tipoVal, // duplicate primary key 
                   'TITULO' => utf8_encode($titulo),
                   'DESCRICAO' => utf8_encode($descricao),
                   'MENSAGEM' => utf8_encode($msg),
                   'AUTOR' => $autor,
+                  'FROM_NAME' => $fromName,
+                  'FROM_EMAIL' => $fromEmail,
                   'REMETENTE' => $autor,
                   'DESTINATARIO' => $to,
                   'CC' => $copy,
@@ -228,7 +271,9 @@
                     
                     $toName = 'Claudio Rubens';
                     $toMail = 'claudio@supervip.com.br';
-                    sendEmail($fromName, $fromMail, $toName, $toMail, $titulo, $msg);
+                    $titulo = str_replace('#:','',$titulo);
+    
+                    sendEmail($fromName, $fromEmail, $toName, $toMail, $titulo, $bodyReturn);
                 } else {
                     DB::rollback();
                 }
@@ -319,4 +364,85 @@
         if (strlen($str) == 0) return false;
         return $var;
     }
+    
+    function getBody($uid, $imap) {
+        global $arrHtmlMap;
+        $format = 'html';
+        $body   = get_part($imap, $uid, "TEXT/HTML");
+        // if HTML body is empty, try getting text body
+        if ($body == "") {
+            $format = 'text_plain';
+            $body = get_part($imap, $uid, "TEXT/PLAIN");
+        }
+       
+        foreach($arrHtmlMap as $key=>$value) {
+            $cod    = "#{$key}:";   
+            $value  = utf8_decode($value);
+            if ($format == 'html') $value = "<b>$value</b>";
+            $body   = str_replace($cod,$value,$body);            
+        }
+        return $body;
+    }    
+    
+    
+    function get_part($imap, $uid, $mimetype, $structure = false, $partNumber = false) {
+        if (!$structure) {
+               $structure = imap_fetchstructure($imap, $uid, FT_UID);
+        }
+        if ($structure) {
+            if ($mimetype == get_mime_type($structure)) {
+                if (!$partNumber) {
+                    $partNumber = 1;
+                }
+                $text = imap_fetchbody($imap, $uid, $partNumber, FT_UID);
+                switch ($structure->encoding) {
+                    case 3: return imap_base64($text);
+                    case 4: return imap_qprint($text);
+                    default: return $text;
+               }
+           }
+
+            // multipart 
+            if ($structure->type == 1) {
+                foreach ($structure->parts as $index => $subStruct) {
+                    $prefix = "";
+                    if ($partNumber) {
+                        $prefix = $partNumber . ".";
+                    }
+                    $data = get_part($imap, $uid, $mimetype, $subStruct, $prefix . ($index + 1));
+                    if ($data) {
+                        return $data;
+                    }
+                }
+            }
+        }
+        return false;
+    }    
+    
+    function get_mime_type($structure) {
+        $primaryMimetype = array("TEXT", "MULTIPART", "MESSAGE", "APPLICATION", "AUDIO", "IMAGE", "VIDEO", "OTHER");
+
+        if ($structure->subtype) {
+           return $primaryMimetype[(int)$structure->type] . "/" . $structure->subtype;
+        }
+        return "TEXT/PLAIN";
+    }
+
+    //http://sidneypalmeira.wordpress.com/2011/07/21/php-como-ler-um-e-mail-e-salvar-o-anexo-via-imap/
+    function existAttachment($part){ 
+        if (isset($part->parts)){ 
+            foreach ($part->parts as $partOfPart){ 
+                existAttachment($partOfPart); 
+            } 
+        } 
+        else{ 
+            if (isset($part->disposition)){ 
+                if ($part->disposition == 'attachment'){ 
+                    echo '<p>' . $part->dparameters[0]->value . '</p>'; 
+                    // here you can create a link to the file whose name is  $part->dparameters[0]->value to download it 
+                    return true; 
+                } 
+            } 
+        } 
+    }     
 ?>
