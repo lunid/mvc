@@ -28,20 +28,21 @@
        
     $arrCodMap      =  array(
       'title'       => 'tt, título',
-      'descryption' => 'ds,descrição',
-      'task'        => 'tk,tarefa',
+      'descryption' => 'ds,descrição',      
       'tasks'       => 'tks,tarefas',
-      'type'        => 'tp,tipo',
       'deadline'    => 'dl,data de conclusão',
-      'tag'         => 'tags,palavra-chave, palavras-chave'        
+      'tag'         => 'tags,palavra-chave, palavras-chave',
+      'memo'        => 'memo'
     );
     
     $arrHtmlMap     = array(
-        'tk'    => 'Tarefa:',
         'tks'   => 'Tarefas:',
         'ds'    => 'Descrição:',
-        'tag'   => 'Palavras-chave:'
+        'tag'   => 'Palavras-chave:',
+        'memo'  => ''
     );
+    
+    $arrType = array('memo','chore','release','feature','bug','none');//Tipos possíveis de mensagem
     
     foreach($arrCodMap as $key=>$value){
         $arrCod[] = $key;
@@ -53,8 +54,11 @@
     $arrPseudoCod = explode(',',$strCodKey);
 
 
-    
-    $mbox = imap_open("{{$server}:{$port}/pop3/novalidate-cert}INBOX", $user, $passwd);
+    try {
+        $mbox = imap_open("{{$server}:{$port}/pop3/novalidate-cert}INBOX", $user, $passwd);
+    } catch (Exception $e) {
+        die('Servidor de e-mail não disponível.');
+    }
     if ($mbox) {
         $totalMsg           = imap_num_msg($mbox);  
         $totalMsgNaoLidas   = imap_num_recent($mbox);        
@@ -89,25 +93,42 @@
             //die();
            
             $titulo     = utf8_decode(iconv_mime_decode($message['subject'],0,"UTF-8"));               
+            $type       = 'NONE';
             
             //Converte data para o formato Y-m-d H:i:s
             $data       = strtotime($message['date']);
             $dataHoraEn = date("Y-m-d H:i:s", $data);
             
+            $size       = (int)$message['size'];
+            $tituloDb   = utf8_encode($titulo);
+            
+            //Verifica se a mensagem atual já foi cadastrada.
+            $sql = "SELECT COUNT(*) AS TOTAL_MSG FROM SVIP_EMOP_MSG WHERE 
+            ID_ASSINATURA = $idAssinatura AND TAM_BYTES = $size AND TITULO = '$tituloDb' AND DATA_HORA_ENVIO = '$dataHoraEn'";
+
+            $result     = DB::query($sql);
+            $msgJaCad   = (int)$result[0]['TOTAL_MSG'];
+            if ($msgJaCad > 0) continue;//Mensagem já cadastrada
+            
             $msg        = imap_qprint($bodyArray);
             $arrMsg     = explode("\n",$msg);            
             
             $arrTag         = array();
-            $arrTask        = array();
-            $arrBodyReturn  = array();
+            $arrTask        = array();            
             $codKey         = '';//Índice associativo do arrTag
             
             if (is_array($arrMsg)) {
                 $tam = count($arrMsg);
   
                 for($i=0; $i < $tam; $i++) {
-                    $line   = trim($arrMsg[$i]);
-                    //$lineR  = $line;
+                    $line       = trim($arrMsg[$i]);
+                    
+                    //Localiza o tipo da mensagem (sempre definido na primeira linha):
+                    $typeCheck  = str_replace('#', '', strtolower($line));
+                    $typeCheck  = str_replace(':', '', $typeCheck);
+                    $posType    = array_search($typeCheck,$arrType);
+                    if ($posType !== false) $type = strtoupper($arrType[$posType]);
+      
                     foreach($arrPseudoCod as $cod) {                        
                         $codLang            = '#'.$cod.':';
                         $codKey             = '';
@@ -194,14 +215,12 @@
             echo $strBody;
             die();
             */
-            
-            $tipo           = '';
+                        
             $deadline       = '';
             $tags           = '';
             $obs            = '';
             $descricao      = '';
-            
-            if (isset($arrTag['type'])) $tipo = $arrTag['type'];
+                        
             if (isset($arrTag['descryption'])) $descricao = $arrTag['descryption'];
             if (isset($arrTag['deadline'])) $deadline = $arrTag['deadline'];
             if (isset($arrTag['tag'])) $tags = $arrTag['tag'];
@@ -209,34 +228,21 @@
             $autor  = $message['fromaddress'];
             $to     = $message['toaddress'];
             $copy   = $message['ccaddress'];           
-            $size   = (int)$message['size'];
+            
             /*
              * Grava dados no DB
              */
-            $tipoVal    = 'NONE';
-            $arrTipo    = array('CHORE','RELEASE','BUG','FEATURE','MEMO');
-            if (strlen($tipo) > 0) {
-                $checkTipo  = strtoupper($tipo);
-                $key        = array_search(strtoupper($checkTipo), $arrTipo);            
-                if ($key !== false) $tipoVal = $checkTipo;
-            }
             
-            //Junta em um único array as tags #task e #tasks:
-            if ((isset($arrTag['task']) && strlen($arrTag['task']) > 0) ||
-                (isset($arrTag['task']) && strlen($arrTag['task']) == 0)
-               ) {
-                $arrTag['tasks'][] = $arrTag['task'];
-            }
-
             try {
+                //Mensagem ainda não cadastrada.               
                 DB::startTransaction();
                 DB::replace('SVIP_EMOP_MSG', array(
                   'ID_ASSINATURA' => $idAssinatura,
                   'TAM_BYTES' => $size,
                   'MESSAGE_ID' => $messageId,
                   'DATA_HORA_ENVIO' => $dataHoraEn,
-                  'TIPO' => $tipoVal, // duplicate primary key 
-                  'TITULO' => utf8_encode($titulo),
+                  'TIPO' => $type, 
+                  'TITULO' => $tituloDb,
                   'DESCRICAO' => utf8_encode($descricao),
                   'MENSAGEM' => utf8_encode($msg),
                   'AUTOR' => $autor,
@@ -252,10 +258,10 @@
                   'DEADLINE' => $deadline,
                   'DATA_REGISTRO' => DB::sqleval("NOW()")
                 ));
-                
+
                 $idMsg = DB::insertId();
                 if ($idMsg > 0) {
-                    //Grava as tarefas da mensagem, se houver
+                    //Grava as tarefas da mensagem, se houver                    
                     $arrTasks = (isset($arrTag['tasks'])) ? $arrTag['tasks'] : null;
                     if (is_array($arrTasks)) {
                         $row = array();
@@ -268,21 +274,19 @@
                         DB::insert('SVIP_EMOP_TAREFA', $rows);
                     }
                     DB::commit();
-                    
+
                     $toName = 'Claudio Rubens';
                     $toMail = 'claudio@supervip.com.br';
                     $titulo = str_replace('#:','',$titulo);
-    
                     sendEmail($fromName, $fromEmail, $toName, $toMail, $titulo, $bodyReturn);
                 } else {
                     DB::rollback();
                 }
-
             } catch(MeekroDBException $e) {
               echo "Error: " . $e->getMessage() . "<br>\n"; // something about duplicate keys
               echo "SQL Query: " . $e->getQuery() . "<br>\n"; // INSERT INTO accounts...
             }
-
+            echo 'Mensagem cadastrada com sucesso.<br>';
             //$sql = "";
             /*
             echo "Data/hora:{$dataHoraEn} <br/>";
@@ -305,7 +309,7 @@
         $mail = new PHPMailer;
         
         $mail->isSMTP();                                      // Set mailer to use SMTP
-        $mail->SMTPDebug = 2;
+        //$mail->SMTPDebug = 2;
         //$mail->Debugoutput = 'html';
         $mail->Host = "smtp.supervip.com.br";
         $mail->SMTPAuth = true;
@@ -323,7 +327,7 @@
         //$mail->addCC('cc@example.com');
         //$mail->addBCC('bcc@example.com');
 
-        $mail->WordWrap = 50;                                 // Set word wrap to 50 characters
+        //$mail->WordWrap = 50;                                 // Set word wrap to 50 characters
         //$mail->addAttachment('/var/tmp/file.tar.gz');         // Add attachments
         //$mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
         $mail->isHTML(true);                                  // Set email format to HTML
@@ -338,7 +342,7 @@
            exit;
         }
 
-        echo 'Mensagem enviada com sucesso!';        
+        echo 'Mensagem enviada com sucesso!<br>';        
     }
     
     function checkCodMap($arrRoadMap,$codSearch){
@@ -438,7 +442,7 @@
         else{ 
             if (isset($part->disposition)){ 
                 if ($part->disposition == 'attachment'){ 
-                    echo '<p>' . $part->dparameters[0]->value . '</p>'; 
+                    //echo '<p>' . $part->dparameters[0]->value . '</p>'; 
                     // here you can create a link to the file whose name is  $part->dparameters[0]->value to download it 
                     return true; 
                 } 
