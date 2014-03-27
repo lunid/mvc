@@ -2,8 +2,9 @@
     include('../sys/vendors/db/Meekrodb_2_2.php');
     require '../sys/vendors/PHPMailer/PHPMailerAutoload.php';
     
-    $idAssinatura   = 1;
-    $replyTo        = 'claudio@supervip.com.br';
+    $idAssinatura           = 1;
+    $replyTo                = 'claudio@supervip.com.br';
+    $excluirMsgAposGravar   = false;
     
     error_reporting(-1);
     try {
@@ -66,9 +67,8 @@
         $totalMsg           = imap_num_msg($mbox);  
         $totalMsgNaoLidas   = imap_num_recent($mbox);        
         
-        for ($msgId = 1; $msgId <= $totalMsg; $msgId++) {
-            $header                 = imap_header($mbox, $msgId);
-            
+        for ($msgId = 1; $msgId <= $totalMsg; $msgId++) {            
+            $header                 = imap_header($mbox, $msgId);            
             $from                   = $header->from[0];
             
             //Info Remetente:
@@ -77,8 +77,7 @@
             $fromHost               = $from->host;
             $fromEmail              = "$fromMailbox@$fromHost";
             $message['subject']     = $header->subject;
-            $message['fromaddress'] = $header->fromaddress;
-            
+            $message['fromaddress'] = $header->fromaddress;            
             $message['toaddress']   = $header->toaddress;
             $message['ccaddress']   = (isset($header->ccaddress)) ? $header->ccaddress : '';
             $message['date']        = $header->date;
@@ -89,8 +88,59 @@
             $bodyArray              = quoted_printable_decode(imap_fetchbody($mbox,$msgId,"1")); ## GET THE BODY OF MULTI-PART MESSAGE
             if(!$bodyArray) {$bodyArray = '[Nenhuma mensagem foi enviada]\n\n';}           
             
-            //echo $existAttachments;
-            //die();
+            //echo $bodyReturn;
+            
+            //Substitui imagens inline na mensagem, se houver:
+            //http://www.electrictoolbox.com/php-email-extract-inline-image-attachments/
+            preg_match_all('/src="cid:(.*)"/Uims', $bodyReturn, $matches);
+            if (is_array($matches) && count($matches[0]) > 0) {
+                //print_r($matches);
+                $search = array();
+                $replace = array();
+
+                foreach($matches[1] as $match) {
+                        $uniqueFilename = "A UNIQUE_FILENAME.extension";
+                        file_put_contents("images/email/$uniqueFilename", $emailMessage->attachments[$match]['data']);
+                        $search[] = "src=\"cid:$match\"";
+                        $replace[] = "src=\"http://dev.mvc.com/teste/images/email/$uniqueFilename\"";
+                }
+                $bodyReturn = str_replace($search, $replace, $bodyReturn);  
+                echo $bodyReturn;
+            }
+            /*
+            $intStatic = 2;//to initialize the mail body section
+            $strImgageInline   = imap_fetchbody($mbox, $msgId,"");             
+            
+            $numImagesInline    = substr_count($strImgageInline,"Content-Transfer-Encoding: base64");//to get the no of images 
+            
+            if($numImagesInline > 0){
+                for($i = 0; $i < $numImagesInline; $i++){
+                    $strChange  = strval($intStatic+$i); 
+                    $decode     = imap_fetchbody($mbox, $msgId , $strChange);//to get the base64 encoded string for the image 
+                    $data       = base64_decode($decode);                   
+                    $fName      = time()."_".$strChange . '.gif'; 
+                    $file       = 'images/email/'.$fName; 
+                    $success    = file_put_contents($file, $data); 
+                    if ($success) {
+                        //$bodyReturn = str_replace('cid:image002.jpg', $file, $bodyReturn);
+                        //echo $bodyReturn;                        
+                    }
+                    echo "<img src='{$file}'><br/>";
+                }
+            }
+            */
+            
+            /*
+            $strImg         = imap_fetchbody($mbox, $msgId,3);            
+            $decoded_data   = base64_decode($strImg);    
+            if (strlen($decoded_data) > 0) {
+                $img = $targetFolder.'/image_'.$msgId.'.jpg';
+                file_put_contents($img, $decoded_data);
+                echo "<img src='{$img}'><br/>";
+            }
+            */
+               
+            $struct          = imap_fetchstructure($mbox,$msgId,FT_UID);             
            
             $titulo     = utf8_decode(iconv_mime_decode($message['subject'],0,"UTF-8"));               
             $type       = 'NONE';
@@ -101,14 +151,14 @@
             
             $size       = (int)$message['size'];
             $tituloDb   = utf8_encode($titulo);
-            
+            //echo $tituloDb.'<br>';
             //Verifica se a mensagem atual já foi cadastrada.
             $sql = "SELECT COUNT(*) AS TOTAL_MSG FROM SVIP_EMOP_MSG WHERE 
             ID_ASSINATURA = $idAssinatura AND TAM_BYTES = $size AND TITULO = '$tituloDb' AND DATA_HORA_ENVIO = '$dataHoraEn'";
 
             $result     = DB::query($sql);
             $msgJaCad   = (int)$result[0]['TOTAL_MSG'];
-            //if ($msgJaCad > 0) continue;//Mensagem já cadastrada
+            if ($msgJaCad > 0) continue;//Mensagem já cadastrada
             
             $msg        = imap_qprint($bodyArray);
             $arrMsg     = explode("\n",$msg);            
@@ -276,7 +326,10 @@
                         $numTarefas = count($arrTasks);
                     }
                     DB::commit();
-
+                    
+                    //Verifica anexos do e-mail:
+                    existAttachment($struct,$idMsg); 
+                    
                     $toName = 'Claudio Rubens';
                     $toMail = 'claudio@supervip.com.br';
                     $titulo = str_replace('#:','',$titulo);
@@ -285,6 +338,11 @@
                     
                     if ($emailResend === true) {
                         $arrResumo[] = array($titulo,$numTarefas);
+                        if ($excluirMsgAposGravar === true) {
+                            //Excluir mensagem da caixa postal
+                            imap_delete($mbox, $msgId);
+                            imap_expunge($mbox);
+                        }
                     }
                     echo 'Mensagem cadastrada com sucesso.<br>';
                 } else {
@@ -343,6 +401,7 @@
     } else {
         echo 'Não há mensagens';
     }
+    imap_close($mbox);
     
     function sendEmail($fromName, $fromMail, $toName, $toMail, $titulo, $msg){
         $mail = new PHPMailer;
@@ -474,20 +533,43 @@
     }
 
     //http://sidneypalmeira.wordpress.com/2011/07/21/php-como-ler-um-e-mail-e-salvar-o-anexo-via-imap/
-    function existAttachment($part){ 
+    function existAttachment($part,$idMsg){
+        global $arrAnexo;
         if (isset($part->parts)){ 
             foreach ($part->parts as $partOfPart){ 
-                existAttachment($partOfPart); 
+                existAttachment($partOfPart,$idMsg); 
             } 
-        } 
-        else{ 
-            if (isset($part->disposition)){ 
-                if ($part->disposition == 'attachment'){ 
+        } else {                         
+            if (property_exists($part,'disposition')) {                
+                if (strtoupper($part->disposition) == 'ATTACHMENT'){ 
                     //echo '<p>' . $part->dparameters[0]->value . '</p>'; 
-                    // here you can create a link to the file whose name is  $part->dparameters[0]->value to download it 
-                    return true; 
+                    $file = $part->dparameters[0]->value;
+                    //echo "<a href='$file'>$file</a><br/>";
+                    if (gravaAnexo($file)){
+                        //Arquivo gravado com sucesso. Grava no DB
+                        DB::insert('SVIP_EMOP_ANEXO', array(
+                          'ID_EMOP_MSG' => $idMsg,
+                          'NOME_ARQ' => $file,                          
+                          'DATA_REGISTRO' => DB::sqleval("NOW()")
+                        ));                        
+                    }                    
                 } 
             } 
-        } 
+        }
+        
+        return false;
+    }
+    
+    function gravaAnexo($fileOrig){
+        $folder = 'anexos';
+        if (!is_dir($folder)) mkdir($folder);            
+        $fileDest = $folder.'/'.$fileOrig;
+        if (copy($fileOrig,$fileDest)) {
+            return true;
+            //echo "Arquivo copiado com sucesso: <a href='$fileDest'>$fileDest</a><br/>";
+        } else {
+            //echo 'Erro ao copiar o arquivo '.$fileOrig.' para a pasta '.$folder.'<br/>';
+        }     
+        return false;
     }
 ?>
