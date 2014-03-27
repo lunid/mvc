@@ -55,19 +55,19 @@ use sys\classes\util\String;
             //Destrói variáveis criadas anteriormente.
             self::destroy();
              
-            $container      = new DIContainer();
-            //$baseUrl        = CfgEnv::get('baseUrl');   
-            $rootFolder     = CfgEnv::get('rootFolder');   
-            $objUri         = $container->Uri();
-            $objMvcParts    = $objUri->getMvcParts();              
-            
-            echo $rootFolder.'x';
-            die();
+            $objDI          = new DIContainer();                                   
+           
             //Define a pasta root do projeto
+            $rootFolder = $objDI->CfgHost()->getRootFolder();    
             self::setRootFolder($rootFolder);
             
+            $objMvcParts    = $objDI->Uri()->getMvcParts();                
+                        
             //Inicializa tratamento de erro para o projeto atual.
-            errorTalk::initialize();   
+            $objDI->errorTalk('initialize');
+            $objDI->errorTalk('initialize');
+            die();
+            //errorTalk::initialize();   
             errorTalk::$conf['logFilePath'] = "data/log/erroTalkLogFile.txt";
             errorTalk::errorTalk_Open(); // run error talk object
             //echo $test; // Run-time notices (Undefined variable: test)               
@@ -154,7 +154,7 @@ use sys\classes\util\String;
         }
         
         public static function destroy(){
-            new CfgEnv(FALSE);            
+            \AbstractCfg::destroy();        
         }
         
         public static function environmentSetup(){

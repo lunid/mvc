@@ -13,19 +13,18 @@ ServerSignature Off
 RewriteRule \.(txt|mdb|accdb)$ ? [F]
 
 
-# RewriteCond %{REQUEST_URI} !.*\.(ico|gif|jpg|jpeg|png|js|css)
+# Redirecona requisições a arquivos de mídia para o path correto da pasta assets
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-
 RewriteRule ^assets/(css|js|images/plugins)/(.*)?$ /dev/assets/$1/$2/$3/$4 [L,QSA,R=301]
 
 RewriteCond %{SCRIPT_FILENAME} !-f
 RewriteCond %{SCRIPT_FILENAME} !-d
 
-## Se o acesso for feito informando o módulo, desmembra e guarda na variável MODULE
+# Tratamento de URL para o projeto funcionar no padrão MVC
 RewriteRule ^(.*)$ index.php?PG=$1&%{QUERY_STRING} [NC,L]
 
-RewriteRule ^(.*)/assets/(.*)$ /dev/assets/$1 [NC,L]
+#RewriteRule ^(.*)/assets/(.*)$ /dev/assets/$1 [NC,L]
 
 
 <IfModule mod_deflate.c>

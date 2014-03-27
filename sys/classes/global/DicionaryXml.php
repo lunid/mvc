@@ -40,9 +40,8 @@
          * @return boolean
          * @throws \Exception Caso o arquivo não tenha sido localizado
          */
-        private function checkXmlFile($xmlFilename){
-            //Retira as barras de início e fim da pasta root
-            $rootProject    = str_replace('/','',\CfgEnv::get('baseUrl'));            
+        private function checkXmlFile($xmlFilename){            
+            $rootProject    = \CfgHost::getDomainPathRoot();//Ex.: dominio.com/app/            
             $realPath       = '';
             $pathFile       = '';
             

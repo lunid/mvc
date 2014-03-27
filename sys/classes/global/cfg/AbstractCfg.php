@@ -9,16 +9,16 @@ require_once('sys/classes/util/Xml.php');
  */
 abstract class AbstractCfg extends sys\classes\util\Xml {
 
-        protected $pathXml          = '';     
-        private $xmlFile            = '';
-        private $arrAtribId         = NULL;
-        private $nodesParam         = NULL;
-        private $prefixoSessionVar  = 'SVIP_CFG_';
-        private $folderCfg          = 'cfg';
+        protected $pathXml                  = '';     
+        private $xmlFile                    = '';
+        private $arrAtribId                 = NULL;
+        private $nodesParam                 = NULL;
+        private static $prefixoSessionVar   = 'SVIP_CFG_';
+        private $folderCfg                  = 'cfg';
         private $pathXmlFile;
         
         function __construct($xmlFile,$arrAtribId, $prefixoSessionVar=''){  
-            $pathXml        = $this->folderCfg.'/'.$xmlFile;     
+            $pathXml        = $this->folderCfg.'/'.$xmlFile;  
             $this->xmlFile  = $xmlFile;
             $this->pathXml  = $pathXml;
             
@@ -30,7 +30,7 @@ abstract class AbstractCfg extends sys\classes\util\Xml {
             
             if (strlen($prefixoSessionVar) > 0) {
                 //Um prefixo para definir o nome das variáveis SESSION foi informado. Substitui o atual.
-                $this->prefixoSessionVar = $prefixoSessionVar;            
+                self::$prefixoSessionVar = $prefixoSessionVar;            
             }
 
             /**
@@ -45,7 +45,13 @@ abstract class AbstractCfg extends sys\classes\util\Xml {
                 $this->persistParams();
             }
             
-        } 
+        }         
+        
+        public static function getPathXmlFilename(){
+            $host       = $_SERVER['HTTP_HOST'];
+            $xmlFile    = 'host/'.$host.'.xml';
+            return $xmlFile;
+        }        
         
 
         /**
@@ -93,32 +99,38 @@ abstract class AbstractCfg extends sys\classes\util\Xml {
                 $msgErr = "Arquivo {$pathXml} não foi localizado.";                
             }                        
             if (strlen($msgErr)) throw new \Exception( $msgErr );    
-        }                                      
+        } 
         
         /**
-         * Define em session o status de leitura do arquivo config XML atual.
+         * Sinaliza (TRUE/FALSE) se o arquivo config XML atual já foi carregado.
          * Esta variável session é definida como TRUE após a leitura do arquivo de configuração.
+         * 
          * É útil no método persistParams(), evitando leituras repetidas do mesmo arquivo.
          * 
          * @param boolean $value
          * @return void
          */
-        function setStatusLoadCfg($value){
+        protected function setXmlConfigInMemory($value){
             if (is_bool($value)) {                
-                $_SESSION[$this->getNameVarStatusLoadCfg()]  = $value;
+                $_SESSION[$this->getNameVarSession()]  = $value;
             }
         }
-        
-        function getStatusLoadCfg(){
+                
+        protected function getXmlConfigInMemory(){
             $out = FALSE;
-            if (isset($_SESSION[$this->getNameVarStatusLoadCfg()])) {
-                $out = (bool)$_SESSION[$this->getNameVarStatusLoadCfg()];
+            if (isset($_SESSION[$this->getNameVarSession()])) {
+                $out = (bool)$_SESSION[$this->getNameVarSession()];
             }
             return $out;
         }
         
-        private function getNameVarStatusLoadCfg(){
-            $nameVarSession = $this->prefixoSessionVar.$this->xmlFile;
+        /**
+         * Retorna o nome da variável SESSION do arquivo XML atual.
+         * 
+         * @return string
+         */
+        private function getNameVarSession(){            
+            $nameVarSession = self::$prefixoSessionVar.$this->xmlFile;
             return $nameVarSession;
         }        
         
@@ -131,11 +143,12 @@ abstract class AbstractCfg extends sys\classes\util\Xml {
          * @return void         
          */
         private function persistParams(){
-            
-            if (!$this->getStatusLoadCfg()) {                        
-                $nodesParam = $this->getNodesParam();
+            if (!$this->getXmlConfigInMemory()) {    
+                //O arquivo atual ainda não foi lido (não está em session).
+                $nodesParam = $this->getNodesParam();                
                 $arrAtribId = $this->getArrAtribId();//Atributos permitidos para o arquivo XML informado.            
-                if (is_object($nodesParam) && is_array($arrAtribId || 1==1)) {  
+               
+                if (is_object($nodesParam) && is_array($arrAtribId) || 1==1) {                     
                     foreach($nodesParam as $node){                        
                         if ($node->attributes() !== NULL) {
                             $id     = (string)$node->attributes();
@@ -143,13 +156,13 @@ abstract class AbstractCfg extends sys\classes\util\Xml {
                             if ($key !== FALSE) {
                                 //O atributo é válido. Guarda o valor em SESSION.                        
                                 $value = (string)$node;  
-                                echo $value.'<br>';
                                 $this->setSessionVar($id,$value);//Persiste o valor encontrado em Session
                             }                 
                         }
                     }
                     
-                    $this->setStatusLoadCfg(TRUE);                    
+                    //Sinaliza que o arquivo xml atual foi lido e está guardado em Session.
+                    $this->setXmlConfigInMemory(TRUE);                    
                     
                 } elseif (is_array($arrAtribId)) {
                     //O objeto não existe. Limpa as variáveis do objeto atual, se houver.
@@ -212,7 +225,7 @@ abstract class AbstractCfg extends sys\classes\util\Xml {
          * @return void
          */
         private function setSessionVar($id,$value){
-           $varName             = $this->prefixoSessionVar.$id;  
+           $varName             = self::$prefixoSessionVar.$id;  
            $value               = str_replace('./','',$value);
            $_SESSION[$varName]  = $value;           
         }  
@@ -224,7 +237,7 @@ abstract class AbstractCfg extends sys\classes\util\Xml {
          * @return String
          */
         private function getSessionVar($id){
-            $varName    = $this->prefixoSessionVar.$id; 
+            $varName    = self::$prefixoSessionVar.$id; 
             $value      = (isset($_SESSION[$varName])) ? $_SESSION[$varName] : '';
             return $value;
         }
@@ -235,7 +248,7 @@ abstract class AbstractCfg extends sys\classes\util\Xml {
          * 
          * Exemplo:
          * <code>
-         *  echo CfgEnv::get('rootFolder');
+         *  echo CfgHost::get('rootFolder');
          * </code>
          * 
          * @param string $id Atributo id da tag <param> cujo valor se deseja recuperar.
@@ -250,6 +263,7 @@ abstract class AbstractCfg extends sys\classes\util\Xml {
             //return self::getValueForId($id, get_class());   
         }
         
+        
         /**
          * Permtie acessar um atributo do arquivo atual pelo seu id, a partir 
          * de um método estático.
@@ -259,10 +273,10 @@ abstract class AbstractCfg extends sys\classes\util\Xml {
          */
         public static function getValueForId($id, $childClass){
             try {
-                $objCfg = new $childClass;
+                $objCfg = new $childClass;                
                 return $objCfg->$id;
             } catch (\Exception $e) {
-                $msgErr = "ID não localizado no construtor da classe chamada ({$childClass}). <br/>".$e->getMessage();
+                $msgErr = "ID {$id} não localizado no construtor da classe chamada ({$childClass}). <br/>".$e->getMessage();
                 throw  new \Exception( $msgErr );
             }            
         }                
@@ -279,6 +293,24 @@ abstract class AbstractCfg extends sys\classes\util\Xml {
                 throw new \Exception( $msgErr );
             }
         }
+        
+        
+        /**
+         * Destrói variáveis de configuração.
+         * 
+         * @return void
+         */
+        public static function destroy(){
+            $prefixo = self::$prefixoSessionVar;
+            foreach($_SESSION as $var=>$value) {
+                $pos = strpos($var, $prefixo);
+                if ($pos !== FALSE) {
+                    //Variável SESSION que guarda dado de configuração. Deve ser eliminada.
+                    $_SESSION[$var] = '';
+                    unset($var);
+                }
+            }
+        }        
 
 }
 ?>

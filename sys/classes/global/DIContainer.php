@@ -15,14 +15,24 @@
             return self::$container;
         }
         
-        function CfgApp($paramId){
+        function CfgHost($paramId=''){
             $container = $this->getContainer();
-            $container['className']     = 'CfgApp';
+            $container['className']     = 'CfgHost';
             $container['object']        = function ($c) {               
                 return new $c['className']();
             };              
-            $param = $container['object']::get($paramId);
-            return $param;            
+            //$param = $container['object']::get($paramId);
+            //return $param;  
+            return $container['object'];
+        }
+        
+        function errorTalk(){
+            $container = $this->getContainer();
+            $container['errorTalk']     = 'errorTalk';
+            $container['object']        = function ($c) {               
+                return new $c['errorTalk']();
+            };              
+            return $container['object'];            
         }
         
         function Uri($cfgClass='CfgApp'){            

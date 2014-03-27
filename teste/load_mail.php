@@ -21,11 +21,12 @@
         die();
     }
     
-    $server = 'pop.supervip.com.br';
-    $port   = '110';
-    $user   = 'project@supervip.com.br';
-    $passwd = 'senha3040';
-       
+    $server     = 'pop.supervip.com.br';
+    $port       = '110';
+    $user       = 'project@supervip.com.br';
+    $passwd     = 'senha3040';
+    $arrResumo  = array();//Guarda o resultado de cada mensagem rastreada e permite enviar um e-mail resumido no final
+    
     $arrCodMap      =  array(
       'title'       => 'tt, título',
       'descryption' => 'ds,descrição',      
@@ -55,10 +56,12 @@
 
 
     try {
-        $mbox = imap_open("{{$server}:{$port}/pop3/novalidate-cert}INBOX", $user, $passwd);
+        $mbox = imap_open("{{$server}:{$port}/pop3/novalidate-cert}INBOX", $user, $passwd)
+             or die('Não foi possível estabelecer conexão com o servidor iMap: '.imap_last_error());
     } catch (Exception $e) {
         die('Servidor de e-mail não disponível.');
     }
+    
     if ($mbox) {
         $totalMsg           = imap_num_msg($mbox);  
         $totalMsgNaoLidas   = imap_num_recent($mbox);        
@@ -73,7 +76,6 @@
             $fromMailbox            = $from->mailbox;
             $fromHost               = $from->host;
             $fromEmail              = "$fromMailbox@$fromHost";
-
             $message['subject']     = $header->subject;
             $message['fromaddress'] = $header->fromaddress;
             
@@ -83,13 +85,11 @@
             $message['size']        = $header->Size;//Em bytes
             $messageId              = $header->message_id;     
             $bodyReturn             = getBody($msgId,$mbox);//Mensagem a ser reenviada no final do script
-
+            //$overview               = imap_fetch_overview($mbox,$msgId,0);            
             $bodyArray              = quoted_printable_decode(imap_fetchbody($mbox,$msgId,"1")); ## GET THE BODY OF MULTI-PART MESSAGE
-            if(!$bodyArray) {$bodyArray = '[Nenhuma mensagem foi enviada]\n\n';}
+            if(!$bodyArray) {$bodyArray = '[Nenhuma mensagem foi enviada]\n\n';}           
             
-            //$struct                 = imap_fetchstructure($mbox,$msgId,FT_UID); 
-            //$existAttachments       = existAttachment($struct); 
-            //echo $struct;
+            //echo $existAttachments;
             //die();
            
             $titulo     = utf8_decode(iconv_mime_decode($message['subject'],0,"UTF-8"));               
@@ -108,7 +108,7 @@
 
             $result     = DB::query($sql);
             $msgJaCad   = (int)$result[0]['TOTAL_MSG'];
-            if ($msgJaCad > 0) continue;//Mensagem já cadastrada
+            //if ($msgJaCad > 0) continue;//Mensagem já cadastrada
             
             $msg        = imap_qprint($bodyArray);
             $arrMsg     = explode("\n",$msg);            
@@ -259,7 +259,8 @@
                   'DATA_REGISTRO' => DB::sqleval("NOW()")
                 ));
 
-                $idMsg = DB::insertId();
+                $numTarefas = 0;
+                $idMsg      = DB::insertId();
                 if ($idMsg > 0) {
                     //Grava as tarefas da mensagem, se houver                    
                     $arrTasks = (isset($arrTag['tasks'])) ? $arrTag['tasks'] : null;
@@ -272,13 +273,20 @@
                             );
                         }
                         DB::insert('SVIP_EMOP_TAREFA', $rows);
+                        $numTarefas = count($arrTasks);
                     }
                     DB::commit();
 
                     $toName = 'Claudio Rubens';
                     $toMail = 'claudio@supervip.com.br';
                     $titulo = str_replace('#:','',$titulo);
-                    sendEmail($fromName, $fromEmail, $toName, $toMail, $titulo, $bodyReturn);
+                    //$emailResend = sendEmail($fromName, $fromEmail, $toName, $toMail, $titulo, $bodyReturn);
+                    $emailResend = false;
+                    
+                    if ($emailResend === true) {
+                        $arrResumo[] = array($titulo,$numTarefas);
+                    }
+                    echo 'Mensagem cadastrada com sucesso.<br>';
                 } else {
                     DB::rollback();
                 }
@@ -286,7 +294,7 @@
               echo "Error: " . $e->getMessage() . "<br>\n"; // something about duplicate keys
               echo "SQL Query: " . $e->getQuery() . "<br>\n"; // INSERT INTO accounts...
             }
-            echo 'Mensagem cadastrada com sucesso.<br>';
+                     
             //$sql = "";
             /*
             echo "Data/hora:{$dataHoraEn} <br/>";
@@ -300,7 +308,38 @@
             echo "Memo:{$obs}<br/>";
             */
            
-        }
+        }        
+
+        $totalMsg = count($arrResumo);
+        if ($totalMsg > 0) {
+            //Envia e-mail resumido das mensagens rastreadas.
+            $msgResumo = '';
+            foreach($arrResumo as $row){ 
+                $tituloMsg  = $row[0];
+                $numTarefas = (int)$row[1]; 
+                $mTarefas   = ($numTarefas > 0) ? " [$numTarefas tarefas]" : '';
+                $msgResumo  .= " - {$tituloMsg} {$mTarefas}<br/>";
+            }
+            
+            $toName         = $fromName;
+            $toMail         = $fromEmail;
+            $toMail         = 'claudio@supervip.com.br';
+            $fromName       = 'e-MOP';
+            $fromEmail      = 'project@supervip.com.br';            
+            $tituloResumo   = "{$totalMsg} mensagens rastreadas";
+            //echo "$fromEmail - $toMail";
+            //die();
+            $bodyReturn     = '<b>Mensagens rastreadas com sucesso:</b><br/>'.$msgResumo;
+            $emailResumo    = sendEmail($fromName, $fromEmail, $toName, $toMail, $tituloResumo, $bodyReturn);
+            if ($emailResumo) {
+                echo "Resumo enviado com sucesso!";
+            } else {
+                echo "Não foi possível enviar o resumo.";
+            }
+        } else {
+            echo "Nenhum resumo foi gerado.";
+        } 
+        
     } else {
         echo 'Não há mensagens';
     }
@@ -335,14 +374,16 @@
         $mail->Subject = $titulo;
         $mail->Body    = $msg;
         $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
-
-        if(!$mail->send()) {
+        
+        $emailEnviado   = $mail->send();
+        
+        if(!$emailEnviado) {
            echo 'Message could not be sent.';
            echo 'Mailer Error: ' . $mail->ErrorInfo;
            exit;
         }
-
-        echo 'Mensagem enviada com sucesso!<br>';        
+        
+        return $emailEnviado;
     }
     
     function checkCodMap($arrRoadMap,$codSearch){
@@ -448,5 +489,5 @@
                 } 
             } 
         } 
-    }     
+    }
 ?>

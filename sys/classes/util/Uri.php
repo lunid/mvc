@@ -38,7 +38,7 @@
             $controller         = 'index';   
             
             try {
-                $rootFolder         = CfgEnv::get('rootFolder');
+                $rootFolder         = CfgHost::getRootFolder();
                 $action             = '';
 
                 //Módulos:
