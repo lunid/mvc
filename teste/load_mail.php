@@ -1,6 +1,7 @@
 <?php
     include('../sys/vendors/db/Meekrodb_2_2.php');
-    require '../sys/vendors/PHPMailer/PHPMailerAutoload.php';
+    require ('../sys/vendors/PHPMailer/PHPMailerAutoload.php');
+    require ('class/Imap.php');
     
     $idAssinatura           = 1;
     $replyTo                = 'claudio@supervip.com.br';
@@ -26,7 +27,7 @@
     $port       = '110';
     $user       = 'project@supervip.com.br';
     $passwd     = 'senha3040';
-    $arrResumo  = array();//Guarda o resultado de cada mensagem rastreada e permite enviar um e-mail resumido no final
+    $arrResumo  = array();//Guarda o resultado de cada mensagem rastreada e permite enviar um e-mail resumido no final   
     
     $arrCodMap      =  array(
       'title'       => 'tt, título',
@@ -43,7 +44,7 @@
         'tag'   => 'Palavras-chave:',
         'memo'  => ''
     );
-    
+        
     $arrType = array('memo','chore','release','feature','bug','none');//Tipos possíveis de mensagem
     
     foreach($arrCodMap as $key=>$value){
@@ -55,13 +56,21 @@
     if (strlen($strCodValue) > 0) $strCodKey .= ','.$strCodValue;
     $arrPseudoCod = explode(',',$strCodKey);
 
-
+    try {
+        $objImap = new Imap($server,$port,$user,$passwd);
+    } catch(\Exception $e) {
+        die($e->getMessage());
+    }
+    
+    
+    /*
     try {
         $mbox = imap_open("{{$server}:{$port}/pop3/novalidate-cert}INBOX", $user, $passwd)
              or die('Não foi possível estabelecer conexão com o servidor iMap: '.imap_last_error());
     } catch (Exception $e) {
         die('Servidor de e-mail não disponível.');
     }
+    */
     
     if ($mbox) {
         $totalMsg           = imap_num_msg($mbox);  
