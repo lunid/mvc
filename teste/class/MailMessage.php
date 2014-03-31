@@ -21,7 +21,9 @@
         private $bodyReturn;//mensagem completa a ser reenviada caso seja necessário.
         private $structure;
         private $overview;
-
+        private $arrAnexos;
+        private $numImagesInline = 0;
+        
         private $arrHtmlMap = array(
             'tks'   => 'Tarefas:',
             'ds'    => 'Descrição:',
@@ -33,7 +35,6 @@
             $this->conn             = $conn;
             $this->index            = $index;
             $header                 = imap_header($conn, $index);            
-            var_dump($header);
             $from                   = $header->from[0];
             $this->from             = $from;
            
@@ -49,13 +50,12 @@
             $this->cc               = (isset($header->ccaddress)) ? $header->ccaddress : '';
             $this->date             = $header->date;
             $this->size             = (int)$header->Size;//Em bytes
-            $this->messageId        = $header->message_id;     
-            $this->bodyReturn       = $this->getBody($conn, $index);//Mensagem a ser reenviada no final do script
+            $this->messageId        = $header->message_id;                 
             $this->overview         = imap_fetch_overview($conn,$index,0);            
-            $this->structure        = @imap_fetchstructure($conn, $index);            
-            if (!function_exists("imap_qprint")) {
-                die('Não existe');
-            }
+            $this->structure        = @imap_fetchstructure($conn, $index,FT_UID);    
+            $strImgageInline        = imap_fetchbody($conn, $index,"");                         
+            $this->numImagesInline  = (int)substr_count($strImgageInline,"Content-Transfer-Encoding: base64");//total de imagens inline
+            $this->bodyReturn       = $this->getBody();//Mensagem a ser reenviada no final do script
             $body                   = imap_qprint(imap_fetchbody($conn,$index,"1")); ## GET THE BODY OF MULTI-PART MESSAGE
             //if(!$body) {$body = '[Nenhuma mensagem foi enviada]\n\n';}                            
             //$msg = imap_qprint($body);
@@ -85,9 +85,10 @@
             $index  = (int)$this->index;
             
             if (!$structure) {
-                $structure = imap_fetchstructure($conn, $index, FT_UID);
+                $structure = $this->structure;
             }
-            if ($structure) {
+            if ($structure) {               
+                $this->saveAnexos($structure);
                 if ($mimetype == $this->getMimeType($structure)) {
                     if (!$partNumber) {
                         $partNumber = 1;
@@ -150,5 +151,55 @@
             if ($msgJaCad > 0) $jaCadastrada = true;
             return $jaCadastrada;
         }
+        
+        //http://stuporglue.org/recieve-e-mail-and-save-attachments-with-a-php-script/
+        //http://sidneypalmeira.wordpress.com/2011/07/21/php-como-ler-um-e-mail-e-salvar-o-anexo-via-imap/
+        function saveAnexos($part){                        
+            if (isset($part->parts)){ 
+                foreach ($part->parts as $partOfPart){ 
+                    $this->saveAnexos($partOfPart); 
+                } 
+            } else {                         
+                if (property_exists($part,'disposition')) {                
+                    if (strtoupper($part->disposition) == 'ATTACHMENT'){  
+                        $encoding = $part->encoding;                     
+                        $fileOrig = $part->dparameters[0]->value;
+                        switch ($encoding) {
+                            case 0: // 7BIT
+                            case 1: // 8BIT
+                            case 2: // BINARY
+                                $data = $fileOrig;
+
+                            case 3: // BASE-64
+                                $data = base64_decode($fileOrig);
+
+                            case 4: // QUOTED-PRINTABLE
+                                $data = imap_qprint($fileOrig);
+                        }                                           
+                    
+                        echo "<a href='$fileOrig'>$fileOrig</a><br/>";
+                        if ($this->gravaAnexo($data)){
+                            //Arquivo gravado com sucesso. Grava no DB
+                            echo 'foi...<br/>';
+                            $this->arrAnexos[] = $fileOrig;
+                        }                    
+                    } 
+                } 
+            }
+        }    
+        
+        private function gravaAnexo($fileOrig){
+            $folder = 'anexos';
+            if (!is_dir($folder)) mkdir($folder);            
+            $fileDest = $folder.'/'.$fileOrig;
+            if (@copy($fileOrig,$fileDest)) {
+                return true;                    
+            }
+            
+            echo "Não gravou $fileOrig <br>";
+               
+            return false;
+        }
+
     }
 ?>

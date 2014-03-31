@@ -10,9 +10,10 @@
         function __construct($server,$port,$login,$password) {
             try {
                 $host   = "{{$server}:{$port}/pop3/novalidate-cert}";
-                $conn   = @imap_open($host."INBOX", $login, $password)
-                     or die('Não foi possível estabelecer conexão com o servidor iMap: '.imap_last_error());
-
+                $conn   = @imap_open($host."INBOX", $login, $password);
+                if (FALSE === $conn) {
+                    throw new Exception('Não foi possível estabelecer conexão com o servidor iMap: ' . imap_last_error());
+                }
 
                 $this->host             = $host;
                 $this->conn             = $conn;

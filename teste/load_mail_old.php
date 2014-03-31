@@ -2,7 +2,6 @@
     include('../sys/vendors/db/Meekrodb_2_2.php');
     require ('../sys/vendors/PHPMailer/PHPMailerAutoload.php');
     require ('class/Imap.php');
-    require ('class/MailMessage.php');
     
     $idAssinatura           = 1;
     $replyTo                = 'claudio@supervip.com.br';
@@ -24,6 +23,10 @@
         die();
     }
     
+    $server     = 'pop.supervip.com.br';
+    $port       = '110';
+    $user       = 'project@supervip.com.br';
+    $passwd     = 'senha3040';
     $arrResumo  = array();//Guarda o resultado de cada mensagem rastreada e permite enviar um e-mail resumido no final   
     
     $arrCodMap      =  array(
@@ -54,16 +57,11 @@
     $arrPseudoCod = explode(',',$strCodKey);
 
     try {
-        $server     = 'pop.supervip.com.br';
-        $port       = '110';
-        $user       = 'project@supervip.com.br';
-        $passwd     = 'senha3040';        
         $objImap = new Imap($server,$port,$user,$passwd);
-        $objImap->loadAllMessages();
     } catch(\Exception $e) {
         die($e->getMessage());
     }
-    die();
+    
     
     /*
     try {
@@ -75,6 +73,8 @@
     */
     
     if ($mbox) {
+        $totalMsg           = imap_num_msg($mbox);  
+        $totalMsgNaoLidas   = imap_num_recent($mbox);        
         
         for ($msgId = 1; $msgId <= $totalMsg; $msgId++) {            
             $header                 = imap_header($mbox, $msgId);            
@@ -478,7 +478,68 @@
         return $var;
     }
     
+    function getBody($uid, $imap) {
+        global $arrHtmlMap;
+        $format = 'html';
+        $body   = get_part($imap, $uid, "TEXT/HTML");
+        // if HTML body is empty, try getting text body
+        if ($body == "") {
+            $format = 'text_plain';
+            $body = get_part($imap, $uid, "TEXT/PLAIN");
+        }
+       
+        foreach($arrHtmlMap as $key=>$value) {
+            $cod    = "#{$key}:";   
+            $value  = utf8_decode($value);
+            if ($format == 'html') $value = "<b>$value</b>";
+            $body   = str_replace($cod,$value,$body);            
+        }
+        return $body;
+    }    
+    
+    
+    function get_part($imap, $uid, $mimetype, $structure = false, $partNumber = false) {
+        if (!$structure) {
+               $structure = imap_fetchstructure($imap, $uid, FT_UID);
+        }
+        if ($structure) {
+            if ($mimetype == get_mime_type($structure)) {
+                if (!$partNumber) {
+                    $partNumber = 1;
+                }
+                $text = imap_fetchbody($imap, $uid, $partNumber, FT_UID);
+                switch ($structure->encoding) {
+                    case 3: return imap_base64($text);
+                    case 4: return imap_qprint($text);
+                    default: return $text;
+               }
+           }
 
+            // multipart 
+            if ($structure->type == 1) {
+                foreach ($structure->parts as $index => $subStruct) {
+                    $prefix = "";
+                    if ($partNumber) {
+                        $prefix = $partNumber . ".";
+                    }
+                    $data = get_part($imap, $uid, $mimetype, $subStruct, $prefix . ($index + 1));
+                    if ($data) {
+                        return $data;
+                    }
+                }
+            }
+        }
+        return false;
+    }    
+    
+    function get_mime_type($structure) {
+        $primaryMimetype = array("TEXT", "MULTIPART", "MESSAGE", "APPLICATION", "AUDIO", "IMAGE", "VIDEO", "OTHER");
+
+        if ($structure->subtype) {
+           return $primaryMimetype[(int)$structure->type] . "/" . $structure->subtype;
+        }
+        return "TEXT/PLAIN";
+    }
 
     //http://sidneypalmeira.wordpress.com/2011/07/21/php-como-ler-um-e-mail-e-salvar-o-anexo-via-imap/
     function existAttachment($part,$idMsg){
@@ -508,5 +569,16 @@
         return false;
     }
     
-
+    function gravaAnexo($fileOrig){
+        $folder = 'anexos';
+        if (!is_dir($folder)) mkdir($folder);            
+        $fileDest = $folder.'/'.$fileOrig;
+        if (copy($fileOrig,$fileDest)) {
+            return true;
+            //echo "Arquivo copiado com sucesso: <a href='$fileDest'>$fileDest</a><br/>";
+        } else {
+            //echo 'Erro ao copiar o arquivo '.$fileOrig.' para a pasta '.$folder.'<br/>';
+        }     
+        return false;
+    }
 ?>
