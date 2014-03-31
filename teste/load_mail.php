@@ -2,6 +2,7 @@
     include('../sys/vendors/db/Meekrodb_2_2.php');
     require ('../sys/vendors/PHPMailer/PHPMailerAutoload.php');
     require ('class/Imap.php');
+    require ('class/MailMessage.php');
     
     $idAssinatura           = 1;
     $replyTo                = 'claudio@supervip.com.br';
@@ -23,10 +24,6 @@
         die();
     }
     
-    $server     = 'pop.supervip.com.br';
-    $port       = '110';
-    $user       = 'project@supervip.com.br';
-    $passwd     = 'senha3040';
     $arrResumo  = array();//Guarda o resultado de cada mensagem rastreada e permite enviar um e-mail resumido no final   
     
     $arrCodMap      =  array(
@@ -57,11 +54,16 @@
     $arrPseudoCod = explode(',',$strCodKey);
 
     try {
+        $server     = 'pop.supervip.com.br';
+        $port       = '110';
+        $user       = 'project@supervip.com.br';
+        $passwd     = 'senha3040';        
         $objImap = new Imap($server,$port,$user,$passwd);
+        $objImap->loadAllMessages();
     } catch(\Exception $e) {
         die($e->getMessage());
     }
-    
+    die();
     
     /*
     try {
