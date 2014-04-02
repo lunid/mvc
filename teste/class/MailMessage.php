@@ -1,8 +1,11 @@
 <?php
 
     class MailMessage {
+        private $idAssinatura;
         private $conn;
         private $index;
+        private $body;
+        private $fechBody;
         private $bodyPlain;
         private $bodyHtml;
         private $assuntoDb;
@@ -22,7 +25,8 @@
         private $structure;
         private $overview;
         private $arrAnexos;
-        private $numImagesInline = 0;
+        private $numImagesInline    = 0;
+        private $folderAnexos       = 'anexos_';//Pasta usada para armazenar anexos das mensagens lidas
         
         private $arrHtmlMap = array(
             'tks'   => 'Tarefas:',
@@ -31,7 +35,8 @@
             'memo'  => ''
         );
             
-        function __construct($conn, $index) {
+        function __construct($idAssinatura, $conn, $index) {
+            $this->idAssinatura     = $idAssinatura;
             $this->conn             = $conn;
             $this->index            = $index;
             $header                 = imap_header($conn, $index);            
@@ -53,15 +58,44 @@
             $this->messageId        = $header->message_id;                 
             $this->overview         = imap_fetch_overview($conn,$index,0);            
             $this->structure        = @imap_fetchstructure($conn, $index,FT_UID);    
-            $strImgageInline        = imap_fetchbody($conn, $index,"");                         
-            $this->numImagesInline  = (int)substr_count($strImgageInline,"Content-Transfer-Encoding: base64");//total de imagens inline
-            $this->bodyReturn       = $this->getBody();//Mensagem a ser reenviada no final do script
-            $body                   = imap_qprint(imap_fetchbody($conn,$index,"1")); ## GET THE BODY OF MULTI-PART MESSAGE
-            //if(!$body) {$body = '[Nenhuma mensagem foi enviada]\n\n';}                            
-            //$msg = imap_qprint($body);
+            $fechBody               = imap_fetchbody($conn, $index,"");
+            $this->fechBody         = $fechBody;
+            $this->numImagesInline  = (int)substr_count($fechBody,"Content-Transfer-Encoding: base64");//total de imagens inline           
+            $this->body             = imap_qprint(imap_fetchbody($conn,$index,"1")); ## GET THE BODY OF MULTI-PART MESSAGE
+            
+            // Extrai a mensagem a ser reenviada e anexos, se houver
+            $this->extractParts();            
         }
         
-        private function getBody() {
+        function verifEmailJaCadastrado(){
+            //Verifica se a mensagem atual já foi cadastrada.
+            $dtHrEn = $this->getDtHrEn();
+            $sql = "SELECT COUNT(*) AS TOTAL_MSG FROM SVIP_EMOP_MSG WHERE 
+            ID_ASSINATURA = $this->idAssinatura AND TAM_BYTES = $this->size AND TITULO = '$this->assuntoDb' AND DATA_HORA_ENVIO = '$dtHrEn'";
+            
+            $result = Conn::query($sql);  
+            if (!is_null($result)) {
+                $msgJaCad   = (int)$result[0]['TOTAL_MSG'];
+                if ($msgJaCad > 0) return TRUE;
+            }
+            return FALSE;
+        }
+        
+        private function getCc(){
+            return $this->cc;
+        }
+        
+        private function getTo(){
+            return $this->to;
+        }
+        
+        function parsePseudoLinguagem(){
+            //Faz tratamento da pseudo-linguagem             
+            $objPseudoLing  = new PseudoLinguagem($this->body);
+            return $objPseudoLing->extractActionsForString();
+        }
+        
+        private function extractParts() {
             $arrHtmlMap = $this->arrHtmlMap;
             $format = 'html';
             $body   = $this->getPart("TEXT/HTML");
@@ -71,13 +105,14 @@
                 $body = $this->getPart("TEXT/PLAIN");
             }
 
+            //Retira marcadores de pseudo-linguagem, se houver.
             foreach($arrHtmlMap as $key=>$value) {
                 $cod    = "#{$key}:";   
                 $value  = utf8_decode($value);
                 if ($format == 'html') $value = "<b>$value</b>";
                 $body   = str_replace($cod,$value,$body);            
             }
-            return $body;
+            $this->bodyReturn = $body; 
         }   
                 
         private function getPart($mimetype, $structure = false, $partNumber = false) {
@@ -88,7 +123,7 @@
                 $structure = $this->structure;
             }
             if ($structure) {               
-                $this->saveAnexos($structure);
+                if (count($this->arrAnexos) == 0) $this->saveAnexos($structure);
                 if ($mimetype == $this->getMimeType($structure)) {
                     if (!$partNumber) {
                         $partNumber = 1;
@@ -152,54 +187,106 @@
             return $jaCadastrada;
         }
         
-        //http://stuporglue.org/recieve-e-mail-and-save-attachments-with-a-php-script/
-        //http://sidneypalmeira.wordpress.com/2011/07/21/php-como-ler-um-e-mail-e-salvar-o-anexo-via-imap/
-        function saveAnexos($part){                        
-            if (isset($part->parts)){ 
-                foreach ($part->parts as $partOfPart){ 
-                    $this->saveAnexos($partOfPart); 
-                } 
-            } else {                         
-                if (property_exists($part,'disposition')) {                
-                    if (strtoupper($part->disposition) == 'ATTACHMENT'){  
-                        $encoding = $part->encoding;                     
-                        $fileOrig = $part->dparameters[0]->value;
-                        switch ($encoding) {
-                            case 0: // 7BIT
-                            case 1: // 8BIT
-                            case 2: // BINARY
-                                $data = $fileOrig;
-
-                            case 3: // BASE-64
-                                $data = base64_decode($fileOrig);
-
-                            case 4: // QUOTED-PRINTABLE
-                                $data = imap_qprint($fileOrig);
-                        }                                           
-                    
-                        echo "<a href='$fileOrig'>$fileOrig</a><br/>";
-                        if ($this->gravaAnexo($data)){
-                            //Arquivo gravado com sucesso. Grava no DB
-                            echo 'foi...<br/>';
-                            $this->arrAnexos[] = $fileOrig;
-                        }                    
-                    } 
-                } 
-            }
-        }    
-        
-        private function gravaAnexo($fileOrig){
-            $folder = 'anexos';
-            if (!is_dir($folder)) mkdir($folder);            
-            $fileDest = $folder.'/'.$fileOrig;
-            if (@copy($fileOrig,$fileDest)) {
-                return true;                    
-            }
+        function saveAnexos($structure){
+            $attachments    = array();
+            $conn           = $this->conn;
+            $index          = $this->index;
+            $folderAnexos   = $this->getFolderAnexos();
+            if ($folderAnexos === FALSE) {
+                throw new Exception("Não foi possível criar a pasta {$folderAnexos} para armazenamento de anexos.");
+            }            
             
-            echo "Não gravou $fileOrig <br>";
-               
-            return false;
+            if(isset($structure->parts) && count($structure->parts)) {
+                for($i = 0; $i < count($structure->parts); $i++) {
+                      $attachments[$i] = array(
+                          'is_attachment' => false,
+                          'filename' => '',
+                          'name' => '',
+                          'attachment' => ''
+                      );
+
+                      if($structure->parts[$i]->ifdparameters) {
+                        foreach($structure->parts[$i]->dparameters as $object) {
+                          $atrib = strtolower($object->attribute);
+                          if($atrib == 'filename' || $atrib == 'name') {
+                              $attachments[$i]['is_attachment'] = true;
+                              if ($atrib == 'filename') {
+                                $attachments[$i]['filename'] = $object->value;
+                              } elseif ($atrib == 'name') {
+                                  $attachments[$i]['name'] = $object->value;
+                              }
+                          }
+                        }
+                      }                
+
+                      if($attachments[$i]['is_attachment']) {
+                        $attachments[$i]['attachment'] = imap_fetchbody($conn, $index, $i+1);
+                        if($structure->parts[$i]->encoding == 3) { // 3 = BASE64
+                          $attachments[$i]['attachment'] = base64_decode($attachments[$i]['attachment']);
+                        }
+                        elseif($structure->parts[$i]->encoding == 4) { // 4 = QUOTED-PRINTABLE
+                          $attachments[$i]['attachment'] = quoted_printable_decode($attachments[$i]['attachment']);
+                        }
+                      }
+                }
+            }      
+            
+            $totalAnexos = count($attachments);
+            if($totalAnexos!=0){
+                //A mensagem atual possui anexos.
+                foreach($attachments as $at){
+                    if($at['is_attachment']==1){
+                        $fileDest = $folderAnexos.$at['filename'];
+                        //echo "<a href='".$at['filename']."'>".$at['filename']."</a><br/>";
+                        //echo $at['filename'].'- '.$at['attachment'].'<br>';
+                        if (file_put_contents($fileDest, $at['attachment'])){
+                            echo 'Imagem gravada com sucesso!<br>';
+                            $this->arrAnexos[] = $fileDest;
+                            //echo "<a href='".$fileDest."'>".$fileDest."</a><br/>";
+                        } else {
+                            echo 'Erro ao gravar anexo.<br>';
+                        }
+                    }
+                 }
+             }  
+             return $totalAnexos;
         }
+        
+        private function getFolderAnexos(){
+            $folderAnexos   = $this->folderAnexos;
+            $idAssinatura   = (int)$this->idAssinatura;
+            if (strlen($folderAnexos) > 0 && $folderAnexos !== '/'){
+                 if (!is_dir($folderAnexos)) mkdir($folderAnexos); 
+                 if (is_dir($folderAnexos)) {
+                     $subfolder = $folderAnexos.'/'.$idAssinatura.'/';
+                     if (!is_dir($subfolder)) mkdir($subfolder); 
+                     return $subfolder;
+                 }
+            } else {
+                return '';
+            }
+            return FALSE;
+        }
+                
+        function getDados(){
+            $arrDados = array(                
+                'TAM_BYTES' => $this->size,
+                'MESSAGE_ID' => $this->index,
+                'DATA_HORA_ENVIO' => $this->getDtHrEn(),
+                'TITULO' => $this->assuntoDb,
+                'MENSAGEM' => utf8_encode($this->body),
+                'AUTOR' => $this->fromName,
+                'FROM_NAME' => $this->fromName,
+                'FROM_EMAIL' => $this->fromEmail,
+                'REMETENTE' => $this->fromName,
+                'DESTINATARIO' => $this->getTo(),
+                'CC' => $this->getCc(),
+                'CCO' => '',
+                'DATA_REGISTRO' => DB::sqleval("NOW()")
+            ); 
+            return $arrDados;
+        }        
+          
 
     }
 ?>

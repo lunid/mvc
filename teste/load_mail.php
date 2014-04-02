@@ -1,8 +1,10 @@
 <?php
     include('../sys/vendors/db/Meekrodb_2_2.php');
+    require ('class/Conn.php');
     require ('../sys/vendors/PHPMailer/PHPMailerAutoload.php');
     require ('class/Imap.php');
     require ('class/MailMessage.php');
+    require ('class/PseudoLinguagem.php');
     
     $idAssinatura           = 1;
     $replyTo                = 'claudio@supervip.com.br';
@@ -58,8 +60,8 @@
         $port       = '110';
         $user       = 'project@supervip.com.br';
         $passwd     = 'senha3040';        
-        $objImap = new Imap($server,$port,$user,$passwd);
-        $objImap->loadAllMessages();
+        $objImap = new Imap($server,$port,$user,$passwd);        
+        $objImap->loadAllMessages($idAssinatura);  
     } catch(\Exception $e) {
         die($e->getMessage());
     }

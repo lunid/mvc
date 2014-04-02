@@ -42,15 +42,22 @@
             }            
         }
         
-        function loadAllMessages(){
+        function loadAllMessages($idAssinatura, $forceLoadAll=FALSE){
             $conn           = $this->conn;
             $totalMsg       = (int)$this->totalMsg;
             $arrMailMessage = array();
             
             if ($conn) {
                 if ($totalMsg > 0) {
-                    for ($index = 1; $index <= $totalMsg; $index++) {                           
-                        $arrMailMessage[$index] = new MailMessage($conn,$index);
+                    for ($index = 1; $index <= $totalMsg; $index++) {           
+                        $objMailMessage = new MailMessage($idAssinatura, $conn,$index);
+                        //if ($objMailMessage->verifEmailJaCadastrado() && !$forceLoadAll) continue;
+                                                
+                        $arrDadosPseudoLing = $objMailMessage->parsePseudoLinguagem();
+                        $arrDadosPseudoLing = $this->extrairDadosAdic($arrDadosPseudoLing);
+                        $arrDadosMessage    = $objMailMessage->getDados();
+                        
+                        $arrMailMessage[$index] = $objMailMessage;
                     }
                 } else {
                     echo 'Não há mensagens';
@@ -58,6 +65,22 @@
             } else {
                 throw new Exception('Conexão iMap inexistente.');
             }
+        }
+        
+        private function extrairDadosAdic($arrDadosPseudoLing){
+            $arrDadosPseudoLingReturn = array();
+            if (is_array($arrDadosPseudoLing)) {
+                foreach($arrDadosPseudoLing as $key => $value) {
+                    if (is_array($value)) {
+                        if ($key == 'TAREFAS') {
+                            
+                        }
+                    } else {
+                        $arrDadosPseudoLingReturn[] = $value;
+                    }
+                }
+            }
+            return $arrDadosPseudoLingReturn;
         }
         
         public function recurse($messageParts, $prefix = '', $index = 1, $fullPrefix = true) {
