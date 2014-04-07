@@ -67,6 +67,38 @@
             $this->extractParts();            
         }
         
+        function getIdAssinatura(){
+            return (int)$this->idAssinatura;
+        }
+        
+        function save(){
+            $arrDados = $this->getDados();                
+            DB::replace('SVIP_EMOP_MSG', $arrDados);     
+            $idMsg = (int)DB::insertId();
+            return $idMsg;
+        }
+        
+                
+        function getDados(){
+            $arrDados = array(                
+                'ID_ASSINATURA' => $this->getIdAssinatura(),
+                'TAM_BYTES' => $this->size,
+                'MESSAGE_ID' => $this->index,
+                'DATA_HORA_ENVIO' => $this->getDtHrEn(),
+                'TITULO' => $this->assuntoDb,
+                'MENSAGEM' => utf8_encode($this->body),
+                'AUTOR' => $this->fromName,
+                'FROM_NAME' => $this->fromName,
+                'FROM_EMAIL' => $this->fromEmail,
+                'REMETENTE' => $this->fromName,
+                'DESTINATARIO' => $this->getTo(),
+                'CC' => $this->getCc(),
+                'CCO' => '',
+                'DATA_REGISTRO' => DB::sqleval("NOW()")
+            ); 
+            return $arrDados;
+        }          
+        
         function verifEmailJaCadastrado(){
             //Verifica se a mensagem atual já foi cadastrada.
             $dtHrEn = $this->getDtHrEn();
@@ -89,6 +121,12 @@
             return $this->to;
         }
         
+        /**
+         * Extrai dados do corpo da mensagem informada, que coincidem com
+         * a pseudo-linguagem (palavras que representam dados e/ou ações a extrair da mensagem).
+         * 
+         * @return mixed[] Array associativo cujo índice é o grupo do código extraído da mensagem.
+         */
         function parsePseudoLinguagem(){
             //Faz tratamento da pseudo-linguagem             
             $objPseudoLing  = new PseudoLinguagem($this->body);
@@ -266,26 +304,7 @@
                 return '';
             }
             return FALSE;
-        }
-                
-        function getDados(){
-            $arrDados = array(                
-                'TAM_BYTES' => $this->size,
-                'MESSAGE_ID' => $this->index,
-                'DATA_HORA_ENVIO' => $this->getDtHrEn(),
-                'TITULO' => $this->assuntoDb,
-                'MENSAGEM' => utf8_encode($this->body),
-                'AUTOR' => $this->fromName,
-                'FROM_NAME' => $this->fromName,
-                'FROM_EMAIL' => $this->fromEmail,
-                'REMETENTE' => $this->fromName,
-                'DESTINATARIO' => $this->getTo(),
-                'CC' => $this->getCc(),
-                'CCO' => '',
-                'DATA_REGISTRO' => DB::sqleval("NOW()")
-            ); 
-            return $arrDados;
-        }        
+        }      
           
 
     }

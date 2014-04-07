@@ -52,10 +52,13 @@
                     for ($index = 1; $index <= $totalMsg; $index++) {           
                         $objMailMessage = new MailMessage($idAssinatura, $conn,$index);
                         //if ($objMailMessage->verifEmailJaCadastrado() && !$forceLoadAll) continue;
-                                                
-                        $arrDadosPseudoLing = $objMailMessage->parsePseudoLinguagem();
-                        $arrDadosPseudoLing = $this->extrairDadosAdic($arrDadosPseudoLing);
-                        $arrDadosMessage    = $objMailMessage->getDados();
+                        
+                        $idMessage          = $objMailMessage->save();                                                                        
+                        if ($idMessage > 0) {
+                            $arrDadosPseudoLing = $objMailMessage->parsePseudoLinguagem();
+                            $arrDadosPseudoLing = $this->persistDadosPseudoLing($arrDadosPseudoLing);
+                            $arrDadosMessage    = $objMailMessage->getDados();
+                        }
                         
                         $arrMailMessage[$index] = $objMailMessage;
                     }
@@ -67,19 +70,29 @@
             }
         }
         
-        private function extrairDadosAdic($arrDadosPseudoLing){
+        /**
+         * Recebe dados extraídos da pseudo-linguagem e, dependendo do grupo,
+         * persiste no DB.
+         * 
+         * @param mixed[] $arrDadosPseudoLing
+         * @return type
+         */
+        private function persistDadosPseudoLing($arrDadosPseudoLing){
             $arrDadosPseudoLingReturn = array();
             if (is_array($arrDadosPseudoLing)) {
-                foreach($arrDadosPseudoLing as $key => $value) {
+                foreach($arrDadosPseudoLing as $key => $value) {                   
                     if (is_array($value)) {
                         if ($key == 'TAREFAS') {
-                            
+                            if (is_array($value)) {
+                                print_r($value);
+                            }
                         }
                     } else {
                         $arrDadosPseudoLingReturn[] = $value;
                     }
                 }
             }
+            die();
             return $arrDadosPseudoLingReturn;
         }
         

@@ -1,62 +1,52 @@
 <?php
 
     class PseudoLinguagem {
-        
-        private $arrCodMap      =  array(
-          'TITULO'      => 'title, tt, título',
-          'DESCRICAO'   => 'description, ds,descrição',      
-          'TAREFAS'     => 'tasks, tks,tarefas',
-          'DEADLINE'    => 'deadline, dl,data de conclusão',
-          'TAG'         => 'tag, tags,palavra-chave, palavras-chave',
-          'MEMO'        => 'memo'
-        );      
-
+        private $idAssinatura = 0;        
         private $arrType    = array('memo','chore','release','feature','bug','none');//Tipos possíveis de mensagem
         private $strBody    = '';
         
-        function __construct($strBody){
-            $this->strBody = $strBody;            
+        function __construct($strBody, $idAssinatura=0){
+            $this->strBody      = $strBody;            
+            $this->idAssinatura = $idAssinatura;
+        }
+        
+        function getIdAssinatura(){
+            return (int)$this->idAssinatura;
         }
         
         function extractActionsForString($strBodyInfo=''){
             $strBody        = (strlen($strBodyInfo) > 0) ? $strBodyInfo : $this->strBody;
             $arrMsg         = explode("\n",$strBody);  
             $arrType        = $this->arrType;
-            $arrCodMap      = $this->arrCodMap;
             $arrTag         = array();
             $arrTask        = array();            
-            $codKey         = '';//Índice associativo do arrTag
             $arrPseudoCod   = $this->getArrPseudoCod();
-
-            if (is_array($arrMsg)) {
+            $type           = 'none';
+            
+            if (FALSE !== $arrPseudoCod) {
                 $tam = count($arrMsg);
 
                 for($i=0; $i < $tam; $i++) {
                     $line       = trim($arrMsg[$i]);
 
                     //Localiza o tipo da mensagem (sempre definido na primeira linha):
-                    $typeCheck  = str_replace('#', '', strtolower($line));
-                    $typeCheck  = str_replace(':', '', $typeCheck);
-                    $posType    = array_search($typeCheck,$arrType);
-                    if ($posType !== false) $type = strtoupper($arrType[$posType]);
-
-                    foreach($arrPseudoCod as $cod) {                        
-                        $codLang            = '#'.$cod.':';
-                        $codKey             = '';
-                        if (isset($arrCodMap[$cod])) {
-                            $codKey = $cod;
-                        } else {
-                            $codKey = $cod;
-                            $codKey = $this->checkCodMap($arrCodMap,$cod);
-                            if ($codKey === FALSE) continue;//A tag informada não existe.
-                        }
-
+                    if ($i == 0) {
+                        $typeCheck  = str_replace('#', '', strtolower($line));
+                        $typeCheck  = str_replace(':', '', $typeCheck);
+                        $posType    = array_search($typeCheck,$arrType);
+                        if ($posType !== false) $type = strtoupper($arrType[$posType]);
+                    }
+                    
+                    foreach($arrPseudoCod as $rowCod) {
+                        $cod                = $rowCod['CODIGO'];
+                        $grupoCod           = $rowCod['GRUPO'];
+                        $codLang            = '#'.$cod.':';                        
+                        
                         $key = strpos($line,$codLang);
                         if ($key !== false) {
-                           //Encontrou uma tag na linha atual
-                          echo $codLang. $line.'...<br>';                           
+                           //Encontrou uma tag na linha atual                         
                           $fimLoop = false;
-                          if ($codLang == '#tks:' || $codLang == '#tasks:' || $codLang == '#tarefas:') {
+                          if ($grupoCod == 'TAREFAS') {
                                //Localiza as tarefas nas linhas seguintes:                             
                                while(!$fimLoop){
                                     $line   = trim($arrMsg[++$i]);  
@@ -78,12 +68,12 @@
                                         $fimLoop = true;
                                     }
                                }
-                               $arrTag[$codKey] = $arrTask;
+                               $arrTag[$grupoCod] = $arrTask;
                           } else {                                
                                $arrPartTag = explode($codLang,$line);
                                if (isset($arrPartTag[1]) && strlen($arrPartTag[1]) > 0) {
                                    //O conteúdo do pseudo-código está na mesma linha.                               
-                                   $arrTag[$codKey] = $arrPartTag[1];
+                                   $arrTag[$grupoCod] = $arrPartTag[1];
                                    //if (strlen($arrTag[1]) == 0) $arrTag[$codLang] = $arrMsg[++$i];
                                } else {
                                    $i++;//Avança uma linha.
@@ -92,7 +82,7 @@
                                        $line    = trim($arrMsg[++$i]);
                                        //$lineR   = $line;
                                        if (strlen($line) == 0) continue; //Ignora linha vazia  
-                                       $arrTag[$codKey] = $line;
+                                       $arrTag[$grupoCod] = $line;
                                        $fimLoop = true;
                                    }                                                                           
                                }
@@ -102,7 +92,7 @@
                     }
                     //if (strlen($lineR) > 0) $arrBodyReturn[]  = $lineR;
                 }
-            }            
+            }   
             return $arrTag;
         }
         
@@ -119,18 +109,13 @@
         }
 
         private function getArrPseudoCod(){
-            $arrCodMap = $this->arrCodMap;
-            //foreach($arrCodMap as $key=>$value){
-                //$arrCod[] = $key;
-            //}
-
-            //$strCodKey      = join(',',$arrCod);
-            $strCodKey    = join(',',$arrCodMap);
-            //if (strlen($strCodValue) > 0) $strCodKey .= ','.$strCodValue;
-            $arrPseudoCod = explode(',',$strCodKey);
-            //print_r($arrPseudoCod);
-            //die();
-            return $arrPseudoCod;
+            $sql = "SELECT CODIGO, (
+                SELECT GRUPO FROM SVIP_EMOP_PSEUDOLING_GRUPO TB2 WHERE TB2.ID_PSEUDOLING_GRUPO = TB1.ID_PSEUDOLING_GRUPO
+            ) AS GRUPO FROM SVIP_EMOP_PSEUDOLING_COD TB1 WHERE 
+            ID_ASSINATURA = 0 OR ID_ASSINATURA = ".$this->getIdAssinatura();
+            $result = DB::query($sql);
+            if (is_array($result) && count($result) > 0) return $result;
+            return FALSE;
         }
     }
 ?>
