@@ -35,6 +35,7 @@
                         $typeCheck  = str_replace(':', '', $typeCheck);
                         $posType    = array_search($typeCheck,$arrType);
                         if ($posType !== false) $type = strtoupper($arrType[$posType]);
+                        $arrTag['TIPO'] = strtoupper($type);
                     }
                     
                     foreach($arrPseudoCod as $rowCod) {

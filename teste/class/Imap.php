@@ -55,9 +55,8 @@
                         
                         $idMessage          = $objMailMessage->save();                                                                        
                         if ($idMessage > 0) {
-                            $arrDadosPseudoLing = $objMailMessage->parsePseudoLinguagem();
-                            $arrDadosPseudoLing = $this->persistDadosPseudoLing($arrDadosPseudoLing);
-                            $arrDadosMessage    = $objMailMessage->getDados();
+                            $arrDadosParse      = $objMailMessage->getParsePseudoLinguagem();
+                            $arrDadosPseudoLing = $this->persistDadosParsePseudoLing($arrDadosParse, $idMessage);
                         }
                         
                         $arrMailMessage[$index] = $objMailMessage;
@@ -74,26 +73,34 @@
          * Recebe dados extraídos da pseudo-linguagem e, dependendo do grupo,
          * persiste no DB.
          * 
-         * @param mixed[] $arrDadosPseudoLing
-         * @return type
+         * @param mixed[] $arrDadosParse
+         * @return boolean
          */
-        private function persistDadosPseudoLing($arrDadosPseudoLing){
-            $arrDadosPseudoLingReturn = array();
-            if (is_array($arrDadosPseudoLing)) {
-                foreach($arrDadosPseudoLing as $key => $value) {                   
+        private function persistDadosParsePseudoLing($arrDadosParse, $idMessage){
+            $arrDados = array();
+            if ($idMessage == 0) return FALSE;
+            
+            if (is_array($arrDadosParse)) {
+                foreach($arrDadosParse as $key => $value) {                   
                     if (is_array($value)) {
                         if ($key == 'TAREFAS') {
                             if (is_array($value)) {
-                                print_r($value);
+                                //print_r($value);
                             }
                         }
+                    } elseif ($key == 'MEMO') {
+                        
                     } else {
-                        $arrDadosPseudoLingReturn[] = $value;
+                        $arrDados[$key] = $value;
                     }
                 }
             }
-            die();
-            return $arrDadosPseudoLingReturn;
+            
+            if (count($arrDados) > 0) {
+                //Faz um update no registro da mensagem.
+                DB::update('SVIP_EMOP_MSG', $arrDados, "ID_EMOP_MSG=%i", $idMessage);
+            }
+            return TRUE;
         }
         
         public function recurse($messageParts, $prefix = '', $index = 1, $fullPrefix = true) {

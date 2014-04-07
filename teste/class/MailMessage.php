@@ -127,7 +127,7 @@
          * 
          * @return mixed[] Array associativo cujo índice é o grupo do código extraído da mensagem.
          */
-        function parsePseudoLinguagem(){
+        function getParsePseudoLinguagem(){
             //Faz tratamento da pseudo-linguagem             
             $objPseudoLing  = new PseudoLinguagem($this->body);
             return $objPseudoLing->extractActionsForString();
