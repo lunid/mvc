@@ -85,7 +85,15 @@
                     if (is_array($value)) {
                         if ($key == 'TAREFAS') {
                             if (is_array($value)) {
-                                //print_r($value);
+                                $arrTarefas = $value;
+                                foreach($arrTarefas as $tarefa) {                            
+                                    $rows[] = array(
+                                        'ID_EMOP_MSG' => $idMessage,
+                                        'TAREFA' => utf8_encode($tarefa)
+                                    );
+                                }
+                                DB::insert('SVIP_EMOP_TAREFA', $rows);
+                                $numTarefas = count($arrTarefas);                                
                             }
                         }
                     } elseif ($key == 'MEMO') {
