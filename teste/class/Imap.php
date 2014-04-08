@@ -6,6 +6,8 @@
         private $totalMsg;
         private $totalNaoLidas;
         private $arrMailbox = array();
+        private $excluirMsgAposLoad = FALSE;
+        private $enviarResumo       = TRUE;
         
         function __construct($server,$port,$login,$password) {
             try {
@@ -23,6 +25,14 @@
             } catch (Exception $e) {
                 throw new Exception('Servidor de e-mail não disponível.');
             }            
+        }
+        
+        function excluirMsgAposLoad($action){
+            $this->excluirMsgAposLoad = (boolean)$action;
+        }        
+        
+        function enviarResumo($action){
+            $this->enviarResumo = (boolean)$action;
         }
         
         function getMailboxes($tipoRet='*'){
@@ -46,19 +56,35 @@
             $conn           = $this->conn;
             $totalMsg       = (int)$this->totalMsg;
             $arrMailMessage = array();
+            $arrSendMail    = array();
             
             if ($conn) {
                 if ($totalMsg > 0) {
-                    for ($index = 1; $index <= $totalMsg; $index++) {           
+                    for ($index = 1; $index <= $totalMsg; $index++) { 
+                        // Carrega mensagem atual do servidor.
                         $objMailMessage = new MailMessage($idAssinatura, $conn,$index);
                         //if ($objMailMessage->verifEmailJaCadastrado() && !$forceLoadAll) continue;
                         
+                        //Salva mensagem no DB
                         $idMessage          = $objMailMessage->save();                                                                        
                         if ($idMessage > 0) {
+                            //Mensagem gravada com sucesso. 
+                            //Localiza dados de pseudo-linguagem na mensagem atual.
                             $arrDadosParse      = $objMailMessage->getParsePseudoLinguagem();
-                            $arrDadosPseudoLing = $this->persistDadosParsePseudoLing($arrDadosParse, $idMessage);
+                            
+                            //Persiste no DB os dados de pseudo-linguagem.
+                            $arrResumo                = $this->persistDadosParsePseudoLing($arrDadosParse, $idMessage);
+                            $arrResumo['ASSUNTO']     = $objMailMessage->getAssunto();
+                            $arrResumo['TO_NAME']     = $objMailMessage->getFromName();
+                            $arrResumo['TO_EMAIL']    = $objMailMessage->getFromEmail();
+                                    
+                            if ($this->excluirMsgAposLoad === true) {
+                                //Excluir mensagem da caixa postal
+                                $objMailMessage->del();
+                            }
+                           
                         }
-                        
+                        $arrSendMail[]          = $arrResumo;
                         $arrMailMessage[$index] = $objMailMessage;
                     }
                 } else {
@@ -74,10 +100,15 @@
          * persiste no DB.
          * 
          * @param mixed[] $arrDadosParse
-         * @return boolean
+         * @return mixed[] Array com resumo dos dados persistidos.
          */
         private function persistDadosParsePseudoLing($arrDadosParse, $idMessage){
-            $arrDados = array();
+            $arrDados   = array();
+            $arrReturn  = array();
+            
+            $arrReturn['NUM_TAREFAS']   = 0;
+            $arrReturn['NUM_MEMO']      = 0;
+            
             if ($idMessage == 0) return FALSE;
             
             if (is_array($arrDadosParse)) {
@@ -89,11 +120,13 @@
                                 foreach($arrTarefas as $tarefa) {                            
                                     $rows[] = array(
                                         'ID_EMOP_MSG' => $idMessage,
-                                        'TAREFA' => utf8_encode($tarefa)
+                                        'TAREFA' => utf8_encode($tarefa),
+                                        'DATA_REGISTRO' => DB::sqleval("NOW()")
                                     );
                                 }
                                 DB::insert('SVIP_EMOP_TAREFA', $rows);
-                                $numTarefas = count($arrTarefas);                                
+                                $numTarefas = count($arrTarefas);
+                                $arrReturn['NUM_TAREFAS'] = $numTarefas;
                             }
                         }
                     } elseif ($key == 'MEMO') {
@@ -105,10 +138,41 @@
             }
             
             if (count($arrDados) > 0) {
-                //Faz um update no registro da mensagem.
+                //Faz um update no registro da mensagem atual.
                 DB::update('SVIP_EMOP_MSG', $arrDados, "ID_EMOP_MSG=%i", $idMessage);
             }
-            return TRUE;
+            return $arrReturn;
+        }
+        
+        function sendMailResumo($arrResumo){
+            if (is_array($arrResumo) && count($arrResumo) > 0) {
+                //Envia e-mail resumido das mensagens rastreadas.
+                $msgResumo = '';
+                foreach($arrResumo as $row){ 
+                    $assunto    = $row['ASSUNTO'];
+                    $numTarefas = (int)$row['NUM_TAREFAS']; 
+                    $mTarefas   = ($numTarefas > 0) ? " [$numTarefas tarefa(s)]" : '';
+                    $msgResumo  .= " - {$assunto} {$mTarefas}<br/>";
+                }
+
+                $toName         = $row['TO_NAME'];
+                $toMail         = $row['TO_EMAIL'];
+                $toMail         = 'claudio@supervip.com.br';
+                $fromName       = 'e-MOP';
+                $fromEmail      = 'project@supervip.com.br';            
+                $tituloResumo   = "{$totalMsg} mensagens rastreadas";
+                //echo "$fromEmail - $toMail";
+                //die();
+                $bodyReturn     = '<b>Mensagens rastreadas com sucesso:</b><br/>'.$msgResumo;
+                $emailResumo    = sendEmail($fromName, $fromEmail, $toName, $toMail, $tituloResumo, $bodyReturn);
+                if ($emailResumo) {
+                    echo "Resumo enviado com sucesso!";
+                } else {
+                    echo "Não foi possível enviar o resumo.";
+                }
+            } else {
+                echo "Nenhum resumo foi gerado.";
+            }             
         }
         
         public function recurse($messageParts, $prefix = '', $index = 1, $fullPrefix = true) {
