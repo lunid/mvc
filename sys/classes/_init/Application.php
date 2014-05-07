@@ -4,6 +4,7 @@
     require_once('sys/vendors/di/Pimple.php');//Dependency Injection
     require_once('sys/vendors/errorTrack/class.errorTalk.php');         
     require_once('sys/vendors/di/DI.php');
+    require_once('sys/vendors/magicMin/magicMin.php');
     
     //Conexão DB
     require_once('sys/classes/db/Meekrodb_2_2.php');
@@ -55,7 +56,7 @@ use sys\classes\util\String;
             //Destrói variáveis criadas anteriormente.
             self::destroy();
              
-            $objDI          = new DIContainer();                                   
+            $objDI = new DIContainer();                                   
            
             //Define a pasta root do projeto
             $rootFolder = $objDI->CfgHost()->getRootFolder();    
@@ -64,18 +65,23 @@ use sys\classes\util\String;
             $objMvcParts    = $objDI->Uri()->getMvcParts();                
                         
             //Inicializa tratamento de erro para o projeto atual.
-            $objDI->errorTalk('initialize');
-            $objDI->errorTalk('initialize');
-            die();
+            $errorTalk = $objDI->errorTalk();       
+            //errorTalk::initialize();
+            //$errorTalk::$conf['logFilePath'] = "data/log/erroTalkLogFile.txt";             
             //errorTalk::initialize();   
-            errorTalk::$conf['logFilePath'] = "data/log/erroTalkLogFile.txt";
-            errorTalk::errorTalk_Open(); // run error talk object
+            //$errorTalk::$conf['logFilePath'] = "data/log/erroTalkLogFile.txt";
+            //$errorTalk::errorTalk_Open(); // run error talk object
             //echo $test; // Run-time notices (Undefined variable: test)               
              
             $module         = $objMvcParts->module;
             $controller     = $objMvcParts->controller;
             $action         = $objMvcParts->action;            
-            $method         = 'action'.ucfirst($action);                        
+            $method         = 'action'.ucfirst($action);
+
+            if ($action == 'phpinfo') {
+                echo phpinfo();
+                die();
+            }
            
             //Carrega, a partir do namespace, classes invocadas na aplicação.
             spl_autoload_register('self::loadClass');	                          

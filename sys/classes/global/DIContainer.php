@@ -27,12 +27,13 @@
         }
         
         function errorTalk(){
-            $container = $this->getContainer();
-            $container['errorTalk']     = 'errorTalk';
-            $container['object']        = function ($c) {               
-                return new $c['errorTalk']();
-            };              
-            return $container['object'];            
+            errorTalk::initialize();
+            errorTalk::$conf['logFilePath'] = "data/log/erroTalkLogFile.txt";             
+            errorTalk::errorTalk_Open(); // run error talk object
+        }
+        
+        function errorTalkConf($index,$param){
+            return errorTalk::$conf[$index] = $param;            
         }
         
         function Uri($cfgClass='CfgApp'){            

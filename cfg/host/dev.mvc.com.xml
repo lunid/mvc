@@ -12,7 +12,7 @@
         -->  
 <root>
     <params>
-        <param id='rootFolder'>mvc</param>           
+        <param id='rootFolder'></param>           
         <param id='baseUrlHttp'>localhost</param>
         <param id='baseUrlHttps'></param>
     </params>

@@ -394,3 +394,141 @@ Line Number  : 80.
 File Path : C:\xampp\htdocs\astrolabius\sys\classes\global\mvc\View.php.
 Date : 28.01.2014 01:35:48.
 **************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined variable: test).
+Line Number  : 73.
+File Path : C:\wamp\www\mvc\sys\classes\_init\Application.php.
+Date : 06.05.2014 07:19:45.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined variable: test).
+Line Number  : 73.
+File Path : C:\wamp\www\mvc\sys\classes\_init\Application.php.
+Date : 06.05.2014 07:27:02.
+**************************************************************
+**************************************************************
+!Oops : [Catchable fatal error] (Object of class View could not be converted to string).
+Line Number  : 20.
+File Path : C:\wamp\www\mvc\site\classes\controllers\IndexController.php.
+Date : 07.05.2014 12:12:54.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Object of class View to string conversion).
+Line Number  : 20.
+File Path : C:\wamp\www\mvc\site\classes\controllers\IndexController.php.
+Date : 07.05.2014 12:12:55.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined property: View::$Object).
+Line Number  : 20.
+File Path : C:\wamp\www\mvc\site\classes\controllers\IndexController.php.
+Date : 07.05.2014 12:12:56.
+**************************************************************
+**************************************************************
+!Oops : [Catchable fatal error] (Object of class View could not be converted to string).
+Line Number  : 20.
+File Path : C:\wamp\www\mvc\site\classes\controllers\IndexController.php.
+Date : 07.05.2014 12:17:55.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Object of class View to string conversion).
+Line Number  : 20.
+File Path : C:\wamp\www\mvc\site\classes\controllers\IndexController.php.
+Date : 07.05.2014 12:17:56.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined property: View::$Object).
+Line Number  : 20.
+File Path : C:\wamp\www\mvc\site\classes\controllers\IndexController.php.
+Date : 07.05.2014 12:17:57.
+**************************************************************
+**************************************************************
+!Oops : [Catchable fatal error] (Object of class View could not be converted to string).
+Line Number  : 20.
+File Path : C:\wamp\www\mvc\site\classes\controllers\IndexController.php.
+Date : 07.05.2014 12:18:23.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Object of class View to string conversion).
+Line Number  : 20.
+File Path : C:\wamp\www\mvc\site\classes\controllers\IndexController.php.
+Date : 07.05.2014 12:18:24.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined property: View::$Object).
+Line Number  : 20.
+File Path : C:\wamp\www\mvc\site\classes\controllers\IndexController.php.
+Date : 07.05.2014 12:18:25.
+**************************************************************
+**************************************************************
+!Oops : [Catchable fatal error] (Object of class View could not be converted to string).
+Line Number  : 20.
+File Path : C:\wamp\www\mvc\site\classes\controllers\IndexController.php.
+Date : 07.05.2014 12:24:34.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Object of class View to string conversion).
+Line Number  : 20.
+File Path : C:\wamp\www\mvc\site\classes\controllers\IndexController.php.
+Date : 07.05.2014 12:24:35.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined property: View::$Object).
+Line Number  : 20.
+File Path : C:\wamp\www\mvc\site\classes\controllers\IndexController.php.
+Date : 07.05.2014 12:24:36.
+**************************************************************
+**************************************************************
+!Oops : [Run-time warnings] (file_get_contents(../assets/scripts/site.js): failed to open stream: No such file or directory).
+Line Number  : 38.
+File Path : C:\wamp\www\mvc\sys\classes\global\mvc\View.php.
+Date : 07.05.2014 03:29:46.
+**************************************************************
+**************************************************************
+!Oops : [Run-time warnings] (file_get_contents(/assets/scripts/site.js): failed to open stream: No such file or directory).
+Line Number  : 38.
+File Path : C:\wamp\www\mvc\sys\classes\global\mvc\View.php.
+Date : 07.05.2014 03:30:02.
+**************************************************************
+**************************************************************
+!Oops : [Run-time warnings] (file_get_contents(site): failed to open stream: Permission denied).
+Line Number  : 294.
+File Path : C:\wamp\www\mvc\sys\vendors\magicMin\magicMin.php.
+Date : 07.05.2014 04:48:22.
+**************************************************************
+**************************************************************
+!Oops : [Run-time warnings] (file_get_contents(site): failed to open stream: Permission denied).
+Line Number  : 294.
+File Path : C:\wamp\www\mvc\sys\vendors\magicMin\magicMin.php.
+Date : 07.05.2014 04:49:08.
+**************************************************************
+**************************************************************
+!Oops : [Run-time warnings] (file_get_contents(site): failed to open stream: Permission denied).
+Line Number  : 294.
+File Path : C:\wamp\www\mvc\sys\vendors\magicMin\magicMin.php.
+Date : 07.05.2014 04:51:45.
+**************************************************************
+**************************************************************
+!Oops : [Run-time warnings] (file_get_contents(site): failed to open stream: Permission denied).
+Line Number  : 294.
+File Path : C:\wamp\www\mvc\sys\vendors\magicMin\magicMin.php.
+Date : 07.05.2014 04:52:37.
+**************************************************************
+**************************************************************
+!Oops : [Run-time warnings] (file_get_contents(site): failed to open stream: Permission denied).
+Line Number  : 294.
+File Path : C:\wamp\www\mvc\sys\vendors\magicMin\magicMin.php.
+Date : 07.05.2014 04:55:31.
+**************************************************************
+**************************************************************
+!Oops : [Run-time warnings] (file_get_contents(site): failed to open stream: Permission denied).
+Line Number  : 294.
+File Path : C:\wamp\www\mvc\sys\vendors\magicMin\magicMin.php.
+Date : 07.05.2014 05:03:18.
+**************************************************************
+**************************************************************
+!Oops : [Run-time warnings] (file_get_contents(site): failed to open stream: Permission denied).
+Line Number  : 294.
+File Path : C:\wamp\www\mvc\sys\vendors\magicMin\magicMin.php.
+Date : 07.05.2014 05:10:35.
+**************************************************************
