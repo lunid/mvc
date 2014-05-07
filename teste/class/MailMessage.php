@@ -67,6 +67,18 @@
             $this->extractParts();            
         }
         
+        function getAssunto(){
+            return $this->assunto;
+        }
+        
+        function getFromName(){
+            return $this->fromName;
+        }
+        
+        function getFromEmail(){
+            return $this->fromEmail;
+        }
+        
         function getIdAssinatura(){
             return (int)$this->idAssinatura;
         }
@@ -305,7 +317,16 @@
             }
             return FALSE;
         }      
-          
+         
+        /**
+         * Exclui a mensagem do índice atual do servidor.
+         * 
+         * return void
+         */
+        function del(){
+            imap_delete($this->conn, $this->index);
+            imap_expunge($this->conn);
+        }
 
     }
 ?>
