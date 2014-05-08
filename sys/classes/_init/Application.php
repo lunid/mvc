@@ -199,7 +199,7 @@ use sys\classes\util\String;
             //Tratamento para utilização do Hybridauth.
             if($class == 'FacebookApiException') return false; 
             $class      = rtrim($class,'.php');
-            $urlInc     = str_replace("\\", "/" , $class . '.php');            
+            $urlInc     = str_replace("\\", "/" , $class . '.php');
             $urlInc     = Url::physicalBase($urlInc);            
             
             if (isset($class) && file_exists($urlInc)){          

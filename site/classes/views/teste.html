@@ -5,12 +5,35 @@ and open the template in the editor.
 <!DOCTYPE html>
 <html>
     <head>
-        <title></title>
+        <title>{TITLE}</title>
+        <meta property="og:locale" content="{OG_LANG}">
+        <meta property="og:locale:alternate" content="es_ES" />
+        <meta property="og:locale:alternate" content="en_US" />
+        
+        <meta property="og:url" content="{OG_URI}">
+        <meta property="og:title" content="{OG_TITLE}">
+        <meta property="og:site_name" content="{OG_SITENAME}">
+        <meta property="og:description" content="{OG_DESCRIPTION}"><!-- máximo de 200 caracteres -->
+        
+        <meta property="og:image" content="{OG_HTTP_IMG}"> <!-- Url absolutada imagem (JPEG, PNG, GIF, e BMP) -->
+        <meta property="og:image:secure_url" content="{OG_HTTPS_IMG}" />
+        <meta property="og:image:type" content="image/jpeg">
+        <meta property="og:image:width" content="800"> <!-- PIXELS -->
+        <meta property="og:image:height" content="600"> <!-- PIXELS -->        
+        <meta property="og:type" content="website">
+        
+        <!-- Apenas para og:type = article
+        <meta property="article:author" content="{OG_AUTHOR}">
+        <meta property="article:section" content="{OG_SECTION}">
+        <meta property="article:tag" content="{OG_TAG}">
+        <meta property="article:published_time" content="date_time">
+        -->
         {CSS}
-        {SCRIPT}        
+        {SCRIPT_HEADER}        
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     </head>
     <body>
         <div>{BODY}</div>
     </body>
+    {SCRIPT_FOOTER}
 </html>

@@ -532,3 +532,201 @@ Line Number  : 294.
 File Path : C:\wamp\www\mvc\sys\vendors\magicMin\magicMin.php.
 Date : 07.05.2014 05:10:35.
 **************************************************************
+**************************************************************
+!Oops : [Run-time warnings] (Missing argument 1 for Header::__construct(), called in C:\wamp\www\mvc\sys\classes\global\mvc\View.php on line 18 and defined).
+Line Number  : 15.
+File Path : C:\wamp\www\mvc\sys\classes\global\Header.php.
+Date : 08.05.2014 01:32:15.
+**************************************************************
+**************************************************************
+!Oops : [Run-time warnings] (Missing argument 2 for Header::__construct(), called in C:\wamp\www\mvc\sys\classes\global\mvc\View.php on line 18 and defined).
+Line Number  : 15.
+File Path : C:\wamp\www\mvc\sys\classes\global\Header.php.
+Date : 08.05.2014 01:32:16.
+**************************************************************
+**************************************************************
+!Oops : [Run-time warnings] (Missing argument 3 for Header::__construct(), called in C:\wamp\www\mvc\sys\classes\global\mvc\View.php on line 18 and defined).
+Line Number  : 15.
+File Path : C:\wamp\www\mvc\sys\classes\global\Header.php.
+Date : 08.05.2014 01:32:17.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined variable: extension).
+Line Number  : 17.
+File Path : C:\wamp\www\mvc\sys\classes\global\Header.php.
+Date : 08.05.2014 01:32:18.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined variable: extension).
+Line Number  : 19.
+File Path : C:\wamp\www\mvc\sys\classes\global\Header.php.
+Date : 08.05.2014 01:32:19.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined variable: extension).
+Line Number  : 22.
+File Path : C:\wamp\www\mvc\sys\classes\global\Header.php.
+Date : 08.05.2014 01:32:20.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined variable: filenameDest).
+Line Number  : 24.
+File Path : C:\wamp\www\mvc\sys\classes\global\Header.php.
+Date : 08.05.2014 01:32:21.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined variable: list).
+Line Number  : 26.
+File Path : C:\wamp\www\mvc\sys\classes\global\Header.php.
+Date : 08.05.2014 01:32:22.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined variable: list).
+Line Number  : 27.
+File Path : C:\wamp\www\mvc\sys\classes\global\Header.php.
+Date : 08.05.2014 01:32:23.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined variable: list).
+Line Number  : 27.
+File Path : C:\wamp\www\mvc\sys\classes\global\Header.php.
+Date : 08.05.2014 01:32:24.
+**************************************************************
+**************************************************************
+!Oops : [Run-time warnings] (Missing argument 1 for Header::__construct(), called in C:\wamp\www\mvc\sys\classes\global\mvc\View.php on line 18 and defined).
+Line Number  : 15.
+File Path : C:\wamp\www\mvc\sys\classes\global\Header.php.
+Date : 08.05.2014 01:32:25.
+**************************************************************
+**************************************************************
+!Oops : [Run-time warnings] (Missing argument 2 for Header::__construct(), called in C:\wamp\www\mvc\sys\classes\global\mvc\View.php on line 18 and defined).
+Line Number  : 15.
+File Path : C:\wamp\www\mvc\sys\classes\global\Header.php.
+Date : 08.05.2014 01:32:26.
+**************************************************************
+**************************************************************
+!Oops : [Run-time warnings] (Missing argument 3 for Header::__construct(), called in C:\wamp\www\mvc\sys\classes\global\mvc\View.php on line 18 and defined).
+Line Number  : 15.
+File Path : C:\wamp\www\mvc\sys\classes\global\Header.php.
+Date : 08.05.2014 01:32:27.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined variable: extension).
+Line Number  : 17.
+File Path : C:\wamp\www\mvc\sys\classes\global\Header.php.
+Date : 08.05.2014 01:32:28.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined variable: extension).
+Line Number  : 19.
+File Path : C:\wamp\www\mvc\sys\classes\global\Header.php.
+Date : 08.05.2014 01:32:29.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined variable: extension).
+Line Number  : 22.
+File Path : C:\wamp\www\mvc\sys\classes\global\Header.php.
+Date : 08.05.2014 01:32:30.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined variable: filenameDest).
+Line Number  : 24.
+File Path : C:\wamp\www\mvc\sys\classes\global\Header.php.
+Date : 08.05.2014 01:32:31.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined variable: list).
+Line Number  : 26.
+File Path : C:\wamp\www\mvc\sys\classes\global\Header.php.
+Date : 08.05.2014 01:32:32.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined variable: list).
+Line Number  : 27.
+File Path : C:\wamp\www\mvc\sys\classes\global\Header.php.
+Date : 08.05.2014 01:32:33.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined variable: list).
+Line Number  : 27.
+File Path : C:\wamp\www\mvc\sys\classes\global\Header.php.
+Date : 08.05.2014 01:32:34.
+**************************************************************
+**************************************************************
+!Oops : [Run-time warnings] (Missing argument 1 for Header::__construct(), called in C:\wamp\www\mvc\sys\classes\global\mvc\View.php on line 18 and defined).
+Line Number  : 15.
+File Path : C:\wamp\www\mvc\sys\classes\global\Header.php.
+Date : 08.05.2014 01:32:35.
+**************************************************************
+**************************************************************
+!Oops : [Run-time warnings] (Missing argument 2 for Header::__construct(), called in C:\wamp\www\mvc\sys\classes\global\mvc\View.php on line 18 and defined).
+Line Number  : 15.
+File Path : C:\wamp\www\mvc\sys\classes\global\Header.php.
+Date : 08.05.2014 01:32:36.
+**************************************************************
+**************************************************************
+!Oops : [Run-time warnings] (Missing argument 3 for Header::__construct(), called in C:\wamp\www\mvc\sys\classes\global\mvc\View.php on line 18 and defined).
+Line Number  : 15.
+File Path : C:\wamp\www\mvc\sys\classes\global\Header.php.
+Date : 08.05.2014 01:32:37.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined variable: extension).
+Line Number  : 17.
+File Path : C:\wamp\www\mvc\sys\classes\global\Header.php.
+Date : 08.05.2014 01:32:38.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined variable: extension).
+Line Number  : 19.
+File Path : C:\wamp\www\mvc\sys\classes\global\Header.php.
+Date : 08.05.2014 01:32:39.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined variable: extension).
+Line Number  : 22.
+File Path : C:\wamp\www\mvc\sys\classes\global\Header.php.
+Date : 08.05.2014 01:32:40.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined variable: filenameDest).
+Line Number  : 24.
+File Path : C:\wamp\www\mvc\sys\classes\global\Header.php.
+Date : 08.05.2014 01:32:41.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined variable: list).
+Line Number  : 26.
+File Path : C:\wamp\www\mvc\sys\classes\global\Header.php.
+Date : 08.05.2014 01:32:42.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined variable: list).
+Line Number  : 27.
+File Path : C:\wamp\www\mvc\sys\classes\global\Header.php.
+Date : 08.05.2014 01:32:43.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined variable: list).
+Line Number  : 27.
+File Path : C:\wamp\www\mvc\sys\classes\global\Header.php.
+Date : 08.05.2014 01:32:44.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined index: js).
+Line Number  : 150.
+File Path : C:\wamp\www\mvc\sys\classes\global\mvc\View.php.
+Date : 08.05.2014 02:11:23.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined variable: path).
+Line Number  : 23.
+File Path : C:\wamp\www\mvc\sys\classes\global\Url.php.
+Date : 08.05.2014 06:04:59.
+**************************************************************
+**************************************************************
+!Oops : [Run-time notices] (Undefined variable: path).
+Line Number  : 23.
+File Path : C:\wamp\www\mvc\sys\classes\global\Url.php.
+Date : 08.05.2014 06:05:00.
+**************************************************************

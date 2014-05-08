@@ -4,8 +4,9 @@ use \site\classes\controllers\SiteController;
 class IndexController extends SiteController {
     
     public function actionIndex(){      
-       $objView = $this->getView('teste');
-       $objView->javascript('site', 'index');
+       $objView = $this->getView('teste');       
+       $objView->css('site,themeforest/datatable', 'index');
+       $objView->javascript('site', 'index');      
        /*
         $data = array(
                'title' => 'My Title',

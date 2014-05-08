@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<root>
+    <controller id='index'>
+        <action id='default'>
+            <meta id='description'></meta>
+            <meta id='keywords'></meta>
+            
+            <meta id='og:locale'>pt_BR</meta>
+            <meta id='og:locale:alternate'>es_ES</meta>
+            <meta id='og:locale:alternate'>en_US</meta>
+            <meta id='og:url'>{URL_SITE}</meta>
+            <meta id='og:title'>{TITLE}</meta>
+            <meta id='og:site_name'></meta>
+            <meta id='og:description'></meta>
+            <meta id='og:image'></meta>
+            <meta id='og:image:secure_url'></meta>
+            <meta id='og:image:type'></meta>
+            <meta id='og:image:width'></meta>
+            <meta id='og:image:height'></meta>
+            <meta id='og:type'></meta>
+        </action>
+        <action id='default'>
+            
+        </action>        
+    </controller>
+</root>

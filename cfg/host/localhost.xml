@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <params>
+        <param id='rootFolder'>mvc</param>           
+        <param id='baseUrlHttp'>localhost</param>
+        <param id='baseUrlHttps'></param>
+    </params>
+</root>
